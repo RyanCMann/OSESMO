@@ -24,49 +24,304 @@ cd(Box_Sync_Directory_Location)
 % Begin script runtime timer
 tstart = tic;
 
-% Import Month Data - Used to Filter Other Vectors
-
-switch Utility_Tariff_Input
-    
-    case "PG&E E-19S"
-        
-        Month_Data = csvread('Rates/PG&E E-19S/2017/2017_PGE_E19S_Month_Vector.csv');
-        
-end
-
 % Import Load Profile Data
 
 switch Load_Profile_Input
     
     case "EnerNOC GreenButton Los Angeles Grocery"
-        Load_Profile_Data = csvread(['Load Profile Data/' ...
-            'EnerNOC GreenButton Anonymized Commercial and Industrial/' ...
-            'Selected Clean 2017 EnerNOC Load Profiles/Los Angeles Grocery/' ...
-            'Vector Format/Clean_Vector_2017_Los_Angeles_Grocery.csv']);
+        
+        if delta_t == (5/60)
+            Load_Profile_Data = csvread(['Load Profile Data/EnerNOC GreenButton/' ...
+                'Selected Clean 2017 EnerNOC Load Profiles/5-Minute Data/Los Angeles Grocery/' ...
+                'Vector Format/Clean_Vector_2017_Los_Angeles_Grocery.csv']);
+        elseif delta_t == (15/60)
+            Load_Profile_Data = csvread(['Load Profile Data/EnerNOC GreenButton/' ...
+                'Selected Clean 2017 EnerNOC Load Profiles/15-Minute Data/Los Angeles Grocery/' ...
+                'Vector Format/Clean_Vector_2017_Los_Angeles_Grocery.csv']);
+        end
         
     case "EnerNOC GreenButton Los Angeles Industrial"
-        Load_Profile_Data = csvread(['Load Profile Data/' ...
-            'EnerNOC GreenButton Anonymized Commercial and Industrial/' ...
-            'Selected Clean 2017 EnerNOC Load Profiles/Los Angeles Industrial/' ...
-            'Vector Format/Clean_Vector_2017_Los_Angeles_Industrial.csv']);
+        
+        if delta_t == (5/60)
+            Load_Profile_Data = csvread(['Load Profile Data/EnerNOC GreenButton/' ...
+                'Selected Clean 2017 EnerNOC Load Profiles/5-Minute Data/Los Angeles Industrial/' ...
+                'Vector Format/Clean_Vector_2017_Los_Angeles_Industrial.csv']);
+        elseif delta_t == (15/60)
+            Load_Profile_Data = csvread(['Load Profile Data/EnerNOC GreenButton/' ...
+                'Selected Clean 2017 EnerNOC Load Profiles/15-Minute Data/Los Angeles Industrial/' ...
+                'Vector Format/Clean_Vector_2017_Los_Angeles_Industrial.csv']);
+        end
         
     case "EnerNOC GreenButton San Diego Office"
-        Load_Profile_Data = csvread(['Load Profile Data/' ...
-            'EnerNOC GreenButton Anonymized Commercial and Industrial/' ...
-            'Selected Clean 2017 EnerNOC Load Profiles/San Diego Office/' ...
-            'Vector Format/Clean_Vector_2017_San_Diego_Office.csv']);
+        
+        if delta_t == (5/60)
+            Load_Profile_Data = csvread(['Load Profile Data/' ...
+                'Selected Clean 2017 EnerNOC Load Profiles/5-Minute Data/San Diego Office/EnerNOC GreenButton/' ...
+                'Vector Format/Clean_Vector_2017_San_Diego_Office.csv']);
+        elseif delta_t == (15/60)
+            Load_Profile_Data = csvread(['Load Profile Data/' ...
+                'Selected Clean 2017 EnerNOC Load Profiles/15-Minute Data/San Diego Office/EnerNOC GreenButton/' ...
+                'Vector Format/Clean_Vector_2017_San_Diego_Office.csv']);
+        end
         
     case "EnerNOC GreenButton San Francisco Industrial"
-        Load_Profile_Data = csvread(['Load Profile Data/' ...
-            'EnerNOC GreenButton Anonymized Commercial and Industrial/' ...
-            'Selected Clean 2017 EnerNOC Load Profiles/San Francisco Industrial/' ...
-            'Vector Format/Clean_Vector_2017_San_Francisco_Industrial.csv']);
+        
+        if delta_t == (5/60)
+            Load_Profile_Data = csvread(['Load Profile Data/EnerNOC GreenButton/' ...
+                'Selected Clean 2017 EnerNOC Load Profiles/5-Minute Data/San Francisco Industrial/' ...
+                'Vector Format/Clean_Vector_2017_San_Francisco_Industrial.csv']);
+        elseif delta_t == (15/60)
+            Load_Profile_Data = csvread(['Load Profile Data/EnerNOC GreenButton/' ...
+                'Selected Clean 2017 EnerNOC Load Profiles/15-Minute Data/San Francisco Industrial/' ...
+                'Vector Format/Clean_Vector_2017_San_Francisco_Industrial.csv']);
+        end
         
     case "EnerNOC GreenButton San Francisco Office"
-        Load_Profile_Data = csvread(['Load Profile Data/' ...
-            'EnerNOC GreenButton Anonymized Commercial and Industrial/' ...
-            'Selected Clean 2017 EnerNOC Load Profiles/San Francisco Office/' ...
-            'Vector Format/Clean_Vector_2017_San_Francisco_Office.csv']);
+        
+        if delta_t == (5/60)
+            Load_Profile_Data = csvread(['Load Profile Data/EnerNOC GreenButton/' ...
+                'Selected Clean 2017 EnerNOC Load Profiles/5-Minute Data/San Francisco Office/' ...
+                'Vector Format/Clean_Vector_2017_San_Francisco_Office.csv']);
+        elseif delta_t == (15/60)
+            Load_Profile_Data = csvread(['Load Profile Data/EnerNOC GreenButton/' ...
+                'Selected Clean 2017 EnerNOC Load Profiles/15-Minute Data/San Francisco Office/' ...
+                'Vector Format/Clean_Vector_2017_San_Francisco_Office.csv']);
+        end
+        
+    case "Avalon GreenButton East Bay Light Industrial"
+        
+        if delta_t == (5/60)
+            Load_Profile_Data = csvread(['Load Profile Data/' ...
+                'Avalon Anonymized Commercial & Industrial/2017 Remapped/5-Minute Data/' ...
+                'Vector Format/Clean_Vector_2017_East_Bay_Light_Industrial.csv']);
+        elseif delta_t == (15/60)
+            Load_Profile_Data = csvread(['Load Profile Data/' ...
+                'Avalon Anonymized Commercial & Industrial/2017 Remapped/15-Minute Data/' ...
+                'Vector Format/Clean_Vector_2017_East_Bay_Light_Industrial.csv']);
+        end
+        
+        
+    case "Custom Power Solar GreenButton PG&E Albany Residential with EV"
+        
+        if delta_t == (5/60)
+            Load_Profile_Data = csvread(['Load Profile Data/' ...
+                'Custom Power Solar Load Profiles/5-Minute Data/' ...
+                'Vector Format/Custom_Power_Solar_PGE_Albany_Residential_EV_Vector.csv']);
+        elseif delta_t == (15/60)
+            Load_Profile_Data = csvread(['Load Profile Data/' ...
+                'Custom Power Solar Load Profiles/15-Minute Data/' ...
+                'Vector Format/Custom_Power_Solar_PGE_Albany_Residential_EV_Vector.csv']);
+        end
+    
+        
+    case "Custom Power Solar GreenButton PG&E Crockett Residential with EV"
+        
+        if delta_t == (5/60)
+            Load_Profile_Data = csvread(['Load Profile Data/' ...
+                'Custom Power Solar Load Profiles/5-Minute Data/' ...
+                'Vector Format/Custom_Power_Solar_PGE_Crockett_Residential_EV_Vector.csv']);
+        elseif delta_t == (15/60)
+            Load_Profile_Data = csvread(['Load Profile Data/' ...
+                'Custom Power Solar Load Profiles/15-Minute Data/' ...
+                'Vector Format/Custom_Power_Solar_PGE_Crockett_Residential_EV_Vector.csv']);
+        end
+        
+        
+    case "WattTime GreenButton Residential Berkeley"
+        
+        if delta_t == (5/60)
+            Load_Profile_Data = csvread(['Load Profile Data/' ...
+                'Green Button Data collected by WattTime 2017/5-Minute Data/' ...
+                'Vector Format/Vector_Residential_Site1_2017_Berkeley.csv']);
+        elseif delta_t == (15/60)
+            Load_Profile_Data = csvread(['Load Profile Data/' ...
+                'Green Button Data collected by WattTime 2017/15-Minute Data/' ...
+                'Vector Format/Vector_Residential_Site1_2017_Berkeley.csv']);
+        end
+        
+    case "WattTime GreenButton Residential Long Beach"
+        
+        if delta_t == (5/60)
+            Load_Profile_Data = csvread(['Load Profile Data/' ...
+                'Green Button Data collected by WattTime 2017/5-Minute Data/' ...
+                'Vector Format/Vector_Residential_Site2_2017_LongBeach.csv']);
+        elseif delta_t == (15/60)
+            Load_Profile_Data = csvread(['Load Profile Data/' ...
+                'Green Button Data collected by WattTime 2017/15-Minute Data/' ...
+                'Vector Format/Vector_Residential_Site2_2017_LongBeach.csv']);
+        end
+        
+    case "WattTime GreenButton Residential Coulterville"
+        
+        if delta_t == (5/60)
+            Load_Profile_Data = csvread(['Load Profile Data/' ...
+                'Green Button Data collected by WattTime 2017/5-Minute Data/' ...
+                'Vector Format/Vector_Residential_Site3_2017_Coulterville.csv']);
+        elseif delta_t == (15/60)
+            Load_Profile_Data = csvread(['Load Profile Data/' ...
+                'Green Button Data collected by WattTime 2017/15-Minute Data/' ...
+                'Vector Format/Vector_Residential_Site3_2017_Coulterville.csv']);
+        end
+        
+    case "WattTime GreenButton Residential San Francisco"
+        
+        if delta_t == (5/60)
+            Load_Profile_Data = csvread(['Load Profile Data/' ...
+                'Green Button Data collected by WattTime 2017/5-Minute Data/' ...
+                'Vector Format/Vector_Residential_Site4_2017_SanFrancisco.csv']);
+        elseif delta_t == (15/60)
+            Load_Profile_Data = csvread(['Load Profile Data/' ...
+                'Green Button Data collected by WattTime 2017/15-Minute Data/' ...
+                'Vector Format/Vector_Residential_Site4_2017_SanFrancisco.csv']);
+        end
+        
+    case "WattTime GreenButton Residential Oakland"
+        
+        if delta_t == (5/60)
+            Load_Profile_Data = csvread(['Load Profile Data/' ...
+                'Green Button Data collected by WattTime 2017/5-Minute Data/' ...
+                'Vector Format/Vector_Residential_Site5_2017_Oakland.csv']);
+        elseif delta_t == (15/60)
+            Load_Profile_Data = csvread(['Load Profile Data/' ...
+                'Green Button Data collected by WattTime 2017/15-Minute Data/' ...
+                'Vector Format/Vector_Residential_Site5_2017_Oakland.csv']);
+        end
+        
+    case "PG&E GreenButton A-1 SMB"
+        
+        if delta_t == (5/60)
+            Load_Profile_Data = csvread(['Load Profile Data/' ...
+                'PG&E Green Button Data 2011-2012/2017/5-Minute Data/' ...
+                'Vector Format/PG&E_GreenButton_A-1_SMB_5_minute_Vector.csv']);
+        elseif delta_t == (15/60)
+            Load_Profile_Data = csvread(['Load Profile Data/' ...
+                'PG&E Green Button Data 2011-2012/2017/15-Minute Data/' ...
+                'Vector Format/PG&E_GreenButton_A-1_SMB_15_minute_Vector.csv']);
+        end
+        
+    case "PG&E GreenButton A-6 SMB"
+        
+        if delta_t == (5/60)
+            Load_Profile_Data = csvread(['Load Profile Data/' ...
+                'PG&E Green Button Data 2011-2012/2017/5-Minute Data/' ...
+                'Vector Format/PG&E_GreenButton_A-6_SMB_5_minute_Vector.csv']);
+        elseif delta_t == (15/60)
+            Load_Profile_Data = csvread(['Load Profile Data/' ...
+                'PG&E Green Button Data 2011-2012/2017/15-Minute Data/' ...
+                'Vector Format/PG&E_GreenButton_A-6_SMB_15_minute_Vector.csv']);
+        end
+        
+    case "PG&E GreenButton A-10S MLB"
+        
+        if delta_t == (5/60)
+            Load_Profile_Data = csvread(['Load Profile Data/' ...
+                'PG&E Green Button Data 2011-2012/2017/5-Minute Data/' ...
+                'Vector Format/PG&E_GreenButton_A-10S_MLB_5_minute_Vector.csv']);
+        elseif delta_t == (15/60)
+            Load_Profile_Data = csvread(['Load Profile Data/' ...
+                'PG&E Green Button Data 2011-2012/2017/15-Minute Data/' ...
+                'Vector Format/PG&E_GreenButton_A-10S_MLB_15_minute_Vector.csv']);
+        end
+        
+    case "PG&E GreenButton E-6 Residential"
+        
+        if delta_t == (5/60)
+            Load_Profile_Data = csvread(['Load Profile Data/' ...
+                'PG&E Green Button Data 2011-2012/2017/5-Minute Data/' ...
+                'Vector Format/PG&E_GreenButton_E-6_Residential_5_minute_Vector.csv']);
+        elseif delta_t == (15/60)
+            Load_Profile_Data = csvread(['Load Profile Data/' ...
+                'PG&E Green Button Data 2011-2012/2017/15-Minute Data/' ...
+                'Vector Format/PG&E_GreenButton_E-6_Residential_15_minute_Vector.csv']);
+        end
+        
+    case "Stem GreenButton SCE GS-2B Hospitality"
+        
+        if delta_t == (5/60)
+            Load_Profile_Data = csvread(['Load Profile Data/' ...
+                'Stem C&I Load Profiles/5-Minute Data/' ...
+                'Vector Format/1_SCE_GS-2B_Hospitality_9_Vector.csv']);
+        elseif delta_t == (15/60)
+            Load_Profile_Data = csvread(['Load Profile Data/' ...
+                'Stem C&I Load Profiles/15-Minute Data/' ...
+                'Vector Format/1_SCE_GS-2B_Hospitality_9_Vector.csv']);
+        end
+        
+        
+    case "Stem GreenButton SCE TOU-8B Office"
+        
+        if delta_t == (5/60)
+            Load_Profile_Data = csvread(['Load Profile Data/' ...
+                'Stem C&I Load Profiles/5-Minute Data/' ...
+                'Vector Format/2_SCE_TOU-8B_Office_9_Vector.csv']);
+        elseif delta_t == (15/60)
+            Load_Profile_Data = csvread(['Load Profile Data/' ...
+                'Stem C&I Load Profiles/15-Minute Data/' ...
+                'Vector Format/2_SCE_TOU-8B_Office_9_Vector.csv']);
+        end
+        
+    case "Stem GreenButton PG&E E-19 Office"
+        
+        if delta_t == (5/60)
+            Load_Profile_Data = csvread(['Load Profile Data/' ...
+                'Stem C&I Load Profiles/5-Minute Data/' ...
+                'Vector Format/3_PGE_E-19_Office_4_Vector.csv']);
+        elseif delta_t == (15/60)
+            Load_Profile_Data = csvread(['Load Profile Data/' ...
+                'Stem C&I Load Profiles/15-Minute Data/' ...
+                'Vector Format/3_PGE_E-19_Office_4_Vector.csv']);
+        end
+        
+    case "Stem GreenButton SCE GS-3B Food Processing"
+        
+        if delta_t == (5/60)
+            Load_Profile_Data = csvread(['Load Profile Data/' ...
+                'Stem C&I Load Profiles/5-Minute Data/' ...
+                'Vector Format/4_SCE_GS-3B_Food_Processing_8_Vector.csv']);
+        elseif delta_t == (15/60)
+            Load_Profile_Data = csvread(['Load Profile Data/' ...
+                'Stem C&I Load Profiles/15-Minute Data/' ...
+                'Vector Format/4_SCE_GS-3B_Food_Processing_8_Vector.csv']);
+        end
+        
+        
+    case "Stem GreenButton SDG&E G-16 Manufacturing"
+        
+        if delta_t == (5/60)
+            Load_Profile_Data = csvread(['Load Profile Data/' ...
+                'Stem C&I Load Profiles/5-Minute Data/' ...
+                'Vector Format/5_SDGE_G-16_Manufacturing_7_Vector.csv']);
+        elseif delta_t == (15/60)
+            Load_Profile_Data = csvread(['Load Profile Data/' ...
+                'Stem C&I Load Profiles/15-Minute Data/' ...
+                'Vector Format/5_SDGE_G-16_Manufacturing_7_Vector.csv']);
+        end
+        
+        
+    case "Stem GreenButton SDG&E AL-TOU Education"
+        
+        if delta_t == (5/60)
+            Load_Profile_Data = csvread(['Load Profile Data/' ...
+                'Stem C&I Load Profiles/5-Minute Data/' ...
+                'Vector Format/6_SDGE_AL-TOU_Education_10_Vector.csv']);
+        elseif delta_t == (15/60)
+            Load_Profile_Data = csvread(['Load Profile Data/' ...
+                'Stem C&I Load Profiles/15-Minute Data/' ...
+                'Vector Format/6_SDGE_AL-TOU_Education_10_Vector.csv']);
+        end
+        
+        
+    case "Stem GreenButton PG&E E-19 Industrial"
+        
+        if delta_t == (5/60)
+            Load_Profile_Data = csvread(['Load Profile Data/' ...
+                'Stem C&I Load Profiles/5-Minute Data/' ...
+                'Vector Format/7_PGE_E-19_Industrial_3_Vector.csv']);
+        elseif delta_t == (15/60)
+            Load_Profile_Data = csvread(['Load Profile Data/' ...
+                'Stem C&I Load Profiles/15-Minute Data/' ...
+                'Vector Format/7_PGE_E-19_Industrial_3_Vector.csv']);
+        end
         
 end
 
@@ -77,25 +332,73 @@ Annual_Total_Electricity_Consumption_Without_Storage = sum(Load_Profile_Data) * 
 
 switch Carbon_Forecast_Signal_Input
     
-    case "NP15 Real Time 5 Minute Emissions Signal"
-        Marginal_Emissions_Rate_Forecast_Data = csvread(['Emissions Data/Itron-E3 Methodology/' ...
-            '2017/Clean Emissions Data/Real Time 5 Minute Emissions Signal/' ...
-            '2017_RT5M_NP15_Marginal_Emissions_Rate_Vector.csv']);
+    case "NP15 RT5M Emissions Signal"
         
-    case "SP15 Real Time 5 Minute Emissions Signal"
-        Marginal_Emissions_Rate_Forecast_Data = csvread(['Emissions Data/Itron-E3 Methodology/' ...
-            '2017/Clean Emissions Data/Real Time 5 Minute Emissions Signal/' ...
-            '2017_RT5M_SP15_Marginal_Emissions_Rate_Vector.csv']);
+        if delta_t == (5/60)
+            Marginal_Emissions_Rate_Forecast_Data = csvread(['Emissions Data/Itron-E3 Methodology/' ...
+                '2017/Clean Emissions Data/Real Time 5 Minute Emissions Signal/' ...
+                '5-Minute Data/2017_RT5M_NP15_Marginal_Emissions_Rate_Vector.csv']);
+        elseif delta_t == (15/60)
+            Marginal_Emissions_Rate_Forecast_Data = csvread(['Emissions Data/Itron-E3 Methodology/' ...
+                '2017/Clean Emissions Data/Real Time 5 Minute Emissions Signal/' ...
+                '15-Minute Data/2017_RT5M_NP15_Marginal_Emissions_Rate_Vector.csv']);
+        end
         
-    case "NP15 Day Ahead Market Forecasted Emissions Signal"
-        Marginal_Emissions_Rate_Forecast_Data = csvread(['Emissions Data/Itron-E3 Methodology/' ...
-            '2017/Clean Emissions Data/Day Ahead Market Forecasted Emissions Signal/' ...
-            '2017_DA_NP15_Marginal_Emissions_Rate_Vector.csv']);
+    case "SP15 RT5M Emissions Signal"
         
-    case "SP15 Day Ahead Market Forecasted Emissions Signal"
-        Marginal_Emissions_Rate_Forecast_Data = csvread(['Emissions Data/Itron-E3 Methodology/' ...
-            '2017/Clean Emissions Data/Day Ahead Market Forecasted Emissions Signal/' ...
-            '2017_DA_SP15_Marginal_Emissions_Rate_Vector.csv']);
+        if delta_t == (5/60)
+            Marginal_Emissions_Rate_Forecast_Data = csvread(['Emissions Data/Itron-E3 Methodology/' ...
+                '2017/Clean Emissions Data/Real Time 5 Minute Emissions Signal/' ...
+                '5-Minute Data/2017_RT5M_SP15_Marginal_Emissions_Rate_Vector.csv']);
+        elseif delta_t == (15/60)
+            Marginal_Emissions_Rate_Forecast_Data = csvread(['Emissions Data/Itron-E3 Methodology/' ...
+                '2017/Clean Emissions Data/Real Time 5 Minute Emissions Signal/' ...
+                '15-Minute Data/2017_RT5M_SP15_Marginal_Emissions_Rate_Vector.csv']);
+        end
+        
+    case "NP15 DAM Forecasted Emissions Signal"
+        
+        if delta_t == (5/60)
+            Marginal_Emissions_Rate_Forecast_Data = csvread(['Emissions Data/Itron-E3 Methodology/' ...
+                '2017/Clean Emissions Data/Day Ahead Market Forecasted Emissions Signal/' ...
+                '5-Minute Data/2017_DA_NP15_Marginal_Emissions_Rate_Vector.csv']);
+        elseif delta_t == (15/60)
+            Marginal_Emissions_Rate_Forecast_Data = csvread(['Emissions Data/Itron-E3 Methodology/' ...
+                '2017/Clean Emissions Data/Day Ahead Market Forecasted Emissions Signal/' ...
+                '15-Minute Data/2017_DA_NP15_Marginal_Emissions_Rate_Vector.csv']);
+        end
+        
+    case "SP15 DAM Forecasted Emissions Signal"
+        
+        if delta_t == (5/60)
+            Marginal_Emissions_Rate_Forecast_Data = csvread(['Emissions Data/Itron-E3 Methodology/' ...
+                '2017/Clean Emissions Data/Day Ahead Market Forecasted Emissions Signal/' ...
+                '5-Minute Data/2017_DA_SP15_Marginal_Emissions_Rate_Vector.csv']);
+        elseif delta_t == (15/60)
+            Marginal_Emissions_Rate_Forecast_Data = csvread(['Emissions Data/Itron-E3 Methodology/' ...
+                '2017/Clean Emissions Data/Day Ahead Market Forecasted Emissions Signal/' ...
+                '15-Minute Data/2017_DA_SP15_Marginal_Emissions_Rate_Vector.csv']);
+        end
+        
+    case "NP15 WattTime Public Forecasted Emissions Signal"
+        
+        if delta_t == (5/60)
+            Marginal_Emissions_Rate_Forecast_Data = csvread(['Emissions Data/WattTime Public Methodology/' ...
+                '5-Minute Data/Marginal GHG midnight before forecast_5min_NP15_Vector.csv']);
+        elseif delta_t == (15/60)
+            Marginal_Emissions_Rate_Forecast_Data = csvread(['Emissions Data/WattTime Public Methodology/' ...
+                '15-Minute Data/Marginal GHG midnight before forecast_5min_NP15_Vector.csv']);
+        end
+        
+    case "SP15 WattTime Public Forecasted Emissions Signal"
+        
+        if delta_t == (5/60)
+            Marginal_Emissions_Rate_Forecast_Data = csvread(['Emissions Data/WattTime Public Methodology/' ...
+                '5-Minute Data/Marginal GHG midnight before forecast_5min_SP15_Vector.csv']);
+        elseif delta_t == (15/60)
+            Marginal_Emissions_Rate_Forecast_Data = csvread(['Emissions Data/WattTime Public Methodology/' ...
+                '15-Minute Data/Marginal GHG midnight before forecast_5min_SP15_Vector.csv']);
+        end
         
 end
 
@@ -104,34 +407,29 @@ end
 
 switch Carbon_Impact_Evaluation_Signal_Input
     
-    case "NP15 Real Time 5 Minute Emissions Signal"
-        Marginal_Emissions_Rate_Evaluation_Data = csvread(['Emissions Data/Itron-E3 Methodology/' ...
-            '2017/Clean Emissions Data/Real Time 5 Minute Emissions Signal' ...
-            '/2017_RT5M_NP15_Marginal_Emissions_Rate_Vector.csv']);
+    case "NP15 RT5M Emissions Signal"
         
-    case "SP15 Real Time 5 Minute Emissions Signal"
-        Marginal_Emissions_Rate_Evaluation_Data = csvread(['Emissions Data/Itron-E3 Methodology/' ...
-            '2017/Clean Emissions Data/Real Time 5 Minute Emissions Signal/' ...
-            '2017_RT5M_SP15_Marginal_Emissions_Rate_Vector.csv']);
+        if delta_t == (5/60)
+            Marginal_Emissions_Rate_Evaluation_Data = csvread(['Emissions Data/Itron-E3 Methodology/' ...
+                '2017/Clean Emissions Data/Real Time 5 Minute Emissions Signal/' ...
+                '5-Minute Data/2017_RT5M_NP15_Marginal_Emissions_Rate_Vector.csv']);
+        elseif delta_t == (15/60)
+            Marginal_Emissions_Rate_Evaluation_Data = csvread(['Emissions Data/Itron-E3 Methodology/' ...
+                '2017/Clean Emissions Data/Real Time 5 Minute Emissions Signal/' ...
+                '15-Minute Data/2017_RT5M_NP15_Marginal_Emissions_Rate_Vector.csv']);
+        end
         
-    case "NP15 Day Ahead Market Forecasted Emissions Signal"
-        Marginal_Emissions_Rate_Evaluation_Data = csvread(['Emissions Data/Itron-E3 Methodology/' ...
-            '2017/Clean Emissions Data/Day Ahead Market Forecasted Emissions Signal/' ...
-            '2017_DA_NP15_Marginal_Emissions_Rate_Vector.csv']);
+    case "SP15 RT5M Emissions Signal"
         
-    case "SP15 Day Ahead Market Forecasted Emissions Signal"
-        Marginal_Emissions_Rate_Evaluation_Data = csvread(['Emissions Data/Itron-E3 Methodology/' ...
-            '2017/Clean Emissions Data/Day Ahead Market Forecasted Emissions Signal/' ...
-            '2017_DA_SP15_Marginal_Emissions_Rate_Vector.csv']);
-        
-end
-
-% Import Volumetric (per kWh) Rate Data
-
-switch Utility_Tariff_Input
-    
-    case "PG&E E-19S"
-        Volumetric_Rate_Data = csvread('Rates/PG&E E-19S/2017/2017_PGE_E19S_Energy_Rates_Vector.csv');
+        if delta_t == (5/60)
+            Marginal_Emissions_Rate_Evaluation_Data = csvread(['Emissions Data/Itron-E3 Methodology/' ...
+                '2017/Clean Emissions Data/Real Time 5 Minute Emissions Signal/' ...
+                '5-Minute Data/2017_RT5M_SP15_Marginal_Emissions_Rate_Vector.csv']);
+        elseif delta_t == (15/60)
+            Marginal_Emissions_Rate_Evaluation_Data = csvread(['Emissions Data/Itron-E3 Methodology/' ...
+                '2017/Clean Emissions Data/Real Time 5 Minute Emissions Signal/' ...
+                '15-Minute Data/2017_RT5M_SP15_Marginal_Emissions_Rate_Vector.csv']);
+        end
         
 end
 
@@ -142,13 +440,130 @@ end
 Carbon_Adder_Data = (Marginal_Emissions_Rate_Forecast_Data * ...
     Carbon_Adder_per_Metric_Ton_Input_Value)/1000;
 
+
+% Import Volumetric (per kWh) Rate Data
+
+switch Utility_Tariff_Input
+    
+    case "PG&E E-19S (OLD)"
+        
+        if delta_t == (5/60)
+            Volumetric_Rate_Data = csvread(['Rates/PG&E E-19S (OLD)/2017/5-Minute Data/'...
+                'Vector Format/2017_PGE_E19S_OLD_Energy_Rates_Vector.csv']);
+        elseif delta_t == (15/60)
+            Volumetric_Rate_Data = csvread(['Rates/PG&E E-19S (OLD)/2017/15-Minute Data/'...
+                'Vector Format/2017_PGE_E19S_OLD_Energy_Rates_Vector.csv']);
+        end
+        
+    case "PG&E E-19S PDP (OLD)"
+        
+        if delta_t == (5/60)
+            Volumetric_Rate_Data = csvread(['Rates/PG&E E-19S PDP (OLD)/2017/5-Minute Data/'...
+                'Vector Format/2017_PGE_E19S_PDP_OLD_Energy_Rates_Vector.csv']);
+        elseif delta_t == (15/60)
+            Volumetric_Rate_Data = csvread(['Rates/PG&E E-19S PDP (OLD)/2017/15-Minute Data/'...
+                'Vector Format/2017_PGE_E19S_PDP_OLD_Energy_Rates_Vector.csv']);
+        end
+        
+    case "PG&E E-19S-R (OLD)"
+        
+        if delta_t == (5/60)
+            Volumetric_Rate_Data = csvread(['Rates/PG&E E-19S-R (OLD)/2017/5-Minute Data/'...
+                'Vector Format/2017_PGE_E19SR_OLD_Energy_Rates_Vector.csv']);
+        elseif delta_t == (15/60)
+            Volumetric_Rate_Data = csvread(['Rates/PG&E E-19S-R (OLD)/2017/15-Minute Data/'...
+                'Vector Format/2017_PGE_E19SR_OLD_Energy_Rates_Vector.csv']);
+        end
+           
+    case "PG&E E-19S (NEW)"
+        
+        if delta_t == (5/60)
+            Volumetric_Rate_Data = csvread(['Rates/PG&E E-19S (NEW)/2017/5-Minute Data/'...
+                'Vector Format/2017_PGE_E19S_NEW_Energy_Rates_Vector.csv']);
+        elseif delta_t == (15/60)
+            Volumetric_Rate_Data = csvread(['Rates/PG&E E-19S (NEW)/2017/15-Minute Data/'...
+                'Vector Format/2017_PGE_E19S_NEW_Energy_Rates_Vector.csv']);
+        end
+     
+    case "PG&E E-19S PDP (NEW)"
+        
+        if delta_t == (5/60)
+            Volumetric_Rate_Data = csvread(['Rates/PG&E E-19S PDP (NEW)/2017/5-Minute Data/'...
+                'Vector Format/2017_PGE_E19S_PDP_NEW_Energy_Rates_Vector.csv']);
+        elseif delta_t == (15/60)
+            Volumetric_Rate_Data = csvread(['Rates/PG&E E-19S PDP (NEW)/2017/15-Minute Data/'...
+                'Vector Format/2017_PGE_E19S_PDP_NEW_Energy_Rates_Vector.csv']);
+        end
+        
+    case "PG&E E-19S-R (NEW)"
+        
+        if delta_t == (5/60)
+            Volumetric_Rate_Data = csvread(['Rates/PG&E E-19S-R (NEW)/2017/5-Minute Data/'...
+                'Vector Format/2017_PGE_E19SR_NEW_Energy_Rates_Vector.csv']);
+        elseif delta_t == (15/60)
+            Volumetric_Rate_Data = csvread(['Rates/PG&E E-19S-R (NEW)/2017/15-Minute Data/'...
+                'Vector Format/2017_PGE_E19SR_NEW_Energy_Rates_Vector.csv']);
+        end
+        
+    case "PG&E A-1-STORAGE"
+        
+        if delta_t == (5/60)
+            Volumetric_Rate_Data = csvread(['Rates/PG&E A-1-STORAGE/2017/5-Minute Data/'...
+                'Vector Format/2017_PGE_A1_STORAGE_Energy_Rates_Vector.csv']);
+        elseif delta_t == (15/60)
+            Volumetric_Rate_Data = csvread(['Rates/PG&E A-1-STORAGE/2017/15-Minute Data/'...
+                'Vector Format/2017_PGE_A1_STORAGE_Energy_Rates_Vector.csv']);
+        end
+        
+    case "PG&E EV-A"
+        
+        if delta_t == (5/60)
+            Volumetric_Rate_Data = csvread(['Rates/PG&E EV-A/2017/5-Minute Data/'...
+                'Vector Format/2017_PGE_EVA_Energy_Rates_Vector.csv']);
+        elseif delta_t == (15/60)
+            Volumetric_Rate_Data = csvread(['Rates/PG&E EV-A/2017/15-Minute Data/'...
+                'Vector Format/2017_PGE_EVA_Energy_Rates_Vector.csv']);
+        end
+         
+    case "SCE TOU-8-B"
+        
+        if delta_t == (5/60)
+            Volumetric_Rate_Data = csvread(['Rates/SCE TOU-8-B/2017/5-Minute Data/'...
+                'Vector Format/2017_SCE_TOU8B_Energy_Rates_Vector.csv']);
+        elseif delta_t == (15/60)
+            Volumetric_Rate_Data = csvread(['Rates/SCE TOU-8-B/2017/15-Minute Data/'...
+                'Vector Format/2017_SCE_TOU8B_Energy_Rates_Vector.csv']);
+        end
+        
+    case "SCE TOU-8-RTP"
+        
+        if delta_t == (5/60)
+            Volumetric_Rate_Data = csvread(['Rates/SCE TOU-8-RTP/2017/5-Minute Data/'...
+                'Vector Format/2017_SCE_TOU8_RTP_Energy_Rates_Vector.csv']);
+        elseif delta_t == (15/60)
+            Volumetric_Rate_Data = csvread(['Rates/SCE TOU-8-RTP/2017/15-Minute Data/'...
+                'Vector Format/2017_SCE_TOU8_RTP_Energy_Rates_Vector.csv']);
+        end
+        
+    case "SDG&E DG-R"
+        
+        if delta_t == (5/60)
+            Volumetric_Rate_Data = csvread(['Rates/SDG&E DG-R/2017/5-Minute Data/'...
+                'Vector Format/2017_SDGE_DGR_Energy_Rates_Vector.csv']);
+        elseif delta_t == (15/60)
+            Volumetric_Rate_Data = csvread(['Rates/SDG&E DG-R/2017/15-Minute Data/'...
+                'Vector Format/2017_SDGE_DGR_Energy_Rates_Vector.csv']);
+        end
+        
+end
+
 % Select Demand Charge and Fixed-Charge Variable Values
 
 switch Utility_Tariff_Input
     
-    case "PG&E E-19S"
+    case "PG&E E-19S (OLD)"
         
-        % Demand Charges - PG&E E-19 Secondary Voltage
+        % Demand Charges - OLD PG&E E-19 Secondary Voltage
         Summer_Peak_DC = 18.64;
         Summer_Part_Peak_DC = 5.18;
         Summer_Noncoincident_DC = 17.56;
@@ -156,44 +571,520 @@ switch Utility_Tariff_Input
         Winter_Part_Peak_DC = 0.12;
         Winter_Noncoincident_DC = 17.56;
         
-        % Fixed Per-Meter-Day Charge - PG&E E-19 Secondary Voltage
+        % Fixed Per-Meter-Day Charge - OLD PG&E E-19 Secondary Voltage
         Fixed_Per_Meter_Day_Charge = 19.71253;  % $ per meter per day
+        Fixed_Per_Meter_Month_Charge = 0; % $ per meter per month
+        
+        % Summer Months
+        First_Summer_Month = 5; % May is the first summer month for this rate.
+        Last_Summer_Month = 10; % October is the last summer month for this rate.
+        
+    case "PG&E E-19S PDP (OLD)"
+        
+        % Demand Charges - OLD PG&E E-19 PDP Secondary Voltage
+        Summer_Peak_DC = (18.64 - 5.70); % Includes PDP demand charge credit
+        Summer_Part_Peak_DC = (5.18 - 1.41); % Includes PDP demand charge credit
+        Summer_Noncoincident_DC = 17.56;
+        Winter_Peak_DC = 0;  % There is no peak demand charge in the winter.
+        Winter_Part_Peak_DC = 0.12;
+        Winter_Noncoincident_DC = 17.56;
+        
+        % Fixed Per-Meter-Day Charge - OLD PG&E E-19 PDP Secondary Voltage
+        Fixed_Per_Meter_Day_Charge = 19.71253;  % $ per meter per day
+        Fixed_Per_Meter_Month_Charge = 0; % $ per meter per month
+        
+        % Summer Months
+        First_Summer_Month = 5; % May is the first summer month for this rate.
+        Last_Summer_Month = 10; % October is the last summer month for this rate.
+        
+        
+    case "PG&E E-19S-R (OLD)"
+        
+        % Demand Charges - OLD PG&E E-19 Secondary Voltage - Option R
+        Summer_Peak_DC = 1.50;
+        Summer_Part_Peak_DC = 0.51;
+        Summer_Noncoincident_DC = 17.56;
+        Winter_Peak_DC = 0;  % There is no peak demand charge in the winter.
+        Winter_Part_Peak_DC = 0.03;
+        Winter_Noncoincident_DC = 17.56;
+        
+        % Fixed Per-Meter-Day Charge - OLD PG&E E-19 Secondary Voltage - Option R
+        Fixed_Per_Meter_Day_Charge = 19.71253;  % $ per meter per day
+        Fixed_Per_Meter_Month_Charge = 0; % $ per meter per month
+        
+        % Summer Months
+        First_Summer_Month = 5; % May is the first summer month for this rate.
+        Last_Summer_Month = 10; % October is the last summer month for this rate.
+        
+        
+    case "PG&E E-19S (NEW)"
+        
+        % Demand Charges - NEW PG&E E-19 Secondary Voltage
+        Summer_Peak_DC = 18.35;
+        Summer_Part_Peak_DC = 2.85;
+        Summer_Noncoincident_DC = 19.45;
+        Winter_Peak_DC = 1.48;
+        Winter_Part_Peak_DC = 0; % There is no part-peak demand charge in the winter.
+        Winter_Noncoincident_DC = 19.45;
+        
+        % Fixed Per-Meter-Day Charge - NEW PG&E E-19 Secondary Voltage
+        Fixed_Per_Meter_Day_Charge = 0;  % $ per meter per day
+        Fixed_Per_Meter_Month_Charge = 720; % $ per meter per month
+        
+        % Summer Months
+        First_Summer_Month = 6; % June is the first summer month for this rate.
+        Last_Summer_Month = 9; % September is the last summer month for this rate.
+    
+    case "PG&E E-19S PDP (NEW)"
+        
+        % Demand Charges - NEW PG&E E-19 PDP Secondary Voltage
+        Summer_Peak_DC = (18.35 - 5.70);
+        Summer_Part_Peak_DC = (2.85 - 1.41);
+        Summer_Noncoincident_DC = 19.45;
+        Winter_Peak_DC = 1.48;
+        Winter_Part_Peak_DC = 0; % There is no part-peak demand charge in the winter.
+        Winter_Noncoincident_DC = 19.45;
+        
+        % Fixed Per-Meter-Day Charge - NEW PG&E E-19 PDP Secondary Voltage
+        Fixed_Per_Meter_Day_Charge = 0;  % $ per meter per day
+        Fixed_Per_Meter_Month_Charge = 720; % $ per meter per month
+        
+        % Summer Months
+        First_Summer_Month = 6; % June is the first summer month for this rate.
+        Last_Summer_Month = 9; % September is the last summer month for this rate.
+                
+    case "PG&E E-19S-R (NEW)"
+        
+        % Demand Charges - NEW PG&E E-19 Secondary Voltage - Option R
+        Summer_Peak_DC = 1.48;
+        Summer_Part_Peak_DC = 0.26;
+        Summer_Noncoincident_DC = 19.45;
+        Winter_Peak_DC = 0; % There is no peak demand charge in the winter.
+        Winter_Part_Peak_DC = 0; % There is no part-peak demand charge in the winter.
+        Winter_Noncoincident_DC = 19.45;
+        
+        % Fixed Per-Meter-Day Charge - NEW PG&E E-19 Secondary Voltage - Option R
+        Fixed_Per_Meter_Day_Charge = 0;  % $ per meter per day
+        Fixed_Per_Meter_Month_Charge = 720; % $ per meter per month
+        
+        % Summer Months
+        First_Summer_Month = 6; % June is the first summer month for this rate.
+        Last_Summer_Month = 9; % September is the last summer month for this rate.
+    
+     
+    case "PG&E A-1-STORAGE"
+        
+        % Demand Charges - PG&E A-1-STORAGE, Single-Phase
+        Summer_Peak_DC = 0;
+        Summer_Part_Peak_DC = 0;
+        Summer_Noncoincident_DC = 3.75;
+        Winter_Peak_DC = 0;
+        Winter_Part_Peak_DC = 0; % There is no part-peak demand charge in the winter.
+        Winter_Noncoincident_DC = 3.75;
+        
+        % Fixed Per-Meter-Day Charge - PG&E A-1-STORAGE, Single-Phase
+        Fixed_Per_Meter_Day_Charge = 10;  % $ per meter per day
+        Fixed_Per_Meter_Month_Charge = 0; % $ per meter per month
+        
+        % Summer Months
+        First_Summer_Month = 6; % June is the first summer month for this rate.
+        Last_Summer_Month = 9; % September is the last summer month for this rate.
+        
+    
+    case "PG&E EV-A"
+        
+        % Demand Charges - PG&E EV?A
+        Summer_Peak_DC = 0;
+        Summer_Part_Peak_DC = 0;
+        Summer_Noncoincident_DC = 0;
+        Winter_Peak_DC = 0;
+        Winter_Part_Peak_DC = 0;
+        Winter_Noncoincident_DC = 0;
+        
+        % Fixed Per-Meter-Day Charge - PG&E EV?A
+        Fixed_Per_Meter_Day_Charge = 0;  % $ per meter per day
+        Fixed_Per_Meter_Month_Charge = 0; % $ per meter per month
+        
+        % Summer Months
+        First_Summer_Month = 6; % June is the first summer month for this rate.
+        Last_Summer_Month = 9; % September is the last summer month for this rate.
+        
+      
+    case "SCE TOU-8-B"
+        
+        % Demand Charges - SCE TOU-8-B (Below 2 kV)
+        Summer_Peak_DC = 0; % There is no summer peak demand charge on this rate.
+        Summer_Part_Peak_DC = 0; % There is no summer part-peak demand charge on this rate.
+        Summer_Noncoincident_DC = 19.02;
+        Winter_Peak_DC = 0;  % There is no winter peak demand charge on this rate.
+        Winter_Part_Peak_DC = 0; % There is no winter part-peak demand charge on this rate.
+        Winter_Noncoincident_DC = 19.02;
+        
+        % Fixed Per-Meter-Day Charge - SCE TOU-8-B (Below 2 kV)
+        Fixed_Per_Meter_Day_Charge = 0;  % $ per meter per day
+        Fixed_Per_Meter_Month_Charge = 658.17; % $ per meter per month
+        
+        % Summer Months
+        First_Summer_Month = 6; % June is the first summer month for this rate.
+        Last_Summer_Month = 9; % September is the last summer month for this rate.
+        
+        
+    case "SCE TOU-8-RTP"
+        
+        % Demand Charges - SCE TOU-8-RTP (Below 2 kV)
+        Summer_Peak_DC = 0; % There is no summer peak demand charge on this rate.
+        Summer_Part_Peak_DC = 0; % There is no summer part-peak demand charge on this rate.
+        Summer_Noncoincident_DC = 19.02;
+        Winter_Peak_DC = 0;  % There is no winter peak demand charge on this rate.
+        Winter_Part_Peak_DC = 0; % There is no winter part-peak demand charge on this rate.
+        Winter_Noncoincident_DC = 19.02;
+        
+        % Fixed Per-Meter-Day Charge - SCE TOU-8-RTP (Below 2 kV)
+        Fixed_Per_Meter_Day_Charge = 0;  % $ per meter per day
+        Fixed_Per_Meter_Month_Charge = 658.17; % $ per meter per month
+        
+        % Summer Months
+        First_Summer_Month = 6; % June is the first summer month for this rate.
+        Last_Summer_Month = 9; % September is the last summer month for this rate.
+      
+    case "SDG&E DG-R"  
+        
+        % Demand Charges - SDG&E DG-R, Secondary, <500 kW
+        Summer_Peak_DC = 2.69;
+        Summer_Part_Peak_DC = 0; % There is no summer part-peak demand charge on this rate.
+        Summer_Noncoincident_DC = 12.24;
+        Winter_Peak_DC = 0.56;
+        Winter_Part_Peak_DC = 0; % There is no winter part-peak demand charge on this rate.
+        Winter_Noncoincident_DC = 12.24;
+        
+        % Fixed Per-Meter-Day Charge - SDG&E DG-R, Secondary, <500 kW
+        Fixed_Per_Meter_Day_Charge = 0;  % $ per meter per day
+        Fixed_Per_Meter_Month_Charge = 139.73; % $ per meter per month
+        
+        % Summer Months
+        First_Summer_Month = 6; % June is the first summer month for this rate.
+        Last_Summer_Month = 10; % October is the last summer month for this rate.
+        
         
 end
 
 
 % Import Peak and Part-Peak Binary Variable Data
+% (for tariffs with coincident peak or part-peak demand charges only)
 
 switch Utility_Tariff_Input
     
-    case "PG&E E-19S"
-        Summer_Peak_Binary_Data = csvread(['Rates/PG&E E-19S/2017/' ...
-            '2017_PGE_E19S_Summer_Peak_Binary_Vector.csv']);
-        Summer_Part_Peak_Binary_Data = csvread(['Rates/PG&E E-19S/2017/' ...
-            '2017_PGE_E19S_Summer_Partial_Peak_Binary_Vector.csv']);
-        Winter_Part_Peak_Binary_Data = csvread(['Rates/PG&E E-19S/2017/' ...
-            '2017_PGE_E19S_Winter_Partial_Peak_Binary_Vector.csv']);
+    case "PG&E E-19S (OLD)"      
+        if delta_t == (5/60)
+            Summer_Peak_Binary_Data = csvread(['Rates/PG&E E-19S (OLD)/2017/5-Minute Data/'...
+                'Vector Format/2017_PGE_E19S_OLD_Summer_Peak_Binary_Vector.csv']);
+            
+            Summer_Part_Peak_Binary_Data = csvread(['Rates/PG&E E-19S (OLD)/2017/5-Minute Data/' ...
+                'Vector Format/2017_PGE_E19S_OLD_Summer_Partial_Peak_Binary_Vector.csv']);
+            
+            Winter_Part_Peak_Binary_Data = csvread(['Rates/PG&E E-19S (OLD)/2017/5-Minute Data/' ...
+                'Vector Format/2017_PGE_E19S_OLD_Winter_Partial_Peak_Binary_Vector.csv']);         
+        elseif delta_t == (15/60)
+            Summer_Peak_Binary_Data = csvread(['Rates/PG&E E-19S (OLD)/2017/15-Minute Data/'...
+                'Vector Format/2017_PGE_E19S_OLD_Summer_Peak_Binary_Vector.csv']);
+            
+            Summer_Part_Peak_Binary_Data = csvread(['Rates/PG&E E-19S (OLD)/2017/15-Minute Data/' ...
+                'Vector Format/2017_PGE_E19S_OLD_Summer_Partial_Peak_Binary_Vector.csv']);
+            
+            Winter_Part_Peak_Binary_Data = csvread(['Rates/PG&E E-19S (OLD)/2017/15-Minute Data/' ...
+                'Vector Format/2017_PGE_E19S_OLD_Winter_Partial_Peak_Binary_Vector.csv']);
+        end
+        
+    case "PG&E E-19S PDP (OLD)"
+        if delta_t == (5/60)
+            Summer_Peak_Binary_Data = csvread(['Rates/PG&E E-19S PDP (OLD)/2017/5-Minute Data/'...
+                'Vector Format/2017_PGE_E19S_PDP_OLD_Summer_Peak_Binary_Vector.csv']);
+            
+            Summer_Part_Peak_Binary_Data = csvread(['Rates/PG&E E-19S PDP (OLD)/2017/5-Minute Data/' ...
+                'Vector Format/2017_PGE_E19S_PDP_OLD_Summer_Partial_Peak_Binary_Vector.csv']);
+            
+            Winter_Part_Peak_Binary_Data = csvread(['Rates/PG&E E-19S PDP (OLD)/2017/5-Minute Data/' ...
+                'Vector Format/2017_PGE_E19S_PDP_OLD_Winter_Partial_Peak_Binary_Vector.csv']);
+        elseif delta_t == (15/60)
+            Summer_Peak_Binary_Data = csvread(['Rates/PG&E E-19S PDP (OLD)/2017/15-Minute Data/'...
+                'Vector Format/2017_PGE_E19S_PDP_OLD_Summer_Peak_Binary_Vector.csv']);
+            
+            Summer_Part_Peak_Binary_Data = csvread(['Rates/PG&E E-19S PDP (OLD)/2017/15-Minute Data/' ...
+                'Vector Format/2017_PGE_E19S_PDP_OLD_Summer_Partial_Peak_Binary_Vector.csv']);
+            
+            Winter_Part_Peak_Binary_Data = csvread(['Rates/PG&E E-19S PDP (OLD)/2017/15-Minute Data/' ...
+                'Vector Format/2017_PGE_E19S_PDP_OLD_Winter_Partial_Peak_Binary_Vector.csv']);
+        end
+        
+    case "PG&E E-19S-R (OLD)"
+        if delta_t == (5/60)
+            Summer_Peak_Binary_Data = csvread(['Rates/PG&E E-19S-R (OLD)/2017/5-Minute Data/'...
+                'Vector Format/2017_PGE_E19SR_OLD_Summer_Peak_Binary_Vector.csv']);
+            
+            Summer_Part_Peak_Binary_Data = csvread(['Rates/PG&E E-19S-R (OLD)/2017/5-Minute Data/' ...
+                'Vector Format/2017_PGE_E19SR_OLD_Summer_Partial_Peak_Binary_Vector.csv']);
+            
+            Winter_Part_Peak_Binary_Data = csvread(['Rates/PG&E E-19S-R (OLD)/2017/5-Minute Data/' ...
+                'Vector Format/2017_PGE_E19SR_OLD_Winter_Partial_Peak_Binary_Vector.csv']);
+        elseif delta_t == (15/60)
+            Summer_Peak_Binary_Data = csvread(['Rates/PG&E E-19S-R (OLD)/2017/15-Minute Data/'...
+                'Vector Format/2017_PGE_E19SR_OLD_Summer_Peak_Binary_Vector.csv']);
+            
+            Summer_Part_Peak_Binary_Data = csvread(['Rates/PG&E E-19S-R (OLD)/2017/15-Minute Data/' ...
+                'Vector Format/2017_PGE_E19SR_OLD_Summer_Partial_Peak_Binary_Vector.csv']);
+            
+            Winter_Part_Peak_Binary_Data = csvread(['Rates/PG&E E-19S-R (OLD)/2017/15-Minute Data/' ...
+                'Vector Format/2017_PGE_E19SR_OLD_Winter_Partial_Peak_Binary_Vector.csv']);
+        end   
+        
+        
+    case "PG&E E-19S (NEW)"
+        if delta_t == (5/60)
+            Summer_Peak_Binary_Data = csvread(['Rates/PG&E E-19S (NEW)/2017/5-Minute Data/'...
+                'Vector Format/2017_PGE_E19S_NEW_Summer_Peak_Binary_Vector.csv']);
+            
+            Summer_Part_Peak_Binary_Data = csvread(['Rates/PG&E E-19S (NEW)/2017/5-Minute Data/' ...
+                'Vector Format/2017_PGE_E19S_NEW_Summer_Partial_Peak_Binary_Vector.csv']);
+            
+            Winter_Peak_Binary_Data = csvread(['Rates/PG&E E-19S (NEW)/2017/5-Minute Data/' ...
+                'Vector Format/2017_PGE_E19S_NEW_Winter_Peak_Binary_Vector.csv']);
+        elseif delta_t == (15/60)
+            Summer_Peak_Binary_Data = csvread(['Rates/PG&E E-19S (NEW)/2017/15-Minute Data/'...
+                'Vector Format/2017_PGE_E19S_NEW_Summer_Peak_Binary_Vector.csv']);
+            
+            Summer_Part_Peak_Binary_Data = csvread(['Rates/PG&E E-19S (NEW)/2017/15-Minute Data/' ...
+                'Vector Format/2017_PGE_E19S_NEW_Summer_Partial_Peak_Binary_Vector.csv']);
+            
+            Winter_Peak_Binary_Data = csvread(['Rates/PG&E E-19S (NEW)/2017/15-Minute Data/' ...
+                'Vector Format/2017_PGE_E19S_NEW_Winter_Peak_Binary_Vector.csv']);
+        end
+        
+      
+    case "PG&E E-19S PDP (NEW)"
+        if delta_t == (5/60)
+            Summer_Peak_Binary_Data = csvread(['Rates/PG&E E-19S PDP (NEW)/2017/5-Minute Data/'...
+                'Vector Format/2017_PGE_E19S_PDP_NEW_Summer_Peak_Binary_Vector.csv']);
+            
+            Summer_Part_Peak_Binary_Data = csvread(['Rates/PG&E E-19S PDP (NEW)/2017/5-Minute Data/' ...
+                'Vector Format/2017_PGE_E19S_PDP_NEW_Summer_Partial_Peak_Binary_Vector.csv']);
+            
+            Winter_Peak_Binary_Data = csvread(['Rates/PG&E E-19S PDP (NEW)/2017/5-Minute Data/' ...
+                'Vector Format/2017_PGE_E19S_PDP_NEW_Winter_Peak_Binary_Vector.csv']);
+        elseif delta_t == (15/60)
+            Summer_Peak_Binary_Data = csvread(['Rates/PG&E E-19S PDP (NEW)/2017/15-Minute Data/'...
+                'Vector Format/2017_PGE_E19S_PDP_NEW_Summer_Peak_Binary_Vector.csv']);
+            
+            Summer_Part_Peak_Binary_Data = csvread(['Rates/PG&E E-19S PDP (NEW)/2017/15-Minute Data/' ...
+                'Vector Format/2017_PGE_E19S_PDP_NEW_Summer_Partial_Peak_Binary_Vector.csv']);
+            
+            Winter_Peak_Binary_Data = csvread(['Rates/PG&E E-19S PDP (NEW)/2017/15-Minute Data/' ...
+                'Vector Format/2017_PGE_E19S_PDP_NEW_Winter_Peak_Binary_Vector.csv']);
+        end
+        
+        
+    case "PG&E E-19S-R (NEW)"
+        if delta_t == (5/60)
+            Summer_Peak_Binary_Data = csvread(['Rates/PG&E E-19S-R (NEW)/2017/5-Minute Data/'...
+                'Vector Format/2017_PGE_E19SR_NEW_Summer_Peak_Binary_Vector.csv']);
+            
+            Summer_Part_Peak_Binary_Data = csvread(['Rates/PG&E E-19S-R (NEW)/2017/5-Minute Data/' ...
+                'Vector Format/2017_PGE_E19SR_NEW_Summer_Partial_Peak_Binary_Vector.csv']);
+            
+            Winter_Peak_Binary_Data = csvread(['Rates/PG&E E-19S-R (NEW)/2017/5-Minute Data/' ...
+                'Vector Format/2017_PGE_E19SR_NEW_Winter_Peak_Binary_Vector.csv']);
+        elseif delta_t == (15/60)
+            Summer_Peak_Binary_Data = csvread(['Rates/PG&E E-19S-R (NEW)/2017/15-Minute Data/'...
+                'Vector Format/2017_PGE_E19SR_NEW_Summer_Peak_Binary_Vector.csv']);
+            
+            Summer_Part_Peak_Binary_Data = csvread(['Rates/PG&E E-19S-R (NEW)/2017/15-Minute Data/' ...
+                'Vector Format/2017_PGE_E19SR_NEW_Summer_Partial_Peak_Binary_Vector.csv']);
+            
+            Winter_Peak_Binary_Data = csvread(['Rates/PG&E E-19S-R (NEW)/2017/15-Minute Data/' ...
+                'Vector Format/2017_PGE_E19SR_NEW_Winter_Peak_Binary_Vector.csv']);
+        end
+        
+        
+    case "SDG&E DG-R"
+        if delta_t == (5/60)
+            Summer_Peak_Binary_Data = csvread(['Rates/SDG&E DG-R/2017/5-Minute Data/'...
+                'Vector Format/2017_SDGE_DGR_Summer_Peak_Binary_Vector.csv']);
+            
+            Winter_Peak_Binary_Data = csvread(['Rates/SDG&E DG-R/2017/5-Minute Data/' ...
+                'Vector Format/2017_SDGE_DGR_Winter_Peak_Binary_Vector.csv']);
+        elseif delta_t == (15/60)
+            Summer_Peak_Binary_Data = csvread(['Rates/SDG&E DG-R/2017/15-Minute Data/'...
+                'Vector Format/2017_SDGE_DGR_Summer_Peak_Binary_Vector.csv']);
+            
+            Winter_Peak_Binary_Data = csvread(['Rates/SDG&E DG-R/2017/15-Minute Data/' ...
+                'Vector Format/2017_SDGE_DGR_Winter_Peak_Binary_Vector.csv']);
+        end
+        
 end
+
+% Import Month Data - Used to Filter Other Vectors
+
+switch Utility_Tariff_Input
+    
+    case "PG&E E-19S (OLD)"
+        
+        if delta_t == (5/60)
+            Month_Data = csvread(['Rates/PG&E E-19S (OLD)/2017/5-Minute Data/Vector Format/'...
+                '2017_PGE_E19S_OLD_Month_Vector.csv']);
+        elseif delta_t == (15/60)
+            Month_Data = csvread(['Rates/PG&E E-19S (OLD)/2017/15-Minute Data/Vector Format/'...
+                '2017_PGE_E19S_OLD_Month_Vector.csv']);
+        end
+        
+    case "PG&E E-19S PDP (OLD)"
+        
+        if delta_t == (5/60)
+            Month_Data = csvread(['Rates/PG&E E-19S PDP (OLD)/2017/5-Minute Data/Vector Format/'...
+                '2017_PGE_E19S_PDP_OLD_Month_Vector.csv']);
+        elseif delta_t == (15/60)
+            Month_Data = csvread(['Rates/PG&E E-19S PDP (OLD)/2017/15-Minute Data/Vector Format/'...
+                '2017_PGE_E19S_PDP_OLD_Month_Vector.csv']);
+        end
+        
+    case "PG&E E-19S-R (OLD)"
+        
+        if delta_t == (5/60)
+            Month_Data = csvread(['Rates/PG&E E-19S-R (OLD)/2017/5-Minute Data/Vector Format/'...
+                '2017_PGE_E19SR_OLD_Month_Vector.csv']);
+        elseif delta_t == (15/60)
+            Month_Data = csvread(['Rates/PG&E E-19S-R (OLD)/2017/15-Minute Data/Vector Format/'...
+                '2017_PGE_E19SR_OLD_Month_Vector.csv']);
+        end
+              
+    case "PG&E E-19S (NEW)"
+        
+        if delta_t == (5/60)
+            Month_Data = csvread(['Rates/PG&E E-19S (NEW)/2017/5-Minute Data/Vector Format/'...
+                '2017_PGE_E19S_NEW_Month_Vector.csv']);
+        elseif delta_t == (15/60)
+            Month_Data = csvread(['Rates/PG&E E-19S (NEW)/2017/15-Minute Data/Vector Format/'...
+                '2017_PGE_E19S_NEW_Month_Vector.csv']);
+        end
+        
+    case "PG&E E-19S PDP (NEW)"
+        
+        if delta_t == (5/60)
+            Month_Data = csvread(['Rates/PG&E E-19S PDP (NEW)/2017/5-Minute Data/Vector Format/'...
+                '2017_PGE_E19S_PDP_NEW_Month_Vector.csv']);
+        elseif delta_t == (15/60)
+            Month_Data = csvread(['Rates/PG&E E-19S PDP (NEW)/2017/15-Minute Data/Vector Format/'...
+                '2017_PGE_E19S_PDP_NEW_Month_Vector.csv']);
+        end
+        
+    case "PG&E E-19S-R (NEW)"
+        
+        if delta_t == (5/60)
+            Month_Data = csvread(['Rates/PG&E E-19S-R (NEW)/2017/5-Minute Data/Vector Format/'...
+                '2017_PGE_E19SR_NEW_Month_Vector.csv']);
+        elseif delta_t == (15/60)
+            Month_Data = csvread(['Rates/PG&E E-19S-R (NEW)/2017/15-Minute Data/Vector Format/'...
+                '2017_PGE_E19SR_NEW_Month_Vector.csv']);
+        end
+        
+    case "PG&E A-1-STORAGE"
+        
+        if delta_t == (5/60)
+            Month_Data = csvread(['Rates/PG&E A-1-STORAGE/2017/5-Minute Data/Vector Format/'...
+                '2017_PGE_A1_STORAGE_Month_Vector.csv']);
+        elseif delta_t == (15/60)
+            Month_Data = csvread(['Rates/PG&E A-1-STORAGE/2017/15-Minute Data/Vector Format/'...
+                '2017_PGE_A1_STORAGE_Month_Vector.csv']);
+        end
+        
+    case "PG&E EV-A"
+        
+        if delta_t == (5/60)
+            Month_Data = csvread(['Rates/PG&E EV-A/2017/5-Minute Data/Vector Format/'...
+                '2017_PGE_EVA_Month_Vector.csv']);
+        elseif delta_t == (15/60)
+            Month_Data = csvread(['Rates/PG&E EV-A/2017/15-Minute Data/Vector Format/'...
+                '2017_PGE_EVA_Month_Vector.csv']);
+        end
+        
+    case "SCE TOU-8-B"
+        
+        if delta_t == (5/60)
+            Month_Data = csvread(['Rates/SCE TOU-8-B/2017/5-Minute Data/Vector Format/'...
+                '2017_SCE_TOU8B_Month_Vector.csv']);
+        elseif delta_t == (15/60)
+            Month_Data = csvread(['Rates/SCE TOU-8-B/2017/15-Minute Data/Vector Format/'...
+                '2017_SCE_TOU8B_Month_Vector.csv']);
+        end
+        
+    case "SCE TOU-8-RTP"
+        
+        if delta_t == (5/60)
+            Month_Data = csvread(['Rates/SCE TOU-8-RTP/2017/5-Minute Data/Vector Format/'...
+                '2017_SCE_TOU8_RTP_Month_Vector.csv']);
+        elseif delta_t == (15/60)
+            Month_Data = csvread(['Rates/SCE TOU-8-RTP/2017/15-Minute Data/Vector Format/'...
+                '2017_SCE_TOU8_RTP_Month_Vector.csv']);
+        end
+        
+    case "SDG&E DG-R"
+        
+        if delta_t == (5/60)
+            Month_Data = csvread(['Rates/SDG&E DG-R/2017/5-Minute Data/Vector Format/'...
+                '2017_SDGE_DGR_Month_Vector.csv']);
+        elseif delta_t == (15/60)
+            Month_Data = csvread(['Rates/SDG&E DG-R/2017/15-Minute Data/Vector Format/'...
+                '2017_SDGE_DGR_Month_Vector.csv']);
+        end
+        
+end
+
 
 % Import IOU-Proposed Charge and Discharge Hour Flag Vectors
 
 if Carbon_Reduction_Strategy == "IOU-Proposed Charge-Discharge Time Constraints"
-    IOU_Charge_Hour_Binary_Data = csvread(['Emissions Data/' ...
-        'Joint-IOU-Proposed Charge-Discharge Constraint/2017/2017_IOU_Charge_Hour_Flag_Vector.csv']);
-    IOU_Discharge_Hour_Binary_Data = csvread(['Emissions Data/' ...
-        'Joint-IOU-Proposed Charge-Discharge Constraint/2017/2017_IOU_Discharge_Hour_Flag_Vector.csv']);
+    
+    if delta_t == (5/60)
+        IOU_Charge_Hour_Binary_Data = csvread(['Emissions Data/' ...
+            'Joint-IOU-Proposed Charge-Discharge Constraint/2017/5-Minute Data/'...
+            'Vector Format/2017_IOU_Charge_Hour_Flag_Vector.csv']);
+        IOU_Discharge_Hour_Binary_Data = csvread(['Emissions Data/' ...
+            'Joint-IOU-Proposed Charge-Discharge Constraint/2017/5-Minute Data/' ...
+            'Vector Format/2017_IOU_Discharge_Hour_Flag_Vector.csv']);
+    elseif delta_t == (15/60)
+        IOU_Charge_Hour_Binary_Data = csvread(['Emissions Data/' ...
+            'Joint-IOU-Proposed Charge-Discharge Constraint/2017/15-Minute Data/'...
+            'Vector Format/2017_IOU_Charge_Hour_Flag_Vector.csv']);
+        IOU_Discharge_Hour_Binary_Data = csvread(['Emissions Data/' ...
+            'Joint-IOU-Proposed Charge-Discharge Constraint/2017/15-Minute Data/' ...
+            'Vector Format/2017_IOU_Discharge_Hour_Flag_Vector.csv']);
+    end
     
 end
 
 % Import PG&E-Proposed Charge, No-Charge, and Discharge Hour Flag Vectors
 
 if Carbon_Reduction_Strategy == "PG&E-Proposed Charge-Discharge Time Constraints"
-    PGE_Charge_Hour_Binary_Data = csvread(['Emissions Data/' ...
-        'PG&E-Proposed Charge-Discharge Constraint/2017/2017_PGE_Charge_Hour_Flag_Vector.csv']);
-    PGE_No_Charge_Hour_Binary_Data = csvread(['Emissions Data/' ...
-        'PG&E-Proposed Charge-Discharge Constraint/2017/2017_PGE_No_Charge_Hour_Flag_Vector.csv']);
-    PGE_Discharge_Hour_Binary_Data = csvread(['Emissions Data/' ...
-        'PG&E-Proposed Charge-Discharge Constraint/2017/2017_PGE_Discharge_Hour_Flag_Vector.csv']);
+    
+    if delta_t == (5/60)
+        PGE_Charge_Hour_Binary_Data = csvread(['Emissions Data/' ...
+            'PG&E-Proposed Charge-Discharge Constraint/2017/5-Minute Data/' ...
+            'Vector Format/2017_PGE_Charge_Hour_Flag_Vector.csv']);
+        PGE_No_Charge_Hour_Binary_Data = csvread(['Emissions Data/' ...
+            'PG&E-Proposed Charge-Discharge Constraint/2017/5-Minute Data/' ...
+            'Vector Format/2017_PGE_No_Charge_Hour_Flag_Vector.csv']);
+        PGE_Discharge_Hour_Binary_Data = csvread(['Emissions Data/' ...
+            'PG&E-Proposed Charge-Discharge Constraint/2017/5-Minute Data/' ...
+            'Vector Format/2017_PGE_Discharge_Hour_Flag_Vector.csv']);
+    elseif delta_t == (15/60)
+        PGE_Charge_Hour_Binary_Data = csvread(['Emissions Data/' ...
+            'PG&E-Proposed Charge-Discharge Constraint/2017/15-Minute Data/' ...
+            'Vector Format/2017_PGE_Charge_Hour_Flag_Vector.csv']);
+        PGE_No_Charge_Hour_Binary_Data = csvread(['Emissions Data/' ...
+            'PG&E-Proposed Charge-Discharge Constraint/2017/15-Minute Data/' ...
+            'Vector Format/2017_PGE_No_Charge_Hour_Flag_Vector.csv']);
+        PGE_Discharge_Hour_Binary_Data = csvread(['Emissions Data/' ...
+            'PG&E-Proposed Charge-Discharge Constraint/2017/15-Minute Data/' ...
+            'Vector Format/2017_PGE_Discharge_Hour_Flag_Vector.csv']);
+    end
     
 end
 
@@ -210,11 +1101,11 @@ P_ES_out = [];
 Ene_Lvl = [];
 
 P_max_NC = [];
-
+    
 P_max_peak = [];
-
+    
 P_max_part_peak = [];
-
+    
 
 % Initialize Monthly Cost Variable Vectors
 
@@ -228,7 +1119,7 @@ CPK_DC_w_Storage_Vector = [];
 
 CPP_DC_wo_Storage_Vector = [];
 CPP_DC_w_Storage_Vector = [];
-
+    
 Energy_Charge_wo_Storage_Vector = [];
 Energy_Charge_w_Storage_Vector = [];
 
@@ -255,7 +1146,7 @@ for Month_Iter = 1:12 % Iterate through all months
     
     % Set Demand Charge Values Based on Month
     
-    if any(Month_Iter==5:10)
+    if any(Month_Iter == First_Summer_Month:Last_Summer_Month)
         
         Peak_DC = Summer_Peak_DC;
         Part_Peak_DC = Summer_Part_Peak_DC;
@@ -271,11 +1162,22 @@ for Month_Iter = 1:12 % Iterate through all months
     
     
     % Filter Peak and Part-Peak Binary Data to Selected Month
-    Summer_Peak_Binary_Data_Month = Summer_Peak_Binary_Data(Month_Data == Month_Iter, :);
     
-    Summer_Part_Peak_Binary_Data_Month = Summer_Part_Peak_Binary_Data(Month_Data == Month_Iter, :);
+    if Summer_Peak_DC > 0
+        Summer_Peak_Binary_Data_Month = Summer_Peak_Binary_Data(Month_Data == Month_Iter, :);
+    end
     
-    Winter_Part_Peak_Binary_Data_Month = Winter_Part_Peak_Binary_Data(Month_Data == Month_Iter, :);
+    if Summer_Part_Peak_DC > 0
+        Summer_Part_Peak_Binary_Data_Month = Summer_Part_Peak_Binary_Data(Month_Data == Month_Iter, :);
+    end
+    
+    if Winter_Peak_DC > 0
+        Winter_Peak_Binary_Data_Month = Winter_Peak_Binary_Data(Month_Data == Month_Iter, :);
+    end
+    
+    if Winter_Part_Peak_DC > 0
+        Winter_Part_Peak_Binary_Data_Month = Winter_Part_Peak_Binary_Data(Month_Data == Month_Iter, :);
+    end
     
     % Filter IOU-Proposed Charge and Discharge Hour Binary Data to Selected Month
     if Carbon_Reduction_Strategy == "IOU-Proposed Charge-Discharge Time Constraints"
@@ -320,20 +1222,34 @@ for Month_Iter = 1:12 % Iterate through all months
     
     
     % Pad Peak and Part-Peak Binary Data
-    Summer_Peak_Binary_Data_Month_Padded = ...
-        [Summer_Peak_Binary_Data_Month(1:(Padding_Days * 24 * (1/delta_t)));
-        Summer_Peak_Binary_Data_Month;
-        Summer_Peak_Binary_Data_Month(end-(Padding_Days * 24 * (1/delta_t) - 1):end)];
+  
+    if Summer_Peak_DC > 0
+        Summer_Peak_Binary_Data_Month_Padded = ...
+            [Summer_Peak_Binary_Data_Month(1:(Padding_Days * 24 * (1/delta_t)));
+            Summer_Peak_Binary_Data_Month;
+            Summer_Peak_Binary_Data_Month(end-(Padding_Days * 24 * (1/delta_t) - 1):end)];
+    end
     
-    Summer_Part_Peak_Binary_Data_Month_Padded = ...
-        [Summer_Part_Peak_Binary_Data_Month(1:(Padding_Days * 24 * (1/delta_t)));
-        Summer_Part_Peak_Binary_Data_Month;
-        Summer_Part_Peak_Binary_Data_Month(end-(Padding_Days * 24 * (1/delta_t) - 1):end)];
+    if Summer_Part_Peak_DC > 0
+        Summer_Part_Peak_Binary_Data_Month_Padded = ...
+            [Summer_Part_Peak_Binary_Data_Month(1:(Padding_Days * 24 * (1/delta_t)));
+            Summer_Part_Peak_Binary_Data_Month;
+            Summer_Part_Peak_Binary_Data_Month(end-(Padding_Days * 24 * (1/delta_t) - 1):end)];
+    end
     
-    Winter_Part_Peak_Binary_Data_Month_Padded = ...
-        [Winter_Part_Peak_Binary_Data_Month(1:(Padding_Days * 24 * (1/delta_t)));
-        Winter_Part_Peak_Binary_Data_Month;
-        Winter_Part_Peak_Binary_Data_Month(end-(Padding_Days * 24 * (1/delta_t) - 1):end)];
+    if Winter_Peak_DC > 0
+        Winter_Peak_Binary_Data_Month_Padded = ...
+            [Winter_Peak_Binary_Data_Month(1:(Padding_Days * 24 * (1/delta_t)));
+            Winter_Peak_Binary_Data_Month;
+            Winter_Peak_Binary_Data_Month(end-(Padding_Days * 24 * (1/delta_t) - 1):end)];
+    end
+    
+    if Winter_Part_Peak_DC > 0
+        Winter_Part_Peak_Binary_Data_Month_Padded = ...
+            [Winter_Part_Peak_Binary_Data_Month(1:(Padding_Days * 24 * (1/delta_t)));
+            Winter_Part_Peak_Binary_Data_Month;
+            Winter_Part_Peak_Binary_Data_Month(end-(Padding_Days * 24 * (1/delta_t) - 1):end)];
+    end
     
     % Pad IOU-Proposed Charge and Discharge Hour Binary Data
     if Carbon_Reduction_Strategy == "IOU-Proposed Charge-Discharge Time Constraints"
@@ -381,8 +1297,8 @@ for Month_Iter = 1:12 % Iterate through all months
         zeros(numtsteps, 1);
         Noncoincident_DC
         Peak_DC;
-        Part_Peak_DC];
-    
+        Part_Peak_DC];      
+        
     c_Month_Carbon_Only = [(Carbon_Adder_Data_Month_Padded * delta_t); ...
         (-Carbon_Adder_Data_Month_Padded * delta_t); ...
         zeros(numtsteps, 1);
@@ -566,21 +1482,28 @@ for Month_Iter = 1:12 % Iterate through all months
     % P_load(t) + P_ES_in(t) - P_ES_out(t) <= P_max_NC for all t
     % P_ES_in(t) - P_ES_out(t) - P_max_NC <= - P_load(t) for all t
     
-    A_NC_DC = sparse(numtsteps, length_x);
-    b_NC_DC = -Load_Profile_Data_Month_Padded;
-    
-    for n = 1:numtsteps
-        A_NC_DC(n, n) = 1;
-        A_NC_DC(n, n + numtsteps) = -1;
-        A_NC_DC(n, (3*numtsteps) + 1) = -1;
+    if Noncoincident_DC > 0
+        
+        A_NC_DC = sparse(numtsteps, length_x);
+        b_NC_DC = -Load_Profile_Data_Month_Padded;
+        
+        for n = 1:numtsteps
+            A_NC_DC(n, n) = 1;
+            A_NC_DC(n, n + numtsteps) = -1;
+            A_NC_DC(n, (3*numtsteps) + 1) = -1;
+            
+        end
+        
+        A_Month = [A_Month; A_NC_DC];
+        b_Month = [b_Month; b_NC_DC];
         
     end
     
-    A_Month = [A_Month; A_NC_DC];
-    b_Month = [b_Month; b_NC_DC];
-    
     % Add P_max_NC >=0 Constraint
     % -P_max_NC <= 0
+    % Note: this non-negativity constraint is added even if the noncoincident
+    % demand charge is $0/kW for this tariff. This ensures that the
+    % decision variable P_max_NC goes to zero, and is not negative.
     
     A_NC_DC_gt0 = sparse(1, length_x);
     A_NC_DC_gt0(1, (3 * numtsteps) + 1) = -1;
@@ -598,12 +1521,18 @@ for Month_Iter = 1:12 % Iterate through all months
     % P_load(t) + P_ES_in(t) - P_ES_out(t) <= P_max_peak for Peak t only
     % P_ES_in(t) - P_ES_out(t) - P_max_peak <= - P_load(t) for Peak t only
     
-    if any(Month_Iter==5:10)
+    if Peak_DC > 0
         
-        A_CPK_DC = sparse(sum(Summer_Peak_Binary_Data_Month_Padded), length_x);
-        b_CPK_DC = -Load_Profile_Data_Month_Padded(Summer_Peak_Binary_Data_Month_Padded == 1, :);
-        
-        Peak_Indices = all_tsteps(Summer_Peak_Binary_Data_Month_Padded == 1, :);
+        if any(Month_Iter == First_Summer_Month:Last_Summer_Month)
+            Peak_Indices = all_tsteps(Summer_Peak_Binary_Data_Month_Padded == 1, :);
+            A_CPK_DC = sparse(sum(Summer_Peak_Binary_Data_Month_Padded), length_x);
+            b_CPK_DC = -Load_Profile_Data_Month_Padded(Summer_Peak_Binary_Data_Month_Padded == 1, :);
+  
+        else
+            Peak_Indices = all_tsteps(Winter_Peak_Binary_Data_Month_Padded == 1, :);
+            A_CPK_DC = sparse(sum(Winter_Peak_Binary_Data_Month_Padded), length_x);
+            b_CPK_DC = -Load_Profile_Data_Month_Padded(Winter_Peak_Binary_Data_Month_Padded == 1, :);
+        end
         
         for n = 1:length(Peak_Indices)
             A_CPK_DC(n, Peak_Indices(n)) = 1;
@@ -619,6 +1548,9 @@ for Month_Iter = 1:12 % Iterate through all months
     
     % Add P_max_peak >=0 Constraint
     % -P_max_peak <= 0
+    % Note: this non-negativity constraint is added even if the coincident peak
+    % demand charge is $0/kW for this tariff. This ensures that the
+    % decision variable P_max_peak goes to zero, and is not negative.
     
     A_CPK_DC_gt0 = sparse(1, length_x);
     A_CPK_DC_gt0(1, (3 * numtsteps) + 2) = -1;
@@ -637,29 +1569,36 @@ for Month_Iter = 1:12 % Iterate through all months
     % P_load(t) + P_ES_in(t) - P_ES_out(t) <= P_max_part_peak for Part-Peak t only
     % P_ES_in(t) - P_ES_out(t) - P_max_part_peak <= - P_load(t) for Part-Peak t only
     
-    if any(Month_Iter==5:10)
-        Part_Peak_Indices = all_tsteps(Summer_Part_Peak_Binary_Data_Month_Padded == 1, :);
-        A_CPP_DC = sparse(sum(Summer_Part_Peak_Binary_Data_Month_Padded), length_x);
-        b_CPP_DC = -Load_Profile_Data_Month_Padded(Summer_Part_Peak_Binary_Data_Month_Padded == 1, :);
+    if Part_Peak_DC > 0
         
-    else
-        Part_Peak_Indices = all_tsteps(Winter_Part_Peak_Binary_Data_Month_Padded == 1, :);
-        A_CPP_DC = sparse(sum(Winter_Part_Peak_Binary_Data_Month_Padded), length_x);
-        b_CPP_DC = -Load_Profile_Data_Month_Padded(Winter_Part_Peak_Binary_Data_Month_Padded == 1, :);
+        if any(Month_Iter == First_Summer_Month:Last_Summer_Month)
+            Part_Peak_Indices = all_tsteps(Summer_Part_Peak_Binary_Data_Month_Padded == 1, :);
+            A_CPP_DC = sparse(sum(Summer_Part_Peak_Binary_Data_Month_Padded), length_x);
+            b_CPP_DC = -Load_Profile_Data_Month_Padded(Summer_Part_Peak_Binary_Data_Month_Padded == 1, :);
+            
+        else
+            Part_Peak_Indices = all_tsteps(Winter_Part_Peak_Binary_Data_Month_Padded == 1, :);
+            A_CPP_DC = sparse(sum(Winter_Part_Peak_Binary_Data_Month_Padded), length_x);
+            b_CPP_DC = -Load_Profile_Data_Month_Padded(Winter_Part_Peak_Binary_Data_Month_Padded == 1, :);
+        end
+        
+        for n = 1:length(Part_Peak_Indices)
+            A_CPP_DC(n, Part_Peak_Indices(n)) = 1;
+            A_CPP_DC(n, numtsteps + Part_Peak_Indices(n)) = -1;
+            A_CPP_DC(n, (3*numtsteps) + 3) = -1;
+        end
+        
+        A_Month = [A_Month; A_CPP_DC];
+        b_Month = [b_Month; b_CPP_DC];
+        
+        
     end
-    
-    for n = 1:length(Part_Peak_Indices)
-        A_CPP_DC(n, Part_Peak_Indices(n)) = 1;
-        A_CPP_DC(n, numtsteps + Part_Peak_Indices(n)) = -1;
-        A_CPP_DC(n, (3*numtsteps) + 3) = -1;
-    end
-    
-    A_Month = [A_Month; A_CPP_DC];
-    b_Month = [b_Month; b_CPP_DC];
-    
     
     % Add P_max_part_peak >=0 Constraint
     % -P_max_part_peak <= 0
+    % Note: this non-negativity constraint is added even if the coincident part-peak
+    % demand charge is $0/kW for this tariff. This ensures that the
+    % decision variable P_max_part_peak goes to zero, and is not negative.
     
     A_CPP_DC_gt0 = sparse(1, length_x);
     A_CPP_DC_gt0(1, (3 * numtsteps) + 3) = -1;
@@ -842,6 +1781,92 @@ for Month_Iter = 1:12 % Iterate through all months
     end
     
     
+    %% Optional Constraint - Equivalent Cycling Constraint
+    
+    % Note: due to the OSESMO model structure, the annual cycling requirement 
+    % must be converted to an equivalent monthly cycling requirement.
+    
+    if Carbon_Reduction_Strategy == "Equivalent Cycling Constraint"
+    
+        % Set SGIP Cycling Requirement - 52 if residential, 130 if C&I
+        if contains(lower(Load_Profile_Input), "residential")
+            SGIP_Annual_Cycling_Requirement = 52;
+        else
+            SGIP_Annual_Cycling_Requirement = 130;
+        end
+        
+        SGIP_Monthly_Cycling_Requirement = SGIP_Annual_Cycling_Requirement * ...
+            (length(Load_Profile_Data_Month_Padded)/length(Load_Profile_Data));
+        
+        % Formula for equivalent cycles is identical to the one used to calculate Cycles_Month:
+        % Equivalent Cycles = sum((P_ES_in(t) * (((Eff_c)/(2 * Size_ES)) * delta_t)) + ...
+        %    (P_ES_out(t) * ((1/(Eff_d * 2 * Size_ES)) * delta_t)));
+        
+        % Equivalent Cycles >= SGIP_Monthly_Cycling Requirement
+        % To convert to standard linear program form, multiply both sides by -1.
+        % -Equivalent Cycles <= -SGIP_Monthly_Cycling_Requirement
+        
+        A_Equivalent_Cycles = sparse(1, length_x);
+        
+        % sum of all P_ES_in(t) * (((Eff_c)/(2 * Size_ES)) * delta_t)
+        A_Equivalent_Cycles(1, 1:numtsteps) = -(((Eff_c)/(2 * Size_ES)) * delta_t);
+        
+        % sum of all P_ES_out(t) * ((1/(Eff_d * 2 * Size_ES)) * delta_t)
+        A_Equivalent_Cycles(1, numtsteps+1:2*numtsteps) = -((1/(Eff_d * 2 * Size_ES)) * delta_t);
+        
+        b_Equivalent_Cycles = -SGIP_Monthly_Cycling_Requirement;
+        
+        A_Month = [A_Month; A_Equivalent_Cycles];
+        b_Month = [b_Month; b_Equivalent_Cycles];
+    
+    end
+    
+    
+    %% Optional Constraint - Operational/SGIP Round-Trip Efficiency Constraint
+    
+    % Note: due to the OSESMO model structure, the annual RTE requirement 
+    % must be converted to an equivalent monthly RTE requirement.
+    
+    if Carbon_Reduction_Strategy == "SGIP RTE Constraint"
+        
+       % Formula for Operational/SGIP efficiency is identical to the one
+       % used to calculate Operational_RTE_Percent:
+       % Operational_RTE_Percent = (sum(P_ES_out) * delta_t)/(sum(P_ES_in) * delta_t) * 100;
+       % Note that Auxiliary_Storage_Load has to be added to P_ES_in here.
+       % During the calculation of Operational_RTE_Percent, it has already
+       % been added previously, so it does not need to be included in the
+       % formula the way it is here.
+       
+       % "The Commission concluded that storage devices should demonstrate
+       % an average RTE of at least 66.5% over ten years (equivalent to a
+       % first-year RTE of 69.6%) in order to qualify for SGIP incentive
+       % payments." (Stem, Inc.'s Petition for Modification of Decision 15-11-027, pg. 2)
+       
+       % Operational RTE Percent >= 69.6
+       % (sum(P_ES_out) * delta_t)/((sum(P_ES_in) * delta_t) + (sum(Auxiliary_Storage_Load) * delta_t) * 100 >= 69.6
+       % (sum(P_ES_out) * delta_t) >= 0.696 * (sum(P_ES_in) * delta_t) + (sum(Auxiliary_Storage_Load) * delta_t)
+       % To convert to standard linear program form, multiply both sides by -1.
+       % -(sum(P_ES_out) * delta_t) <= -0.696 * (sum(P_ES_in) * delta_t) -(sum(Auxiliary_Storage_Load) * delta_t)
+       % -(sum(P_ES_out) * delta_t) + 0.696 * (sum(P_ES_in) * delta_t) <= -(sum(Auxiliary_Storage_Load) * delta_t)
+       % 0.696 * (sum(P_ES_in) * delta_t) -(sum(P_ES_out) * delta_t) <= -(sum(Auxiliary_Storage_Load) * delta_t)
+                    
+       A_SGIP_RTE = sparse(1, length_x);
+       
+       % sum of all (P_ES_in(t) * (0.696 * delta_t)
+       A_SGIP_RTE(1, 1:numtsteps) = (0.696 * delta_t);
+       
+       % sum of all P_ES_out(t) * -delta_t
+       A_SGIP_RTE(1, numtsteps+1:2*numtsteps) = -delta_t;
+       
+       % (sum(Auxiliary_Storage_Load) * delta_t)
+       b_SGIP_RTE = -((numtsteps * Auxiliary_Storage_Load) * delta_t);
+       
+       A_Month = [A_Month; A_SGIP_RTE];
+       b_Month = [b_Month; b_SGIP_RTE];
+       
+    end
+    
+    
     %% Run LP Optimization Algorithm
     
     options = optimset('Display','none'); % Suppress "Optimal solution found" message.
@@ -888,39 +1913,54 @@ for Month_Iter = 1:12 % Iterate through all months
     if delta_t < (15/60)
         
         % Noncoincident Maximum Demand With and Without Storage
-        
-        % Create Net Load Profile
-        Net_Load_Profile_Data_Month_5_Min = (Load_Profile_Data_Month + ...
-            P_ES_in_Month_Unpadded - P_ES_out_Month_Unpadded);
-        
-        % Number of timesteps to average to get 15-minute net load data.
-        Reshaped_Rows_Num = (15/60)/delta_t;
-        
-        % Reshape load data so that each 15-minute increment's data
-        % is in the same column. This creates an array with 3 rows for 5-minute data.
-        Load_Profile_Data_Month_Reshaped = reshape(Load_Profile_Data_Month, Reshaped_Rows_Num, ...
-            length(Load_Profile_Data_Month)/Reshaped_Rows_Num);
-        
-        Net_Load_Profile_Data_Month_5_Min_Reshaped = reshape(Net_Load_Profile_Data_Month_5_Min, ...
-            Reshaped_Rows_Num, length(Net_Load_Profile_Data_Month_5_Min)/Reshaped_Rows_Num);
-        
-        % Create 15-minute load profiles by calculating the average of each column.
-        Load_Profile_Data_Month_15_Min = mean(Load_Profile_Data_Month_Reshaped, 1);
-        Net_Load_Profile_Data_Month_15_Min = mean(Net_Load_Profile_Data_Month_5_Min_Reshaped, 1);
-        
-        % Calculate Noncoincident Peak Demand
-        P_max_NC_Month_Without_Storage = max(Load_Profile_Data_Month_15_Min);
-        P_max_NC_Month_With_Storage = max(Net_Load_Profile_Data_Month_15_Min);
-        
+               
+            % Create Net Load Profile
+            Net_Load_Profile_Data_Month_5_Min = (Load_Profile_Data_Month + ...
+                P_ES_in_Month_Unpadded - P_ES_out_Month_Unpadded);
+            
+            % Number of timesteps to average to get 15-minute net load data.
+            Reshaped_Rows_Num = (15/60)/delta_t;
+            
+            % Reshape load data so that each 15-minute increment's data
+            % is in the same column. This creates an array with 3 rows for 5-minute data.
+            Load_Profile_Data_Month_Reshaped = reshape(Load_Profile_Data_Month, Reshaped_Rows_Num, ...
+                length(Load_Profile_Data_Month)/Reshaped_Rows_Num);
+            
+            Net_Load_Profile_Data_Month_5_Min_Reshaped = reshape(Net_Load_Profile_Data_Month_5_Min, ...
+                Reshaped_Rows_Num, length(Net_Load_Profile_Data_Month_5_Min)/Reshaped_Rows_Num);
+            
+            % Create 15-minute load profiles by calculating the average of each column.
+            Load_Profile_Data_Month_15_Min = mean(Load_Profile_Data_Month_Reshaped, 1);
+            Net_Load_Profile_Data_Month_15_Min = mean(Net_Load_Profile_Data_Month_5_Min_Reshaped, 1);
+            
+            % Calculate Noncoincident Maximum Demand
+            P_max_NC_Month_Without_Storage = max(Load_Profile_Data_Month_15_Min);
+            P_max_NC_Month_With_Storage = max(Net_Load_Profile_Data_Month_15_Min);
+               
         
         % Coincident Peak Demand With and Without Storage
         
-        if any(Month_Iter==5:10)
-            % Create Coincident Peak Load and Net Load Profiles
-            Coincident_Peak_Load_Profile_Data_Month = Load_Profile_Data_Month(Summer_Peak_Binary_Data_Month == 1, :);
+        if Peak_DC > 0
             
-            Coincident_Peak_Net_Load_Profile_Data_Month_5_Min = ...
-                Net_Load_Profile_Data_Month_5_Min(Summer_Peak_Binary_Data_Month == 1, :);
+            if any(Month_Iter == First_Summer_Month:Last_Summer_Month)
+                
+                % Create Coincident Peak Load and Net Load Profiles
+                Coincident_Peak_Load_Profile_Data_Month = ...
+                    Load_Profile_Data_Month(Summer_Peak_Binary_Data_Month == 1, :);
+                
+                Coincident_Peak_Net_Load_Profile_Data_Month_5_Min = ...
+                    Net_Load_Profile_Data_Month_5_Min(Summer_Peak_Binary_Data_Month == 1, :);
+                
+            else
+                
+                % Create Coincident Peak Load and Net Load Profiles
+                Coincident_Peak_Load_Profile_Data_Month = ...
+                    Load_Profile_Data_Month(Winter_Peak_Binary_Data_Month == 1, :);
+                
+                Coincident_Peak_Net_Load_Profile_Data_Month_5_Min = ...
+                    Net_Load_Profile_Data_Month_5_Min(Winter_Peak_Binary_Data_Month == 1, :);
+                
+            end
             
             % Reshape load data so that each 15-minute increment's data
             % is in the same column. This creates an array with 3 rows for 5-minute data.
@@ -945,81 +1985,123 @@ for Month_Iter = 1:12 % Iterate through all months
             
         else
             
-            % There is no coincident peak demand charge in the winter.
+            % If there is no Coincident Peak Demand Period (or if the
+            % corresponding demand charge is $0/kW), set P_max_CPK to 0 kW.
             P_max_CPK_Month_Without_Storage = 0;
             P_max_CPK_Month_With_Storage = 0;
             
         end
         
+        
         % Coincident Part-Peak Demand With and Without Storage
         
-        if any(Month_Iter==5:10)
+        if Part_Peak_DC > 0
+        
+            if any(Month_Iter == First_Summer_Month:Last_Summer_Month)
+                
+                % Create Coincident Part-Peak Load and Net Load Profiles
+                Coincident_Part_Peak_Load_Profile_Data_Month = ...
+                    Load_Profile_Data_Month(Summer_Part_Peak_Binary_Data_Month == 1, :);
+                
+                Coincident_Part_Peak_Net_Load_Profile_Data_Month_5_Min = ...
+                    Net_Load_Profile_Data_Month_5_Min(Summer_Part_Peak_Binary_Data_Month == 1, :);
+                
+            else
+                
+                % Create Coincident Part-Peak Load and Net Load Profiles
+                Coincident_Part_Peak_Load_Profile_Data_Month = ...
+                    Load_Profile_Data_Month(Winter_Part_Peak_Binary_Data_Month == 1, :);
+                
+                Coincident_Part_Peak_Net_Load_Profile_Data_Month_5_Min = ...
+                    Net_Load_Profile_Data_Month_5_Min(Winter_Part_Peak_Binary_Data_Month == 1, :);
+                
+            end
             
-            % Create Coincident Part-Peak Load and Net Load Profiles
-            Coincident_Part_Peak_Load_Profile_Data_Month = ...
-                Load_Profile_Data_Month(Summer_Part_Peak_Binary_Data_Month == 1, :);
+            % Reshape load data so that each 15-minute increment's data
+            % is in the same column. This creates an array with 3 rows for 5-minute data.
+            Coincident_Part_Peak_Load_Profile_Data_Month_Reshaped = ...
+                reshape(Coincident_Part_Peak_Load_Profile_Data_Month, Reshaped_Rows_Num, ...
+                length(Coincident_Part_Peak_Load_Profile_Data_Month)/Reshaped_Rows_Num);
             
-            Coincident_Part_Peak_Net_Load_Profile_Data_Month_5_Min = ...
-                Net_Load_Profile_Data_Month_5_Min(Summer_Part_Peak_Binary_Data_Month == 1, :);
+            Coincident_Part_Peak_Net_Load_Profile_Data_Month_5_Min_Reshaped = ...
+                reshape(Coincident_Part_Peak_Net_Load_Profile_Data_Month_5_Min, Reshaped_Rows_Num, ...
+                length(Coincident_Part_Peak_Net_Load_Profile_Data_Month_5_Min)/Reshaped_Rows_Num);
             
+            % Create 15-minute load profiles by calculating the average of each column.
+            Coincident_Part_Peak_Load_Profile_Data_Month_15_Min = ...
+                mean(Coincident_Part_Peak_Load_Profile_Data_Month_Reshaped, 1);
+            
+            Coincident_Part_Peak_Net_Load_Profile_Data_Month_15_Min = ...
+                mean(Coincident_Part_Peak_Net_Load_Profile_Data_Month_5_Min_Reshaped, 1);
+            
+            % Calculate Coincident Part-Peak Demand
+            P_max_CPP_Month_Without_Storage = max(Coincident_Part_Peak_Load_Profile_Data_Month_15_Min);
+            P_max_CPP_Month_With_Storage = max(Coincident_Part_Peak_Net_Load_Profile_Data_Month_15_Min);
+        
         else
             
-            % Create Coincident Part-Peak Load and Net Load Profiles
-            Coincident_Part_Peak_Load_Profile_Data_Month = ...
-                Load_Profile_Data_Month(Winter_Part_Peak_Binary_Data_Month == 1, :);
-            
-            Coincident_Part_Peak_Net_Load_Profile_Data_Month_5_Min = ...
-                Net_Load_Profile_Data_Month_5_Min(Winter_Part_Peak_Binary_Data_Month == 1, :);
+            % If there is no Coincident Part-Peak Demand Period (or if the
+            % corresponding demand charge is $0/kW), set P_max_CPP to 0 kW.
+            P_max_CPP_Month_Without_Storage = 0;
+            P_max_CPP_Month_With_Storage = 0;
             
         end
-        
-        % Reshape load data so that each 15-minute increment's data
-        % is in the same column. This creates an array with 3 rows for 5-minute data.
-        Coincident_Part_Peak_Load_Profile_Data_Month_Reshaped = ...
-            reshape(Coincident_Part_Peak_Load_Profile_Data_Month, Reshaped_Rows_Num, ...
-            length(Coincident_Part_Peak_Load_Profile_Data_Month)/Reshaped_Rows_Num);
-        
-        Coincident_Part_Peak_Net_Load_Profile_Data_Month_5_Min_Reshaped = ...
-            reshape(Coincident_Part_Peak_Net_Load_Profile_Data_Month_5_Min, Reshaped_Rows_Num, ...
-            length(Coincident_Part_Peak_Net_Load_Profile_Data_Month_5_Min)/Reshaped_Rows_Num);
-        
-        % Create 15-minute load profiles by calculating the average of each column.
-        Coincident_Part_Peak_Load_Profile_Data_Month_15_Min = ...
-            mean(Coincident_Part_Peak_Load_Profile_Data_Month_Reshaped, 1);
-        
-        Coincident_Part_Peak_Net_Load_Profile_Data_Month_15_Min = ...
-            mean(Coincident_Part_Peak_Net_Load_Profile_Data_Month_5_Min_Reshaped, 1);
-        
-        % Calculate Coincident Part-Peak Demand
-        P_max_CPP_Month_Without_Storage = max(Coincident_Part_Peak_Load_Profile_Data_Month_15_Min);
-        P_max_CPP_Month_With_Storage = max(Coincident_Part_Peak_Net_Load_Profile_Data_Month_15_Min);
         
         
     elseif delta_t == (15/60)
         
+        % Noncoincident Maximum Demand With and Without Storage
+        
         P_max_NC_Month_Without_Storage = max(Load_Profile_Data_Month);
         P_max_NC_Month_With_Storage = x_Month(3*numtsteps+1);
         
-        if any(Month_Iter==5:10)
-            P_max_CPK_Month_Without_Storage = ...
-                max(Load_Profile_Data_Month(Summer_Peak_Binary_Data_Month == 1, :));
+        
+        % Coincident Peak Demand With and Without Storage
+        
+        if Peak_DC > 0
+            
+            if any(Month_Iter == First_Summer_Month:Last_Summer_Month)
+                P_max_CPK_Month_Without_Storage = ...
+                    max(Load_Profile_Data_Month(Summer_Peak_Binary_Data_Month == 1, :));
+            else
+                P_max_CPK_Month_Without_Storage = ...
+                    max(Load_Profile_Data_Month(Winter_Peak_Binary_Data_Month == 1, :));
+            end
             
             P_max_CPK_Month_With_Storage = x_Month(3*numtsteps+2);
+            
         else
-            % There is no coincident peak demand charge in the winter.
+            
+            % If there is no Coincident Peak Demand Period (or if the
+            % corresponding demand charge is $0/kW), set P_max_CPK to 0 kW.
             P_max_CPK_Month_Without_Storage = 0;
             P_max_CPK_Month_With_Storage = 0;
+            
         end
         
-        if any(Month_Iter==5:10)
-            P_max_CPP_Month_Without_Storage = ...
-                max(Load_Profile_Data_Month(Summer_Part_Peak_Binary_Data_Month == 1, :));
+        
+        % Coincident Part-Peak Demand With and Without Storage
+        
+        if Part_Peak_DC > 0
+            
+            if any(Month_Iter == First_Summer_Month:Last_Summer_Month)
+                P_max_CPP_Month_Without_Storage = ...
+                    max(Load_Profile_Data_Month(Summer_Part_Peak_Binary_Data_Month == 1, :));
+            else
+                P_max_CPP_Month_Without_Storage = ...
+                    max(Load_Profile_Data_Month(Winter_Part_Peak_Binary_Data_Month == 1, :));
+            end
+            
+            P_max_CPP_Month_With_Storage = x_Month(3*numtsteps+3);
+            
         else
-            P_max_CPP_Month_Without_Storage = ...
-                max(Load_Profile_Data_Month(Winter_Part_Peak_Binary_Data_Month == 1, :));
+            
+            % If there is no Coincident Part-Peak Demand Period (or if the
+            % corresponding demand charge is $0/kW), set P_max_CPP to 0 kW.
+            P_max_CPP_Month_Without_Storage = 0;
+            P_max_CPP_Month_With_Storage = 0;
+            
         end
-        
-        P_max_CPP_Month_With_Storage = x_Month(3*numtsteps+3);
         
         
     else
@@ -1033,17 +2115,17 @@ for Month_Iter = 1:12 % Iterate through all months
     
     % Monthly Cost from Daily Fixed Charge
     % This value is not affected by the presence of storage.
-    Fixed_Charge_Month = Fixed_Per_Meter_Day_Charge * length(Load_Profile_Data_Month)/(24 * (1/delta_t));
+    Fixed_Charge_Month = Fixed_Per_Meter_Month_Charge + (Fixed_Per_Meter_Day_Charge * length(Load_Profile_Data_Month)/(24 * (1/delta_t)));
     
     % Monthly Cost from Noncoincident Demand Charge - Without Storage
-    if any(Month_Iter==5:10)
+    if any(Month_Iter == First_Summer_Month:Last_Summer_Month)
         NC_Demand_Charge_Month_Without_Storage = Summer_Noncoincident_DC * P_max_NC_Month_Without_Storage;
     else
         NC_Demand_Charge_Month_Without_Storage = Winter_Noncoincident_DC * P_max_NC_Month_Without_Storage;
     end
     
     % Monthly Cost from Noncoincident Demand Charge - With Storage
-    if any(Month_Iter==5:10)
+    if any(Month_Iter == First_Summer_Month:Last_Summer_Month)
         NC_Demand_Charge_Month_With_Storage = Summer_Noncoincident_DC * P_max_NC_Month_With_Storage;
     else
         NC_Demand_Charge_Month_With_Storage = Winter_Noncoincident_DC * P_max_NC_Month_With_Storage;
@@ -1051,7 +2133,7 @@ for Month_Iter = 1:12 % Iterate through all months
     
     
     % Monthly Cost from Coincident Peak Demand Charge - Without Storage
-    if any(Month_Iter==5:10)
+    if any(Month_Iter == First_Summer_Month:Last_Summer_Month)
         CPK_Demand_Charge_Month_Without_Storage = Summer_Peak_DC * P_max_CPK_Month_Without_Storage;
     else
         % There is no coincident peak demand charge in the winter.
@@ -1061,7 +2143,7 @@ for Month_Iter = 1:12 % Iterate through all months
     
     % Monthly Cost from Coincident Peak Demand Charge - With Storage
     
-    if any(Month_Iter==5:10)
+    if any(Month_Iter == First_Summer_Month:Last_Summer_Month)
         CPK_Demand_Charge_Month_With_Storage = Summer_Peak_DC * P_max_CPK_Month_With_Storage;
     else
         % There is no coincident peak demand charge in the winter.
@@ -1070,7 +2152,7 @@ for Month_Iter = 1:12 % Iterate through all months
     
     
     % Monthly Cost from Coincident Part-Peak Demand Charge - Without Storage
-    if any(Month_Iter==5:10)
+    if any(Month_Iter == First_Summer_Month:Last_Summer_Month)
         CPP_Demand_Charge_Month_Without_Storage = Summer_Part_Peak_DC * P_max_CPP_Month_Without_Storage;
     else
         CPP_Demand_Charge_Month_Without_Storage = Winter_Part_Peak_DC * P_max_CPP_Month_Without_Storage;
@@ -1079,7 +2161,7 @@ for Month_Iter = 1:12 % Iterate through all months
     
     % Monthly Cost from Coincident Part-Peak Demand Charge - With Storage
     
-    if any(Month_Iter==5:10)
+    if any(Month_Iter == First_Summer_Month:Last_Summer_Month)
         CPP_Demand_Charge_Month_With_Storage = Summer_Part_Peak_DC * P_max_CPP_Month_With_Storage;
     else
         CPP_Demand_Charge_Month_With_Storage = Winter_Part_Peak_DC * P_max_CPP_Month_With_Storage;
@@ -1168,13 +2250,15 @@ if Show_Plots == 1
     if Export_Plots == 1
         
         saveas(gcf, "Models/OSESMO/Model Outputs/" + System_Type_Input + "/" + ...
-            Carbon_Reduction_Strategy + "/" + Carbon_Adder_per_Metric_Ton_Input_Value + ...
-            " Dollar Carbon Adder/" + Carbon_Impact_Evaluation_Signal_Input + "/" + ...
+            Carbon_Reduction_Strategy + "/" + "$" + Carbon_Adder_per_Metric_Ton_Input_Value + ...
+            " Carbon Adder/" + Carbon_Impact_Evaluation_Signal_Input + "/" + ...
+            (delta_t * 60) + "-Minute Data" + "/" + ...
             Utility_Tariff_Input + "/" + Load_Profile_Input + "/Storage Dispatch Plot.png");
         
         saveas(gcf, "Models/OSESMO/Model Outputs/" + System_Type_Input + "/" + ...
-            Carbon_Reduction_Strategy + "/" + Carbon_Adder_per_Metric_Ton_Input_Value + ...
-            " Dollar Carbon Adder/" + Carbon_Impact_Evaluation_Signal_Input + "/" + ...
+            Carbon_Reduction_Strategy + "/" + "$" + Carbon_Adder_per_Metric_Ton_Input_Value + ...
+            " Carbon Adder/" + Carbon_Impact_Evaluation_Signal_Input + "/" + ...
+            (delta_t * 60) + "-Minute Data" + "/" + ...
             Utility_Tariff_Input + "/" + Load_Profile_Input + "/Storage Dispatch Plot");
         
     end
@@ -1196,13 +2280,15 @@ if Show_Plots == 1
     if Export_Plots == 1
         
         saveas(gcf, "Models/OSESMO/Model Outputs/" + System_Type_Input + "/" + ...
-            Carbon_Reduction_Strategy + "/" + Carbon_Adder_per_Metric_Ton_Input_Value + ...
-            " Dollar Carbon Adder/" + Carbon_Impact_Evaluation_Signal_Input + "/" + ...
+            Carbon_Reduction_Strategy + "/" + "$" + Carbon_Adder_per_Metric_Ton_Input_Value + ...
+            " Carbon Adder/" + Carbon_Impact_Evaluation_Signal_Input + "/" + ...
+            (delta_t * 60) + "-Minute Data" + "/" + ...
             Utility_Tariff_Input + "/" + Load_Profile_Input + "/Energy Level Plot.png");
         
         saveas(gcf, "Models/OSESMO/Model Outputs/" + System_Type_Input + "/" + ...
-            Carbon_Reduction_Strategy + "/" + Carbon_Adder_per_Metric_Ton_Input_Value + ...
-            " Dollar Carbon Adder/" + Carbon_Impact_Evaluation_Signal_Input + "/" + ...
+            Carbon_Reduction_Strategy + "/" + "$" + Carbon_Adder_per_Metric_Ton_Input_Value + ...
+            " Carbon Adder/" + Carbon_Impact_Evaluation_Signal_Input + "/" + ...
+            (delta_t * 60) + "-Minute Data" + "/" + ...
             Utility_Tariff_Input + "/" + Load_Profile_Input + "/Energy Level Plot");
         
     end
@@ -1227,13 +2313,15 @@ if Show_Plots == 1
     if Export_Plots == 1
         
         saveas(gcf, "Models/OSESMO/Model Outputs/" + System_Type_Input + "/" + ...
-            Carbon_Reduction_Strategy + "/" + Carbon_Adder_per_Metric_Ton_Input_Value + ...
-            " Dollar Carbon Adder/" + Carbon_Impact_Evaluation_Signal_Input + "/" + ...
+            Carbon_Reduction_Strategy + "/" + "$" + Carbon_Adder_per_Metric_Ton_Input_Value + ...
+            " Carbon Adder/" + Carbon_Impact_Evaluation_Signal_Input + "/" + ...
+            (delta_t * 60) + "-Minute Data" + "/" + ...
             Utility_Tariff_Input + "/" + Load_Profile_Input + "/Energy Price and Carbon Plot.png");
         
         saveas(gcf, "Models/OSESMO/Model Outputs/" + System_Type_Input + "/" + ...
-            Carbon_Reduction_Strategy + "/" + Carbon_Adder_per_Metric_Ton_Input_Value + ...
-            " Dollar Carbon Adder/" + Carbon_Impact_Evaluation_Signal_Input + "/" + ...
+            Carbon_Reduction_Strategy + "/" + "$" + Carbon_Adder_per_Metric_Ton_Input_Value + ...
+            " Carbon Adder/" + Carbon_Impact_Evaluation_Signal_Input + "/" + ...
+            (delta_t * 60) + "-Minute Data" + "/" + ...
             Utility_Tariff_Input + "/" + Load_Profile_Input + "/Energy Price and Carbon Plot");
         
     end
@@ -1242,13 +2330,34 @@ end
 
 %% Plot Coincident and Non-Coincident Demand Charge Schedule
 
-% Note - this plot is only accurate if the summer and winter noncoincident
-% demand charges are the same.
+% Create Summer/Winter Binary Flag Vector
+Summer_Binary_Data = sum(Month_Data == First_Summer_Month:Last_Summer_Month, 2);
 
-Total_DC = (Summer_Peak_DC * Summer_Peak_Binary_Data) + ...
-    (Summer_Part_Peak_DC * Summer_Part_Peak_Binary_Data) + ...
-    Summer_Noncoincident_DC + ...
-    (Winter_Part_Peak_DC * Winter_Part_Peak_Binary_Data);
+Winter_Binary_Data = sum(Month_Data == [1:(First_Summer_Month-1), (Last_Summer_Month+1):12], 2);
+
+% Create Total-Demand-Charge Vector
+% Noncoincident Demand Charge is always included (although it may be 0).
+% Coincident Peak and Part-Peak values are only added if they are non-zero
+% and a binary-flag data input is available.
+
+Total_DC = (Winter_Noncoincident_DC * Winter_Binary_Data) + ...
+    (Summer_Noncoincident_DC * Summer_Binary_Data);
+
+if Winter_Peak_DC > 0
+    Total_DC = Total_DC + (Winter_Peak_DC * Winter_Peak_Binary_Data);
+end
+
+if Winter_Part_Peak_DC > 0
+    Total_DC = Total_DC + (Winter_Part_Peak_DC * Winter_Part_Peak_Binary_Data);
+end
+
+if Summer_Peak_DC > 0
+    Total_DC = Total_DC + (Summer_Peak_DC * Summer_Peak_Binary_Data);
+end
+
+if Summer_Part_Peak_DC > 0
+    Total_DC = Total_DC + (Summer_Part_Peak_DC * Summer_Part_Peak_Binary_Data);
+end
 
 if Show_Plots == 1
     
@@ -1263,13 +2372,15 @@ if Show_Plots == 1
     if Export_Plots == 1
         
         saveas(gcf, "Models/OSESMO/Model Outputs/" + System_Type_Input + "/" + ...
-            Carbon_Reduction_Strategy + "/" + Carbon_Adder_per_Metric_Ton_Input_Value + ...
-            " Dollar Carbon Adder/" + Carbon_Impact_Evaluation_Signal_Input + "/" + ...
+            Carbon_Reduction_Strategy + "/" + "$" + Carbon_Adder_per_Metric_Ton_Input_Value + ...
+            " Carbon Adder/" + Carbon_Impact_Evaluation_Signal_Input + "/" + ...
+            (delta_t * 60) + "-Minute Data" + "/" + ...
             Utility_Tariff_Input + "/" + Load_Profile_Input + "/Demand Charge Plot.png");
         
         saveas(gcf, "Models/OSESMO/Model Outputs/" + System_Type_Input + "/" + ...
-            Carbon_Reduction_Strategy + "/" + Carbon_Adder_per_Metric_Ton_Input_Value + ...
-            " Dollar Carbon Adder/" + Carbon_Impact_Evaluation_Signal_Input + "/" + ...
+            Carbon_Reduction_Strategy + "/" + "$" + Carbon_Adder_per_Metric_Ton_Input_Value + ...
+            " Carbon Adder/" + Carbon_Impact_Evaluation_Signal_Input + "/" + ...
+            (delta_t * 60) + "-Minute Data" + "/" + ...
             Utility_Tariff_Input + "/" + Load_Profile_Input + "/Demand Charge Plot");
         
     end
@@ -1293,13 +2404,15 @@ if Show_Plots == 1
     if Export_Plots == 1
         
         saveas(gcf, "Models/OSESMO/Model Outputs/" + System_Type_Input + "/" + ...
-            Carbon_Reduction_Strategy + "/" + Carbon_Adder_per_Metric_Ton_Input_Value + ...
-            " Dollar Carbon Adder/" + Carbon_Impact_Evaluation_Signal_Input + "/" + ...
+            Carbon_Reduction_Strategy + "/" + "$" + Carbon_Adder_per_Metric_Ton_Input_Value + ...
+            " Carbon Adder/" + Carbon_Impact_Evaluation_Signal_Input + "/" + ...
+            (delta_t * 60) + "-Minute Data" + "/" + ...
             Utility_Tariff_Input + "/" + Load_Profile_Input + "/Net Load Plot.png");
         
         saveas(gcf, "Models/OSESMO/Model Outputs/" + System_Type_Input + "/" + ...
-            Carbon_Reduction_Strategy + "/" + Carbon_Adder_per_Metric_Ton_Input_Value + ...
-            " Dollar Carbon Adder/" + Carbon_Impact_Evaluation_Signal_Input + "/" + ...
+            Carbon_Reduction_Strategy + "/" + "$" + Carbon_Adder_per_Metric_Ton_Input_Value + ...
+            " Carbon Adder/" + Carbon_Impact_Evaluation_Signal_Input + "/" + ...
+            (delta_t * 60) + "-Minute Data" + "/" + ...
             Utility_Tariff_Input + "/" + Load_Profile_Input + "/Net Load Plot");
         
     end
@@ -1352,7 +2465,7 @@ if Show_Plots == 1
     figure
     bar(Monthly_Costs_Matrix_Without_Storage, 'stacked')
     xlim([0.5, 12.5])
-    xlabel('Months','FontSize',15);
+    xlabel('Month','FontSize',15);
     ylabel('Cost ($/Month)','FontSize',15);
     title('Monthly Costs, Without Storage','FontSize',15)
     legend('Fixed Charges','NC DC', 'CPK DC','CPP DC', 'Energy Charge', 'Cycling Penalty', ...
@@ -1365,13 +2478,15 @@ if Show_Plots == 1
     if Export_Plots == 1
         
         saveas(gcf, "Models/OSESMO/Model Outputs/" + System_Type_Input + "/" + ...
-            Carbon_Reduction_Strategy + "/" + Carbon_Adder_per_Metric_Ton_Input_Value + ...
-            " Dollar Carbon Adder/" + Carbon_Impact_Evaluation_Signal_Input + "/" + ...
+            Carbon_Reduction_Strategy + "/" + "$" + Carbon_Adder_per_Metric_Ton_Input_Value + ...
+            " Carbon Adder/" + Carbon_Impact_Evaluation_Signal_Input + "/" + ...
+            (delta_t * 60) + "-Minute Data" + "/" + ...
             Utility_Tariff_Input + "/" + Load_Profile_Input + "/Monthly Costs without Storage Plot.png");
         
         saveas(gcf, "Models/OSESMO/Model Outputs/" + System_Type_Input + "/" + ...
-            Carbon_Reduction_Strategy + "/" + Carbon_Adder_per_Metric_Ton_Input_Value + ...
-            " Dollar Carbon Adder/" + Carbon_Impact_Evaluation_Signal_Input + "/" + ...
+            Carbon_Reduction_Strategy + "/" + "$" + Carbon_Adder_per_Metric_Ton_Input_Value + ...
+            " Carbon Adder/" + Carbon_Impact_Evaluation_Signal_Input + "/" + ...
+            (delta_t * 60) + "-Minute Data" + "/" + ...
             Utility_Tariff_Input + "/" + Load_Profile_Input + "/Monthly Costs without Storage Plot");
         
     end
@@ -1395,7 +2510,7 @@ if Show_Plots == 1
     bar(Monthly_Costs_Matrix_With_Storage, 'stacked')
     xlim([0.5, 12.5])
     ylim(wo_Storage_yl)
-    xlabel('Months','FontSize',15);
+    xlabel('Month','FontSize',15);
     ylabel('Cost ($/Month)','FontSize',15);
     title('Monthly Costs, With Storage','FontSize',15)
     legend('Fixed Charges','NC DC', 'CPK DC','CPP DC', 'Energy Charge', 'Cycling Penalty', ...
@@ -1405,13 +2520,15 @@ if Show_Plots == 1
     if Export_Plots == 1
         
         saveas(gcf, "Models/OSESMO/Model Outputs/" + System_Type_Input + "/" + ...
-            Carbon_Reduction_Strategy + "/" + Carbon_Adder_per_Metric_Ton_Input_Value + ...
-            " Dollar Carbon Adder/" + Carbon_Impact_Evaluation_Signal_Input + "/" + ...
+            Carbon_Reduction_Strategy + "/" + "$" + Carbon_Adder_per_Metric_Ton_Input_Value + ...
+            " Carbon Adder/" + Carbon_Impact_Evaluation_Signal_Input + "/" + ...
+            (delta_t * 60) + "-Minute Data" + "/" + ...
             Utility_Tariff_Input + "/" + Load_Profile_Input + "/Monthly Costs with Storage Plot.png");
         
         saveas(gcf, "Models/OSESMO/Model Outputs/" + System_Type_Input + "/" + ...
-            Carbon_Reduction_Strategy + "/" + Carbon_Adder_per_Metric_Ton_Input_Value + ...
-            " Dollar Carbon Adder/" + Carbon_Impact_Evaluation_Signal_Input + "/" + ...
+            Carbon_Reduction_Strategy + "/" + "$" + Carbon_Adder_per_Metric_Ton_Input_Value + ...
+            " Carbon Adder/" + Carbon_Impact_Evaluation_Signal_Input + "/" + ...
+            (delta_t * 60) + "-Minute Data" + "/" + ...
             Utility_Tariff_Input + "/" + Load_Profile_Input + "/Monthly Costs with Storage Plot");
         
     end
@@ -1433,7 +2550,7 @@ if Show_Plots == 1
     figure
     bar(Monthly_Savings_Matrix_Plot, 'stacked')
     xlim([0.5, 12.5])
-    xlabel('Months','FontSize',15);
+    xlabel('Month','FontSize',15);
     xticks(linspace(1,12,12));
     ylabel('Savings ($/Month)','FontSize',15);
     title('Monthly Savings From Storage','FontSize',15)
@@ -1444,13 +2561,15 @@ if Show_Plots == 1
     if Export_Plots == 1
         
         saveas(gcf, "Models/OSESMO/Model Outputs/" + System_Type_Input + "/" + ...
-            Carbon_Reduction_Strategy + "/" + Carbon_Adder_per_Metric_Ton_Input_Value + ...
-            " Dollar Carbon Adder/" + Carbon_Impact_Evaluation_Signal_Input + "/" + ...
+            Carbon_Reduction_Strategy + "/" + "$" + Carbon_Adder_per_Metric_Ton_Input_Value + ...
+            " Carbon Adder/" + Carbon_Impact_Evaluation_Signal_Input + "/" + ...
+            (delta_t * 60) + "-Minute Data" + "/" + ...
             Utility_Tariff_Input + "/" + Load_Profile_Input + "/Monthly Savings from Storage Plot.png");
         
         saveas(gcf, "Models/OSESMO/Model Outputs/" + System_Type_Input + "/" + ...
-            Carbon_Reduction_Strategy + "/" + Carbon_Adder_per_Metric_Ton_Input_Value + ...
-            " Dollar Carbon Adder/" + Carbon_Impact_Evaluation_Signal_Input + "/" + ...
+            Carbon_Reduction_Strategy + "/" + "$" + Carbon_Adder_per_Metric_Ton_Input_Value + ...
+            " Carbon Adder/" + Carbon_Impact_Evaluation_Signal_Input + "/" + ...
+            (delta_t * 60) + "-Minute Data" + "/" + ...
             Utility_Tariff_Input + "/" + Load_Profile_Input + "/Monthly Savings from Storage Plot");
         
     end
@@ -1464,11 +2583,7 @@ end
 % Report Baseline Cost without Storage
 Year_1_Costs_Without_Storage = sum(sum(Monthly_Costs_Matrix_Without_Storage));
 
-% Don't include cycling/degradation cost in annual savings reporting.
-Monthly_Savings_Matrix_From_Storage_wo_Degradation_Cost = Monthly_Savings_Matrix_From_Storage;
-Monthly_Savings_Matrix_From_Storage_wo_Degradation_Cost(:, 6) = 0;
-
-Year_1_Savings = sum(sum(Monthly_Savings_Matrix_From_Storage_wo_Degradation_Cost));
+Year_1_Savings = sum(sum(Monthly_Savings_Matrix_From_Storage));
 
 Year_1_Savings_Percent = (Year_1_Savings/Year_1_Costs_Without_Storage) * 100;
 
@@ -1497,6 +2612,25 @@ Operational_RTE_Percent = (sum(P_ES_out) * delta_t)/(sum(P_ES_in) * delta_t) * 1
 sprintf('The battery has an Operational/"SGIP" Round-Trip Efficiency of %0.2f%%.', ...
     Operational_RTE_Percent)
 
+
+%% Report Operational/"SGIP" Capacity Factor
+
+% The SGIP Handbook uses the following definition of capacity factor for
+% storage resources, based on the assumption that 60% of hours are
+% available for discharge. The term "hours of data available" is equal to
+% the number of hours in the year here. For actual operational data, it's
+% the number of hours where data is available, which may be less than the
+% number of hours in the year. Here, the number of hours in the year is
+% calculated by multiplying the number of timesteps of original load profile data
+% by the timestep length delta_t. This returns 8760 hours during
+% non-leap years and 8784 during leap years.
+
+% Capacity Factor = (kWh Discharge)/(Hours of Data Available x Rebated Capacity (kW) x 60%)
+
+Operational_Capacity_Factor = ((sum(P_ES_out) * delta_t)/((length(Load_Profile_Data) * delta_t) * P_ES_max * 0.6)) * 100;
+
+sprintf('The battery has an Operational/"SGIP" Capacity Factor of %0.2f%%.', ...
+    Operational_Capacity_Factor)
 
 %% Report Emissions Impact
 
@@ -1542,7 +2676,7 @@ Performance_Metric_Outputs = [Size_ES, P_ES_max, Eff_c, Eff_d, ...
     Peak_Demand_Reduction_Percentage, Energy_Consumption_Increase_Percentage, ...
     Year_1_Costs_Without_Storage, Year_1_Savings, Year_1_Savings_Percent, Battery_Cost, ...
     Simple_Payback, Year_1_Cycles, Year_1_Cycling_Penalty, Operational_RTE_Percent, ...
-    Baseline_Emissions_Metric_Tons, Emissions_Reduction_Metric_Tons, ...
+    Operational_Capacity_Factor, Baseline_Emissions_Metric_Tons, Emissions_Reduction_Metric_Tons, ...
     With_Storage_Emissions_Metric_Tons, Y1_Emissions_Reduction_Pct_of_Baseline];
 
 Bill_Component_Cost_Outputs = [Annual_Costs_Vector_Without_Storage, Annual_Costs_Vector_With_Storage];
@@ -1550,20 +2684,23 @@ Bill_Component_Cost_Outputs = [Annual_Costs_Vector_Without_Storage, Annual_Costs
 if Export_Data == 1
     
     csvwrite("Models/OSESMO/Model Outputs/" + System_Type_Input + "/" + ...
-        Carbon_Reduction_Strategy + "/" + Carbon_Adder_per_Metric_Ton_Input_Value + ...
-        " Dollar Carbon Adder/" + Carbon_Impact_Evaluation_Signal_Input + "/" + ...
+        Carbon_Reduction_Strategy + "/" + "$" + Carbon_Adder_per_Metric_Ton_Input_Value + ...
+        " Carbon Adder/" + Carbon_Impact_Evaluation_Signal_Input + "/" + ...
+        (delta_t * 60) + "-Minute Data" + "/" + ...
         Utility_Tariff_Input + "/" + Load_Profile_Input + ...
         "/Performance Metric Outputs.csv", Performance_Metric_Outputs);
     
     csvwrite("Models/OSESMO/Model Outputs/" + System_Type_Input + "/" + ...
-        Carbon_Reduction_Strategy + "/" + Carbon_Adder_per_Metric_Ton_Input_Value + ...
-        " Dollar Carbon Adder/" + Carbon_Impact_Evaluation_Signal_Input + "/" + ...
+        Carbon_Reduction_Strategy + "/" + "$" + Carbon_Adder_per_Metric_Ton_Input_Value + ...
+        " Carbon Adder/" + Carbon_Impact_Evaluation_Signal_Input + "/" + ...
+        (delta_t * 60) + "-Minute Data" + "/" + ...
         Utility_Tariff_Input + "/" + Load_Profile_Input + "/Bill Component Cost Outputs.csv", ...
         Bill_Component_Cost_Outputs);
     
     csvwrite("Models/OSESMO/Model Outputs/" + System_Type_Input + "/" + Carbon_Reduction_Strategy + ...
-        "/" + Carbon_Adder_per_Metric_Ton_Input_Value + " Dollar Carbon Adder/" + ...
-        Carbon_Impact_Evaluation_Signal_Input + "/" + Utility_Tariff_Input + "/" + ...
+        "/" + "$" + Carbon_Adder_per_Metric_Ton_Input_Value + " Carbon Adder/" + ...
+        Carbon_Impact_Evaluation_Signal_Input + "/" + ...
+        (delta_t * 60) + "-Minute Data" + "/" + Utility_Tariff_Input + "/" + ...
         Load_Profile_Input + "/Storage Dispatch Profile Output.csv", P_ES);
     
 end
