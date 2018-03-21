@@ -123,6 +123,7 @@ elseif Load_Profile_Name_Input == "WattTime GreenButton Residential Long Beach" 
         Load_Profile_Name_Input == "Stem GreenButton SCE TOU-8B Office" || ...
         Load_Profile_Name_Input ==  "Stem GreenButton SDG&E G-16 Manufacturing" || ...
         Load_Profile_Name_Input ==  "Stem GreenButton SCE GS-3B Food Processing" || ...
+        Load_Profile_Name_Input ==  "EnerNOC GreenButton Los Angeles Grocery" || ...
         Load_Profile_Name_Input ==  "EnerNOC GreenButton Los Angeles Industrial" || ...
         Load_Profile_Name_Input == "EnerNOC GreenButton San Diego Office"
     
@@ -2187,7 +2188,7 @@ end
 
 %% Plot Monthly Costs as Bar Plot
 
-% Plot Monthly Costs Baseline
+% Calculate Baseline Monthly Costs
 
 Monthly_Costs_Matrix_Baseline = [Fixed_Charge_Vector, NC_DC_Baseline_Vector, ...
     CPK_DC_Baseline_Vector, CPP_DC_Baseline_Vector, Energy_Charge_Baseline_Vector, ...
@@ -2201,32 +2202,7 @@ Annual_Demand_Charge_Cost_Baseline = Annual_Costs_Vector_Baseline(2);
 Annual_Energy_Charge_Cost_Baseline = Annual_Costs_Vector_Baseline(3);
 
 
-if Show_Plots == 1 || Export_Plots ==1
-    
-    figure('NumberTitle', 'off')
-    bar(Monthly_Costs_Matrix_Baseline, 'stacked')
-    xlim([0.5, 12.5])
-    xlabel('Month','FontSize',15);
-    ylabel('Cost ($/Month)','FontSize',15);
-    title('Monthly Costs, Without Storage','FontSize',15)
-    legend('Fixed Charges','NC DC', 'CPK DC','CPP DC', 'Energy Charge', 'Cycling Penalty', ...
-        'Location', 'NorthWest')
-    set(gca,'FontSize',15);
-    
-    % Save y-limit from Baseline plot for use in With Solar Only and With Solar and Storage plots
-    Baseline_Monthly_Costs_ylimit = ylim;
-    
-    if Export_Plots == 1
-        
-        saveas(gcf, Output_Directory_Filepath + "Monthly Costs Baseline Plot.png");
-        
-        saveas(gcf, Output_Directory_Filepath + "Monthly Costs Baseline Plot");
-        
-    end
-    
-end
-
-% Plot Monthly Costs With Solar Only
+% Calculate Monthly Costs With Solar Only
 
 Monthly_Costs_Matrix_with_Solar_Only = [Fixed_Charge_Vector, NC_DC_with_Solar_Only_Vector, CPK_DC_with_Solar_Only_Vector,...
     CPP_DC_with_Solar_Only_Vector, Energy_Charge_with_Solar_Only_Vector, zeros(size(Fixed_Charge_Vector))];
@@ -2244,6 +2220,77 @@ elseif Model_Type_Input == "Solar Plus Storage"
     Annual_Energy_Charge_Cost_with_Solar_Only = Annual_Costs_Vector_with_Solar_Only(3);
 end
 
+
+% Calculate Monthly Costs with Solar and Storage
+
+Monthly_Costs_Matrix_with_Solar_and_Storage = [Fixed_Charge_Vector, NC_DC_with_Solar_and_Storage_Vector, ...
+    CPK_DC_with_Solar_and_Storage_Vector, CPP_DC_with_Solar_and_Storage_Vector, Energy_Charge_with_Solar_and_Storage_Vector, ...
+    Cycling_Penalty_Vector];
+
+Annual_Costs_Vector_with_Solar_and_Storage = [sum(Fixed_Charge_Vector); ...
+    sum(NC_DC_with_Solar_and_Storage_Vector) + sum(CPK_DC_with_Solar_and_Storage_Vector) + sum(CPP_DC_with_Solar_and_Storage_Vector);...
+    sum(Energy_Charge_with_Solar_and_Storage_Vector)];
+
+Annual_Demand_Charge_Cost_with_Solar_and_Storage = Annual_Costs_Vector_with_Solar_and_Storage(2);
+Annual_Energy_Charge_Cost_with_Solar_and_Storage = Annual_Costs_Vector_with_Solar_and_Storage(3);
+
+
+% Calculate Maximum and Minimum Monthly Bills - to set y-axis for all plots
+
+Maximum_Monthly_Bill_Baseline = max(sum(Monthly_Costs_Matrix_Baseline, 2));
+Minimum_Monthly_Bill_Baseline = min(sum(Monthly_Costs_Matrix_Baseline, 2));
+
+Maximum_Monthly_Bill_with_Solar_Only = max(sum(Monthly_Costs_Matrix_with_Solar_Only, 2));
+Minimum_Monthly_Bill_with_Solar_Only = min(sum(Monthly_Costs_Matrix_with_Solar_Only, 2));
+
+Maximum_Monthly_Bill_with_Solar_and_Storage = max(sum(Monthly_Costs_Matrix_with_Solar_and_Storage, 2));
+Minimum_Monthly_Bill_with_Solar_and_Storage = min(sum(Monthly_Costs_Matrix_with_Solar_and_Storage, 2));
+
+Maximum_Monthly_Bill = max([Maximum_Monthly_Bill_Baseline, ...
+    Maximum_Monthly_Bill_with_Solar_Only, ...
+    Maximum_Monthly_Bill_with_Solar_and_Storage]);
+
+Minimum_Monthly_Bill = min([Minimum_Monthly_Bill_Baseline, ...
+    Minimum_Monthly_Bill_with_Solar_Only, ...
+    Minimum_Monthly_Bill_with_Solar_and_Storage]);
+
+Max_Monthly_Bill_ylim = Maximum_Monthly_Bill * 1.1; % Make upper ylim 10% larger than largest monthly bill.
+
+if Minimum_Monthly_Bill >= 0
+    Min_Monthly_Bill_ylim = 0; % Make lower ylim equal to 0 if the lowest monthly bill is greater than zero.
+elseif Minimum_Monthly_Bill < 0
+    Min_Monthly_Bill_ylim = Minimum_Monthly_Bill * 1.1; % Make lower ylim 10% smaller than the smallest monthly bill if less than zero.
+end
+
+
+% Plot Baseline Monthly Costs
+
+if Show_Plots == 1 || Export_Plots ==1
+    
+    figure('NumberTitle', 'off')
+    bar(Monthly_Costs_Matrix_Baseline, 'stacked')
+    xlim([0.5, 12.5])
+    ylim([Min_Monthly_Bill_ylim, Max_Monthly_Bill_ylim])
+    xlabel('Month','FontSize',15);
+    ylabel('Cost ($/Month)','FontSize',15);
+    title('Monthly Costs, Without Storage','FontSize',15)
+    legend('Fixed Charges','NC DC', 'CPK DC','CPP DC', 'Energy Charge', 'Cycling Penalty', ...
+        'Location', 'NorthWest')
+    set(gca,'FontSize',15);
+        
+    if Export_Plots == 1
+        
+        saveas(gcf, Output_Directory_Filepath + "Monthly Costs Baseline Plot.png");
+        
+        saveas(gcf, Output_Directory_Filepath + "Monthly Costs Baseline Plot");
+        
+    end
+    
+end
+
+
+% Plot Monthly Costs With Solar Only
+
 if Model_Type_Input == "Solar Plus Storage"
    
     if Show_Plots == 1 || Export_Plots ==1
@@ -2251,7 +2298,7 @@ if Model_Type_Input == "Solar Plus Storage"
         figure('NumberTitle', 'off')
         bar(Monthly_Costs_Matrix_with_Solar_Only, 'stacked')
         xlim([0.5, 12.5])
-        ylim(Baseline_Monthly_Costs_ylimit)
+        ylim([Min_Monthly_Bill_ylim, Max_Monthly_Bill_ylim])
         xlabel('Month','FontSize',15);
         ylabel('Cost ($/Month)','FontSize',15);
         title('Monthly Costs, With Solar Only','FontSize',15)
@@ -2275,23 +2322,12 @@ end
 
 % Plot Monthly Costs with Solar and Storage
 
-Monthly_Costs_Matrix_with_Solar_and_Storage = [Fixed_Charge_Vector, NC_DC_with_Solar_and_Storage_Vector, ...
-    CPK_DC_with_Solar_and_Storage_Vector, CPP_DC_with_Solar_and_Storage_Vector, Energy_Charge_with_Solar_and_Storage_Vector, ...
-    Cycling_Penalty_Vector];
-
-Annual_Costs_Vector_with_Solar_and_Storage = [sum(Fixed_Charge_Vector); ...
-    sum(NC_DC_with_Solar_and_Storage_Vector) + sum(CPK_DC_with_Solar_and_Storage_Vector) + sum(CPP_DC_with_Solar_and_Storage_Vector);...
-    sum(Energy_Charge_with_Solar_and_Storage_Vector)];
-
-Annual_Demand_Charge_Cost_with_Solar_and_Storage = Annual_Costs_Vector_with_Solar_and_Storage(2);
-Annual_Energy_Charge_Cost_with_Solar_and_Storage = Annual_Costs_Vector_with_Solar_and_Storage(3);
-
 if Show_Plots == 1 || Export_Plots ==1
     
     figure('NumberTitle', 'off')
     bar(Monthly_Costs_Matrix_with_Solar_and_Storage, 'stacked')
     xlim([0.5, 12.5])
-    ylim(Baseline_Monthly_Costs_ylimit)
+    ylim([Min_Monthly_Bill_ylim, Max_Monthly_Bill_ylim])
     xlabel('Month','FontSize',15);
     ylabel('Cost ($/Month)','FontSize',15);
     title('Monthly Costs, With Storage','FontSize',15)

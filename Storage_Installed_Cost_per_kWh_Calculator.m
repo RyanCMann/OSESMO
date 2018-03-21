@@ -6,7 +6,7 @@ function Storage_Installed_Cost_per_kWh = Storage_Installed_Cost_per_kWh_Calcula
 % For lithium-ion batteries, used average of maximum and minimum values from range.
 
 % Information about commercial and industrial flow batteries was not available in the 2017 version (Version 3.0) of the Lazard report,
-% but was reported in the 2016 version (Version 2.0) of the report, pg. 18.
+% but was reported in the 2016 version (Version 2.0) of the report, PDF pg. 22 (numbered 18 in the report).
 % (https://www.lazard.com/media/438042/lazard-levelized-cost-of-storage-v20.pdf)
 
 if Customer_Class_Input == "Residential"
