@@ -563,7 +563,7 @@ for Month_Iter = 1:12 % Iterate through all months
     length_x = length(c_Month);
     
     
-    %% State Variable Indices
+    %% Decision Variable Indices
     
     % P_ES_in = x(1:numtsteps);
     % P_ES_out = x(numtsteps+1:2*numtsteps);
