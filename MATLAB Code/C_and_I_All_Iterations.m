@@ -11,7 +11,7 @@ clc;
 %% Set Directory to Box Sync Folder
 
 % OSESMO Git Repository Directory Location
-OSESMO_Git_Repo_Directory = '/Users/ryanden/Desktop/OSESMO Git Repository/OSESMO';
+OSESMO_Git_Repo_Directory = '/Users/ryanden/Desktop/OSESMO Git Repository/OSESMO/MATLAB Code';
 
 % Box Sync Directory Location
 Input_Output_Data_Directory_Location = '/Users/ryanden/Box Sync/GHG Signal Working Group';
@@ -84,47 +84,47 @@ cd(OSESMO_Git_Repo_Directory)
 % Avalon East Bay Light Industrial - mapped to PG&E C&I solar profile
 C1_Total_Annual_Consumption = sum(C1_Load_Profile_Data) * (15/60);
 PGE_ComInd_Solar_PV_Total_Annual_Consumption = sum(PGE_ComInd_Solar_PV_Profile_Data) * (15/60);
-C1_Solar_Size_Input = 100 * (0.40/(PGE_ComInd_Solar_PV_Total_Annual_Consumption/C1_Total_Annual_Consumption));
+C1_Solar_Size_Input = round(100 * (0.40/(PGE_ComInd_Solar_PV_Total_Annual_Consumption/C1_Total_Annual_Consumption)), 1);
 
 % Stem SCE Office - mapped to SCE C&I solar profile
 C3_Total_Annual_Consumption = sum(C3_Load_Profile_Data) * (15/60);
 SCE_ComInd_Solar_PV_Total_Annual_Consumption = sum(SCE_ComInd_Solar_PV_Profile_Data) * (15/60);
-C3_Solar_Size_Input = 100 * (0.40/(SCE_ComInd_Solar_PV_Total_Annual_Consumption/C3_Total_Annual_Consumption));
+C3_Solar_Size_Input = round(100 * (0.40/(SCE_ComInd_Solar_PV_Total_Annual_Consumption/C3_Total_Annual_Consumption)), 1);
 
 % Stem SCE Food Processing - mapped to SCE C&I solar profile
 C5_Total_Annual_Consumption = sum(C5_Load_Profile_Data) * (15/60);
 SCE_ComInd_Solar_PV_Total_Annual_Consumption = sum(SCE_ComInd_Solar_PV_Profile_Data) * (15/60);
-C5_Solar_Size_Input = 100 * (0.40/(SCE_ComInd_Solar_PV_Total_Annual_Consumption/C5_Total_Annual_Consumption));
+C5_Solar_Size_Input = round(100 * (0.40/(SCE_ComInd_Solar_PV_Total_Annual_Consumption/C5_Total_Annual_Consumption)), 1);
 
 % Stem SDG&E Manufacturing - mapped to SDG&E C&I solar profile
 C6_Total_Annual_Consumption = sum(C6_Load_Profile_Data) * (15/60);
 SDGE_Solar_PV_Total_Annual_Consumption = sum(SDGE_ComInd_Solar_PV_Profile_Data) * (15/60);
-C6_Solar_Size_Input = 100 * (0.40/(SDGE_Solar_PV_Total_Annual_Consumption/C6_Total_Annual_Consumption));
+C6_Solar_Size_Input = round(100 * (0.40/(SDGE_Solar_PV_Total_Annual_Consumption/C6_Total_Annual_Consumption)), 1);
 
 % EnerNOC Los Angeles Grocery - mapped to SCE C&I solar profile
 C9_Total_Annual_Consumption = sum(C9_Load_Profile_Data) * (15/60);
 SCE_ComInd_Solar_PV_Total_Annual_Consumption = sum(SCE_ComInd_Solar_PV_Profile_Data) * (15/60);
-C9_Solar_Size_Input = 100 * (0.40/(SCE_ComInd_Solar_PV_Total_Annual_Consumption/C9_Total_Annual_Consumption));
+C9_Solar_Size_Input = round(100 * (0.40/(SCE_ComInd_Solar_PV_Total_Annual_Consumption/C9_Total_Annual_Consumption)), 1);
 
 % EnerNOC Los Angeles Industrial - mapped to SCE C&I solar profile
 C10_Total_Annual_Consumption = sum(C10_Load_Profile_Data) * (15/60);
 SCE_Solar_PV_Total_Annual_Consumption = sum(SCE_ComInd_Solar_PV_Profile_Data) * (15/60);
-C10_Solar_Size_Input = 100 * (0.40/(SCE_Solar_PV_Total_Annual_Consumption/C10_Total_Annual_Consumption));
+C10_Solar_Size_Input = round(100 * (0.40/(SCE_Solar_PV_Total_Annual_Consumption/C10_Total_Annual_Consumption)), 1);
 
 % EnerNOC San Diego Office - mapped to SDG&E C&I solar profile
 C11_Total_Annual_Consumption = sum(C11_Load_Profile_Data) * (15/60);
 SDGE_ComInd_Solar_PV_Total_Annual_Consumption = sum(SDGE_ComInd_Solar_PV_Profile_Data) * (15/60);
-C11_Solar_Size_Input = 100 * (0.40/(SDGE_ComInd_Solar_PV_Total_Annual_Consumption/C11_Total_Annual_Consumption));
+C11_Solar_Size_Input = round(100 * (0.40/(SDGE_ComInd_Solar_PV_Total_Annual_Consumption/C11_Total_Annual_Consumption)), 1);
 
 % PG&E GreenButton A-6 SMB - mapped to PG&E C&I solar profile
 C15_Total_Annual_Consumption = sum(C15_Load_Profile_Data) * (15/60);
 PGE_ComInd_Solar_PV_Total_Annual_Consumption = sum(PGE_ComInd_Solar_PV_Profile_Data) * (15/60);
-C15_Solar_Size_Input = 100 * (0.40/(PGE_ComInd_Solar_PV_Total_Annual_Consumption/C15_Total_Annual_Consumption));
+C15_Solar_Size_Input = round(100 * (0.40/(PGE_ComInd_Solar_PV_Total_Annual_Consumption/C15_Total_Annual_Consumption)), 1);
 
 % PG&E GreenButton A-10S MLB - mapped to PG&E C&I solar profile
 C16_Total_Annual_Consumption = sum(C16_Load_Profile_Data) * (15/60);
 PGE_ComInd_Solar_PV_Total_Annual_Consumption = sum(PGE_ComInd_Solar_PV_Profile_Data) * (15/60);
-C16_Solar_Size_Input = 100 * (0.40/(PGE_ComInd_Solar_PV_Total_Annual_Consumption/C16_Total_Annual_Consumption));
+C16_Solar_Size_Input = round(100 * (0.40/(PGE_ComInd_Solar_PV_Total_Annual_Consumption/C16_Total_Annual_Consumption)), 1);
 
 
 %% Storage System Size Inputs
@@ -485,18 +485,18 @@ for Model_Type_Input = Model_Type_Input_Iter
                                             
                                             Model_Run_Number_Input = Model_Run_Number_Input + 1;
                                             
-%                                             OSESMO(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input, ...
-%                                                 Model_Timestep_Resolution, Customer_Class_Input, Load_Profile_Name_Input, ...
-%                                                 Retail_Rate_Name_Input, Solar_Profile_Name_Input, Solar_Size_Input, ...
-%                                                 Storage_Type_Input, Storage_Power_Rating_Input, Usable_Storage_Capacity_Input, ...
-%                                                 Single_Cycle_RTE_Input, Parasitic_Storage_Load_Input, ...
-%                                                 Storage_Control_Algorithm_Name, GHG_Reduction_Solution_Input, Equivalent_Cycling_Constraint_Input, ...
-%                                                 Annual_RTE_Constraint_Input, ITC_Constraint_Input, ...
-%                                                 Carbon_Adder_Incentive_Value_Input, Emissions_Forecast_Signal_Input, ...
-%                                                 OSESMO_Git_Repo_Directory, Input_Output_Data_Directory_Location, Start_Time_Input, ...
-%                                                 Show_Plots, Export_Plots, Export_Data, ...
-%                                                 Solar_Installed_Cost_per_kW, Storage_Installed_Cost_per_kWh, Estimated_Future_Lithium_Ion_Battery_Installed_Cost_per_kWh, ...
-%                                                 Cycle_Life, Storage_Depth_of_Discharge, Initial_Final_SOC, End_of_Month_Padding_Days)
+                                            OSESMO(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input, ...
+                                                Model_Timestep_Resolution, Customer_Class_Input, Load_Profile_Name_Input, ...
+                                                Retail_Rate_Name_Input, Solar_Profile_Name_Input, Solar_Size_Input, ...
+                                                Storage_Type_Input, Storage_Power_Rating_Input, Usable_Storage_Capacity_Input, ...
+                                                Single_Cycle_RTE_Input, Parasitic_Storage_Load_Input, ...
+                                                Storage_Control_Algorithm_Name, GHG_Reduction_Solution_Input, Equivalent_Cycling_Constraint_Input, ...
+                                                Annual_RTE_Constraint_Input, ITC_Constraint_Input, ...
+                                                Carbon_Adder_Incentive_Value_Input, Emissions_Forecast_Signal_Input, ...
+                                                OSESMO_Git_Repo_Directory, Input_Output_Data_Directory_Location, Start_Time_Input, ...
+                                                Show_Plots, Export_Plots, Export_Data, ...
+                                                Solar_Installed_Cost_per_kW, Storage_Installed_Cost_per_kWh, Estimated_Future_Lithium_Ion_Battery_Installed_Cost_per_kWh, ...
+                                                Cycle_Life, Storage_Depth_of_Discharge, Initial_Final_SOC, End_of_Month_Padding_Days)
                                             
                                         end
                                         

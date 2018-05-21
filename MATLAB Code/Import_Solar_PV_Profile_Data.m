@@ -1,4 +1,5 @@
-function Solar_PV_Profile_Data = Import_Solar_PV_Profile_Data(Input_Output_Data_Directory_Location, OSESMO_Git_Repo_Directory, delta_t, ...
+function [Solar_Profile_Master_Index, Solar_Profile_Description, Solar_PV_Profile_Data] = ...
+    Import_Solar_PV_Profile_Data(Input_Output_Data_Directory_Location, OSESMO_Git_Repo_Directory, delta_t, ...
     Solar_Profile_Name_Input, Solar_Size_Input)
 
 % Set Directory to Box Sync Folder
@@ -10,6 +11,10 @@ cd(Input_Output_Data_Directory_Location)
 switch Solar_Profile_Name_Input
     
     case "CSI PG&E Residential"
+        
+        Solar_Profile_Master_Index = "R1";
+        Solar_Profile_Description = "CSI Application #PGE-CSI-25632";
+        
         if delta_t == (5/60)
             Solar_PV_Profile_Data = csvread(['Solar PV Data/California Solar Initiative/' ...
                 'Selected Clean 2017 CSI Generation Profiles/'...
@@ -26,6 +31,10 @@ switch Solar_Profile_Name_Input
         
         
     case "CSI SCE Residential"
+        
+        Solar_Profile_Master_Index = "R2";
+        Solar_Profile_Description = "CSI Application #SCE-CSI-07211";
+        
         if delta_t == (5/60)
             Solar_PV_Profile_Data = csvread(['Solar PV Data/California Solar Initiative/' ...
                 'Selected Clean 2017 CSI Generation Profiles/'...
@@ -42,6 +51,10 @@ switch Solar_Profile_Name_Input
         
         
     case "CSI SDG&E Residential"
+        
+        Solar_Profile_Master_Index = "R3";
+        Solar_Profile_Description = "CSI Application #SD-CSI-04810";
+        
         if delta_t == (5/60)
             Solar_PV_Profile_Data = csvread(['Solar PV Data/California Solar Initiative/' ...
                 'Selected Clean 2017 CSI Generation Profiles/'...
@@ -58,6 +71,10 @@ switch Solar_Profile_Name_Input
         
         
     case "CSI PG&E Commercial & Industrial"
+        
+        Solar_Profile_Master_Index = "C1";
+        Solar_Profile_Description = "CSI Application #PGE-CSI-16803";
+        
         if delta_t == (5/60)
             Solar_PV_Profile_Data = csvread(['Solar PV Data/California Solar Initiative/' ...
                 'Selected Clean 2017 CSI Generation Profiles/'...
@@ -74,6 +91,10 @@ switch Solar_Profile_Name_Input
         
         
     case "CSI SCE Commercial & Industrial"
+        
+        Solar_Profile_Master_Index = "C2";
+        Solar_Profile_Description = "CSI Application #SCE-CSI-08338";
+        
         if delta_t == (5/60)
             Solar_PV_Profile_Data = csvread(['Solar PV Data/California Solar Initiative/' ...
                 'Selected Clean 2017 CSI Generation Profiles/'...
@@ -90,6 +111,10 @@ switch Solar_Profile_Name_Input
         
         
     case "CSI SDG&E Commercial & Industrial"
+        
+        Solar_Profile_Master_Index = "C3";
+        Solar_Profile_Description = "CSI Application #SD-CSI-00087";
+        
         if delta_t == (5/60)
             Solar_PV_Profile_Data = csvread(['Solar PV Data/California Solar Initiative/' ...
                 'Selected Clean 2017 CSI Generation Profiles/'...

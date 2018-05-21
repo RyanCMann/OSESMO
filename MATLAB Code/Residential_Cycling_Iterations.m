@@ -1,9 +1,10 @@
 %% Script Description Header
 
-% File Name: Residential_All_Iterations.m
+% File Name: Residential_Cycling_Iterations.m
 % File Location: "~/Desktop/OSESMO Git Repository"
 % Project: Open-Source Energy Storage Model (OSESMO)
-% Description: Iterates thorugh all residential model runs.
+% Description: Iterates through residential model runs to test impact of cycling constraints.
+% Only testing solar-plus-storage customers on SDG&E DR-SES rate.
 
 clear;
 clc;
@@ -142,7 +143,9 @@ End_of_Month_Padding_Days = 3;
 
 %% Model Input Iteration
 
-Model_Type_Input_Iter = ["Storage Only", "Solar Plus Storage"];
+% Model_Type_Input_Iter = ["Storage Only", "Solar Plus Storage"];
+
+Model_Type_Input_Iter = ["Solar Plus Storage"];
 
 for Model_Type_Input = Model_Type_Input_Iter
     
@@ -153,15 +156,14 @@ for Model_Type_Input = Model_Type_Input_Iter
 %         "PG&E GreenButton Central Valley Residential Non-CARE", ...
 %         "PG&E GreenButton Central Valley Residential CARE"];
 
-% Removed WattTime load profiles - too small, not representative of typical
-% solar or storage customers. Storage systems were oversized, weren't able
-% to meet 52-equivalent-cycling requirement.
+% Removed WattTime load profiles - identified as non-representative (too
+% small for solar or storage) by Tesla, and unable to achieve 52 equivalent
+% cycles with 5 kW/13.5 kWh battery.
 
-    Load_Profile_Name_Input_Iter = ["Custom Power Solar GreenButton PG&E Albany Residential with EV", ...
-        "Custom Power Solar GreenButton PG&E Crockett Residential with EV", ...
-        "PG&E GreenButton Central Valley Residential Non-CARE", ...
-        "PG&E GreenButton Central Valley Residential CARE"];
-
+Load_Profile_Name_Input_Iter = ["Custom Power Solar GreenButton PG&E Albany Residential with EV", ...
+    "Custom Power Solar GreenButton PG&E Crockett Residential with EV", ...
+    "PG&E GreenButton Central Valley Residential Non-CARE", ...
+    "PG&E GreenButton Central Valley Residential CARE"];
     
     for Load_Profile_Name_Input = Load_Profile_Name_Input_Iter
         
@@ -224,56 +226,62 @@ for Model_Type_Input = Model_Type_Input_Iter
         
         if Load_Profile_Name_Input == "WattTime GreenButton Residential Long Beach"
             
-            Retail_Rate_Name_Input_Iter = ["PG&E E-1 Tier 1", "PG&E E-1 Tier 1 SmartRate", "PG&E EV-A (NEW)"];
+%             Retail_Rate_Name_Input_Iter = ["PG&E E-1 Tier 1", "PG&E E-1 Tier 1 SmartRate", "PG&E EV-A (NEW)"];
             
             if Model_Type_Input == "Solar Plus Storage"
                 % Only sites with solar are eligible to go on DR-SES
-                Retail_Rate_Name_Input_Iter = [Retail_Rate_Name_Input_Iter, "SDG&E DR-SES"];
+%                 Retail_Rate_Name_Input_Iter = [Retail_Rate_Name_Input_Iter, "SDG&E DR-SES"];
+                  Retail_Rate_Name_Input_Iter = ["SDG&E DR-SES"];
             end
             
         elseif Load_Profile_Name_Input == "WattTime GreenButton Residential Coulterville"
             
-            Retail_Rate_Name_Input_Iter = ["PG&E E-1 Tier 1", "PG&E E-1 Tier 1 SmartRate", "PG&E EV-A (NEW)"];
+%             Retail_Rate_Name_Input_Iter = ["PG&E E-1 Tier 1", "PG&E E-1 Tier 1 SmartRate", "PG&E EV-A (NEW)"];
             
             if Model_Type_Input == "Solar Plus Storage"
                 % Only sites with solar are eligible to go on DR-SES
-                Retail_Rate_Name_Input_Iter = [Retail_Rate_Name_Input_Iter, "SDG&E DR-SES"];
+%                 Retail_Rate_Name_Input_Iter = [Retail_Rate_Name_Input_Iter, "SDG&E DR-SES"];
+                Retail_Rate_Name_Input_Iter = ["SDG&E DR-SES"];
             end
             
         elseif Load_Profile_Name_Input == "Custom Power Solar GreenButton PG&E Albany Residential with EV"
             
-            Retail_Rate_Name_Input_Iter = ["PG&E E-1 Tier 1", "PG&E E-1 Tier 1 SmartRate", "PG&E EV-A (NEW)"];
+%             Retail_Rate_Name_Input_Iter = ["PG&E E-1 Tier 1", "PG&E E-1 Tier 1 SmartRate", "PG&E EV-A (NEW)"];
             
             if Model_Type_Input == "Solar Plus Storage"
                 % Only sites with solar are eligible to go on DR-SES
-                Retail_Rate_Name_Input_Iter = [Retail_Rate_Name_Input_Iter, "SDG&E DR-SES"];
+%                 Retail_Rate_Name_Input_Iter = [Retail_Rate_Name_Input_Iter, "SDG&E DR-SES"];
+                  Retail_Rate_Name_Input_Iter = ["SDG&E DR-SES"];
             end
             
         elseif Load_Profile_Name_Input == "Custom Power Solar GreenButton PG&E Crockett Residential with EV"
             
-            Retail_Rate_Name_Input_Iter = ["PG&E E-1 Tier 1", "PG&E E-1 Tier 1 SmartRate", "PG&E EV-A (NEW)"];
+%             Retail_Rate_Name_Input_Iter = ["PG&E E-1 Tier 1", "PG&E E-1 Tier 1 SmartRate", "PG&E EV-A (NEW)"];
             
             if Model_Type_Input == "Solar Plus Storage"
                 % Only sites with solar are eligible to go on DR-SES
-                Retail_Rate_Name_Input_Iter = [Retail_Rate_Name_Input_Iter, "SDG&E DR-SES"];
+%                 Retail_Rate_Name_Input_Iter = [Retail_Rate_Name_Input_Iter, "SDG&E DR-SES"];
+                Retail_Rate_Name_Input_Iter = ["SDG&E DR-SES"];
             end
             
         elseif Load_Profile_Name_Input == "PG&E GreenButton Central Valley Residential Non-CARE"
             
-            Retail_Rate_Name_Input_Iter = ["PG&E E-1 Tier 3", "PG&E E-1 Tier 3 SmartRate", "PG&E EV-A (NEW)"];
+%             Retail_Rate_Name_Input_Iter = ["PG&E E-1 Tier 3", "PG&E E-1 Tier 3 SmartRate", "PG&E EV-A (NEW)"];
             
             if Model_Type_Input == "Solar Plus Storage"
                 % Only sites with solar are eligible to go on DR-SES
-                Retail_Rate_Name_Input_Iter = [Retail_Rate_Name_Input_Iter, "SDG&E DR-SES"];
+%                 Retail_Rate_Name_Input_Iter = [Retail_Rate_Name_Input_Iter, "SDG&E DR-SES"];
+                Retail_Rate_Name_Input_Iter = ["SDG&E DR-SES"];
             end
             
         elseif Load_Profile_Name_Input == "PG&E GreenButton Central Valley Residential CARE"
             
-            Retail_Rate_Name_Input_Iter = ["PG&E E-1 Tier 3", "PG&E E-1 Tier 3 SmartRate", "PG&E EV-A (NEW)"];
+%             Retail_Rate_Name_Input_Iter = ["PG&E E-1 Tier 3", "PG&E E-1 Tier 3 SmartRate", "PG&E EV-A (NEW)"];
             
             if Model_Type_Input == "Solar Plus Storage"
                 % Only sites with solar are eligible to go on DR-SES
-                Retail_Rate_Name_Input_Iter = [Retail_Rate_Name_Input_Iter, "SDG&E DR-SES"];
+%                 Retail_Rate_Name_Input_Iter = [Retail_Rate_Name_Input_Iter, "SDG&E DR-SES"];
+                Retail_Rate_Name_Input_Iter = ["SDG&E DR-SES"];
             end
             
         end
@@ -358,8 +366,10 @@ for Model_Type_Input = Model_Type_Input_Iter
                             % Equivalent Cycling Constraint
                             
                             %                             Equivalent_Cycling_Constraint_Input_Iter = [0, 52, 130];
-                                                        
-                            Equivalent_Cycling_Constraint_Input_Iter = 0; % Reduced cycling constraint iteration to reduce modeling runtime.
+                            
+                            Equivalent_Cycling_Constraint_Input_Iter = [0, 52, 100];
+                            
+%                             Equivalent_Cycling_Constraint_Input_Iter = 0; % Reduced cycling constraint iteration to reduce modeling runtime.
                                                        
                             
                             for Equivalent_Cycling_Constraint_Input = Equivalent_Cycling_Constraint_Input_Iter
@@ -400,18 +410,18 @@ for Model_Type_Input = Model_Type_Input_Iter
                                             
                                             Model_Run_Number_Input = Model_Run_Number_Input + 1;
                                             
-%                                             OSESMO(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input, ...
-%                                                 Model_Timestep_Resolution, Customer_Class_Input, Load_Profile_Name_Input, ...
-%                                                 Retail_Rate_Name_Input, Solar_Profile_Name_Input, Solar_Size_Input, ...
-%                                                 Storage_Type_Input, Storage_Power_Rating_Input, Usable_Storage_Capacity_Input, ...
-%                                                 Single_Cycle_RTE_Input, Parasitic_Storage_Load_Input, ...
-%                                                 Storage_Control_Algorithm_Name, GHG_Reduction_Solution_Input, Equivalent_Cycling_Constraint_Input, ...
-%                                                 Annual_RTE_Constraint_Input, ITC_Constraint_Input, ...
-%                                                 Carbon_Adder_Incentive_Value_Input, Emissions_Forecast_Signal_Input, ...
-%                                                 OSESMO_Git_Repo_Directory, Input_Output_Data_Directory_Location, Start_Time_Input, ...
-%                                                 Show_Plots, Export_Plots, Export_Data, ...
-%                                                 Solar_Installed_Cost_per_kW, Storage_Installed_Cost_per_kWh, Estimated_Future_Lithium_Ion_Battery_Installed_Cost_per_kWh, ...
-%                                                 Cycle_Life, Storage_Depth_of_Discharge, Initial_Final_SOC, End_of_Month_Padding_Days)
+                                            OSESMO(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input, ...
+                                                Model_Timestep_Resolution, Customer_Class_Input, Load_Profile_Name_Input, ...
+                                                Retail_Rate_Name_Input, Solar_Profile_Name_Input, Solar_Size_Input, ...
+                                                Storage_Type_Input, Storage_Power_Rating_Input, Usable_Storage_Capacity_Input, ...
+                                                Single_Cycle_RTE_Input, Parasitic_Storage_Load_Input, ...
+                                                Storage_Control_Algorithm_Name, GHG_Reduction_Solution_Input, Equivalent_Cycling_Constraint_Input, ...
+                                                Annual_RTE_Constraint_Input, ITC_Constraint_Input, ...
+                                                Carbon_Adder_Incentive_Value_Input, Emissions_Forecast_Signal_Input, ...
+                                                OSESMO_Git_Repo_Directory, Input_Output_Data_Directory_Location, Start_Time_Input, ...
+                                                Show_Plots, Export_Plots, Export_Data, ...
+                                                Solar_Installed_Cost_per_kW, Storage_Installed_Cost_per_kWh, Estimated_Future_Lithium_Ion_Battery_Installed_Cost_per_kWh, ...
+                                                Cycle_Life, Storage_Depth_of_Discharge, Initial_Final_SOC, End_of_Month_Padding_Days)
                                             
                                         end
                                         

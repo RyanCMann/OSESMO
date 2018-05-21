@@ -77,27 +77,27 @@ cd(OSESMO_Git_Repo_Directory)
 
 R2_Total_Annual_Consumption = sum(R2_Load_Profile_Data) * (15/60);
 SCE_Resi_Solar_PV_Total_Annual_Production = sum(SCE_Resi_Solar_PV_Profile_Data) * (15/60);
-R2_Resi_Solar_Size_Input = 100 * (0.80/(SCE_Resi_Solar_PV_Total_Annual_Production/R2_Total_Annual_Consumption));
+R2_Resi_Solar_Size_Input = round(100 * (0.80/(SCE_Resi_Solar_PV_Total_Annual_Production/R2_Total_Annual_Consumption)), 1);
 
 R3_Total_Annual_Consumption = sum(R3_Load_Profile_Data) * (15/60);
 PGE_Resi_Solar_PV_Total_Annual_Production = sum(PGE_Resi_Solar_PV_Profile_Data) * (15/60);
-R3_Resi_Solar_Size_Input = 100 * (0.80/(PGE_Resi_Solar_PV_Total_Annual_Production/R3_Total_Annual_Consumption));
+R3_Resi_Solar_Size_Input = round(100 * (0.80/(PGE_Resi_Solar_PV_Total_Annual_Production/R3_Total_Annual_Consumption)), 1);
 
 R7_Total_Annual_Consumption = sum(R7_Load_Profile_Data) * (15/60);
 PGE_Resi_Solar_PV_Total_Annual_Production = sum(PGE_Resi_Solar_PV_Profile_Data) * (15/60);
-R7_Resi_Solar_Size_Input = 100 * (0.80/(PGE_Resi_Solar_PV_Total_Annual_Production/R7_Total_Annual_Consumption));
+R7_Resi_Solar_Size_Input = round(100 * (0.80/(PGE_Resi_Solar_PV_Total_Annual_Production/R7_Total_Annual_Consumption)), 1);
 
 R8_Total_Annual_Consumption = sum(R8_Load_Profile_Data) * (15/60);
 PGE_Resi_Solar_PV_Total_Annual_Production = sum(PGE_Resi_Solar_PV_Profile_Data) * (15/60);
-R8_Resi_Solar_Size_Input = 100 * (0.80/(PGE_Resi_Solar_PV_Total_Annual_Production/R8_Total_Annual_Consumption));
+R8_Resi_Solar_Size_Input = round(100 * (0.80/(PGE_Resi_Solar_PV_Total_Annual_Production/R8_Total_Annual_Consumption)), 1);
 
 R9_Total_Annual_Consumption = sum(R9_Load_Profile_Data) * (15/60);
 PGE_Resi_Solar_PV_Total_Annual_Production = sum(PGE_Resi_Solar_PV_Profile_Data) * (15/60);
-R9_Resi_Solar_Size_Input = 100 * (0.90/(PGE_Resi_Solar_PV_Total_Annual_Production/R9_Total_Annual_Consumption));
+R9_Resi_Solar_Size_Input = round(100 * (0.90/(PGE_Resi_Solar_PV_Total_Annual_Production/R9_Total_Annual_Consumption)), 1);
 
 R10_Total_Annual_Consumption = sum(R10_Load_Profile_Data) * (15/60);
 PGE_Resi_Solar_PV_Total_Annual_Production = sum(PGE_Resi_Solar_PV_Profile_Data) * (15/60);
-R10_Resi_Solar_Size_Input = 100 * (0.100/(PGE_Resi_Solar_PV_Total_Annual_Production/R10_Total_Annual_Consumption));
+R10_Resi_Solar_Size_Input = round(100 * (0.100/(PGE_Resi_Solar_PV_Total_Annual_Production/R10_Total_Annual_Consumption)), 1);
 
 
 %% Storage System Size Inputs for R2, R3, R7, R8, R9, and R10

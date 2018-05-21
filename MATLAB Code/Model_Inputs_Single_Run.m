@@ -12,11 +12,14 @@ clc;
 %% Model Inputs - Setup Parameters and Run Options
 
 % OSESMO Git Repository Directory Location
-OSESMO_Git_Repo_Directory = '/Users/Ryan/Library/Mobile Documents/com~apple~CloudDocs/Ryan''s Stuff/2018/OSESMO/MATLAB Code';
+% OSESMO_Git_Repo_Directory = '/Users/Ryan/Library/Mobile Documents/com~apple~CloudDocs/Ryan''s Stuff/2018/OSESMO/MATLAB Code';
+OSESMO_Git_Repo_Directory = '/Users/ryanden/Desktop/OSESMO Git Repository/OSESMO/MATLAB Code';
 
 % Import/Output Data Directory Location
+Input_Output_Data_Directory_Location = '/Users/ryanden/Box Sync/GHG Signal Working Group';
 % Input_Output_Data_Directory_Location = '/Users/Ryan/Box Sync/GHG Signal Working Group';
-Input_Output_Data_Directory_Location = '/Users/Ryan/Library/Mobile Documents/com~apple~CloudDocs/Ryan''s Stuff/2018/OSESMO/Sample Input and Output Data';
+% Input_Output_Data_Directory_Location = '/Users/ryanden/Desktop/OSESMO Git Repository/OSESMO/Sample Input and Output Data';
+% Input_Output_Data_Directory_Location = '/Users/Ryan/Library/Mobile Documents/com~apple~CloudDocs/Ryan''s Stuff/2018/OSESMO/Sample Input and Output Data';
 
 
 % Show/Export Plots and Data Toggles

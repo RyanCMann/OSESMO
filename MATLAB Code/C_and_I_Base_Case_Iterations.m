@@ -84,47 +84,47 @@ cd(OSESMO_Git_Repo_Directory)
 % Avalon East Bay Light Industrial - mapped to PG&E C&I solar profile
 C1_Total_Annual_Consumption = sum(C1_Load_Profile_Data) * (15/60);
 PGE_ComInd_Solar_PV_Total_Annual_Consumption = sum(PGE_ComInd_Solar_PV_Profile_Data) * (15/60);
-C1_Solar_Size_Input = 100 * (0.40/(PGE_ComInd_Solar_PV_Total_Annual_Consumption/C1_Total_Annual_Consumption));
+C1_Solar_Size_Input = round(100 * (0.40/(PGE_ComInd_Solar_PV_Total_Annual_Consumption/C1_Total_Annual_Consumption)), 1);
 
 % Stem SCE Office - mapped to SCE C&I solar profile
 C3_Total_Annual_Consumption = sum(C3_Load_Profile_Data) * (15/60);
 SCE_ComInd_Solar_PV_Total_Annual_Consumption = sum(SCE_ComInd_Solar_PV_Profile_Data) * (15/60);
-C3_Solar_Size_Input = 100 * (0.40/(SCE_ComInd_Solar_PV_Total_Annual_Consumption/C3_Total_Annual_Consumption));
+C3_Solar_Size_Input = round(100 * (0.40/(SCE_ComInd_Solar_PV_Total_Annual_Consumption/C3_Total_Annual_Consumption)), 1);
 
 % Stem SCE Food Processing - mapped to SCE C&I solar profile
 C5_Total_Annual_Consumption = sum(C5_Load_Profile_Data) * (15/60);
 SCE_ComInd_Solar_PV_Total_Annual_Consumption = sum(SCE_ComInd_Solar_PV_Profile_Data) * (15/60);
-C5_Solar_Size_Input = 100 * (0.40/(SCE_ComInd_Solar_PV_Total_Annual_Consumption/C5_Total_Annual_Consumption));
+C5_Solar_Size_Input = round(100 * (0.40/(SCE_ComInd_Solar_PV_Total_Annual_Consumption/C5_Total_Annual_Consumption)), 1);
 
 % Stem SDG&E Manufacturing - mapped to SDG&E C&I solar profile
 C6_Total_Annual_Consumption = sum(C6_Load_Profile_Data) * (15/60);
 SDGE_Solar_PV_Total_Annual_Consumption = sum(SDGE_ComInd_Solar_PV_Profile_Data) * (15/60);
-C6_Solar_Size_Input = 100 * (0.40/(SDGE_Solar_PV_Total_Annual_Consumption/C6_Total_Annual_Consumption));
+C6_Solar_Size_Input = round(100 * (0.40/(SDGE_Solar_PV_Total_Annual_Consumption/C6_Total_Annual_Consumption)), 1);
 
 % EnerNOC Los Angeles Grocery - mapped to SCE C&I solar profile
 C9_Total_Annual_Consumption = sum(C9_Load_Profile_Data) * (15/60);
 SCE_ComInd_Solar_PV_Total_Annual_Consumption = sum(SCE_ComInd_Solar_PV_Profile_Data) * (15/60);
-C9_Solar_Size_Input = 100 * (0.40/(SCE_ComInd_Solar_PV_Total_Annual_Consumption/C9_Total_Annual_Consumption));
+C9_Solar_Size_Input = round(100 * (0.40/(SCE_ComInd_Solar_PV_Total_Annual_Consumption/C9_Total_Annual_Consumption)), 1);
 
 % EnerNOC Los Angeles Industrial - mapped to SCE C&I solar profile
 C10_Total_Annual_Consumption = sum(C10_Load_Profile_Data) * (15/60);
 SCE_Solar_PV_Total_Annual_Consumption = sum(SCE_ComInd_Solar_PV_Profile_Data) * (15/60);
-C10_Solar_Size_Input = 100 * (0.40/(SCE_Solar_PV_Total_Annual_Consumption/C10_Total_Annual_Consumption));
+C10_Solar_Size_Input = round(100 * (0.40/(SCE_Solar_PV_Total_Annual_Consumption/C10_Total_Annual_Consumption)), 1);
 
 % EnerNOC San Diego Office - mapped to SDG&E C&I solar profile
 C11_Total_Annual_Consumption = sum(C11_Load_Profile_Data) * (15/60);
 SDGE_ComInd_Solar_PV_Total_Annual_Consumption = sum(SDGE_ComInd_Solar_PV_Profile_Data) * (15/60);
-C11_Solar_Size_Input = 100 * (0.40/(SDGE_ComInd_Solar_PV_Total_Annual_Consumption/C11_Total_Annual_Consumption));
+C11_Solar_Size_Input = round(100 * (0.40/(SDGE_ComInd_Solar_PV_Total_Annual_Consumption/C11_Total_Annual_Consumption)), 1);
 
 % PG&E GreenButton A-6 SMB - mapped to PG&E C&I solar profile
 C15_Total_Annual_Consumption = sum(C15_Load_Profile_Data) * (15/60);
 PGE_ComInd_Solar_PV_Total_Annual_Consumption = sum(PGE_ComInd_Solar_PV_Profile_Data) * (15/60);
-C15_Solar_Size_Input = 100 * (0.40/(PGE_ComInd_Solar_PV_Total_Annual_Consumption/C15_Total_Annual_Consumption));
+C15_Solar_Size_Input = round(100 * (0.40/(PGE_ComInd_Solar_PV_Total_Annual_Consumption/C15_Total_Annual_Consumption)), 1);
 
 % PG&E GreenButton A-10S MLB - mapped to PG&E C&I solar profile
 C16_Total_Annual_Consumption = sum(C16_Load_Profile_Data) * (15/60);
 PGE_ComInd_Solar_PV_Total_Annual_Consumption = sum(PGE_ComInd_Solar_PV_Profile_Data) * (15/60);
-C16_Solar_Size_Input = 100 * (0.40/(PGE_ComInd_Solar_PV_Total_Annual_Consumption/C16_Total_Annual_Consumption));
+C16_Solar_Size_Input = round(100 * (0.40/(PGE_ComInd_Solar_PV_Total_Annual_Consumption/C16_Total_Annual_Consumption)), 1);
 
 %% Storage System Size Inputs
 

@@ -175,7 +175,7 @@ tstart = tic;
 
 % Import Load Profile Data
 % Call Import_Load_Profile_Data function.
-Load_Profile_Data = Import_Load_Profile_Data(Input_Output_Data_Directory_Location, OSESMO_Git_Repo_Directory, delta_t, Load_Profile_Name_Input);
+[Load_Profile_Data, Load_Profile_Master_Index] = Import_Load_Profile_Data(Input_Output_Data_Directory_Location, OSESMO_Git_Repo_Directory, delta_t, Load_Profile_Name_Input);
 
 Annual_Peak_Demand_Baseline = max(Load_Profile_Data);
 Annual_Total_Energy_Consumption_Baseline = sum(Load_Profile_Data) * delta_t;
@@ -202,7 +202,8 @@ Carbon_Adder_Data = (Marginal_Emissions_Rate_Forecast_Data * ...
 
 % Import Retail Rate Data
 % Call Import_Retail_Rate_Data function.
-[Volumetric_Rate_Data, Summer_Peak_DC, Summer_Part_Peak_DC, Summer_Noncoincident_DC, ...
+[Retail_Rate_Master_Index, Retail_Rate_Effective_Date, ...
+    Volumetric_Rate_Data, Summer_Peak_DC, Summer_Part_Peak_DC, Summer_Noncoincident_DC, ...
     Winter_Peak_DC, Winter_Part_Peak_DC, Winter_Noncoincident_DC, ...
     Fixed_Per_Meter_Day_Charge, Fixed_Per_Meter_Month_Charge, ...
     First_Summer_Month, Last_Summer_Month, Month_Data, ...
@@ -235,14 +236,26 @@ end
 
 if Model_Type_Input == "Solar Plus Storage"
     
-    Solar_PV_Profile_Data = Import_Solar_PV_Profile_Data(Input_Output_Data_Directory_Location, OSESMO_Git_Repo_Directory, delta_t, ...
+    [Solar_Profile_Master_Index, Solar_Profile_Description, Solar_PV_Profile_Data] = ...
+        Import_Solar_PV_Profile_Data(Input_Output_Data_Directory_Location, OSESMO_Git_Repo_Directory, delta_t, ...
     Solar_Profile_Name_Input, Solar_Size_Input);    
     
 elseif Model_Type_Input == "Storage Only" || Solar_Profile_Name_Input == "No Solar"
     
+    Solar_Profile_Master_Index = "";
+    Solar_Profile_Description = "";
     Solar_PV_Profile_Data = zeros(size(Load_Profile_Data));
     
 end
+
+
+% Import Utility Marginal Cost Data
+% Marginal Costs are mapped to load profile location
+
+[Generation_Cost_Data, Representative_Distribution_Cost_Data] = ...
+Import_Utility_Marginal_Cost_Data(Input_Output_Data_Directory_Location, ...
+OSESMO_Git_Repo_Directory, delta_t, Load_Profile_Name_Input);
+
 
 % Set Directory to Box Sync Folder
 cd(Input_Output_Data_Directory_Location)
@@ -618,7 +631,6 @@ for Month_Iter = 1:12 % Iterate through all months
     % Number of rows in inequality constraint matrix = numtsteps
     % Number of columns in inequality constraint matrix = length_x
     A_P_ES_in = sparse(numtsteps, length_x);
-    
     
     for n = 1:numtsteps
         A_P_ES_in(n, n) = -1;
@@ -1802,13 +1814,6 @@ end
 Model_Run_Date_Time = join(Model_Run_Date_Time, "");
 
 
-% Find Load Profile Master Index Corresponding to Load Profile Name Input
-Load_Profile_Master_Index = ""; % Placeholder
-
-
-% Find Retail Rate Master Index Corresponding to Retail Rate Name
-Retail_Rate_Master_Index = ""; % Placeholder
-
 % Convert Retail Rate Name Input (which contains both utility name and rate
 % name) into Retail Rate Utility and Retail Rate Name Output
 
@@ -1824,21 +1829,12 @@ Retail_Rate_Utility_Plus_Space = join([Retail_Rate_Utility, " "], "");
 
 Retail_Rate_Name_Output = erase(Retail_Rate_Name_Input, Retail_Rate_Utility_Plus_Space);
 
-% Find Retail Rate Effective Date Corresponding to Retail Rate Name
-Retail_Rate_Effective_Date = ""; % Placeholder
-
 % If Solar Profile Name is "No Solar", Solar Profile Name Output is Blank
 if Solar_Profile_Name_Input == "No Solar"
     Solar_Profile_Name_Output = "";
 else
     Solar_Profile_Name_Output = Solar_Profile_Name_Input;
 end
-
-% Find Solar Profile Master Index Corresponding to Solar Profile Name
-Solar_Profile_Master_Index = ""; % Placeholder
-
-% Find Solar Profile Description Corresponding to Solar Profile Name (Optional)
-Solar_Profile_Description = ""; % Placeholder
 
 % Storage Control Algorithm Description (Optional)
 if Storage_Control_Algorithm_Name == "OSESMO Economic Dispatch"
@@ -1865,7 +1861,7 @@ EV_Charge = ""; % Model does not calculate or report EV charge information.
 
 EV_Gas_Savings = ""; % Model does not calculate or report EV gas savings information.
 
-EV_GHG_Savings = ""; % Model does not calculate or report EV GHg savings information.
+EV_GHG_Savings = ""; % Model does not calculate or report EV GHG savings information.
 
 
 
@@ -1928,6 +1924,7 @@ if Show_Plots == 1 || Export_Plots ==1
     figure('NumberTitle', 'off')
     plot(t, P_ES,'r')
     xlim([t(1), t(end)])
+    ylim([-Storage_Power_Rating_Input * 1.1, Storage_Power_Rating_Input * 1.1]) % Make ylim 10% larger than storage power rating.
     xlabel('Date & Time','FontSize',15);
     ylabel('Energy Storage Output (kW)','FontSize',15);
     title('Energy Storage Dispatch Profile','FontSize',15)     
@@ -1950,6 +1947,7 @@ if Show_Plots == 1 || Export_Plots ==1
     figure('NumberTitle', 'off')
     plot(t, Ene_Lvl,'r')
     xlim([t(1), t(end)])
+    ylim([-Usable_Storage_Capacity_Input * 0.1, Usable_Storage_Capacity_Input * 1.1]) % Make ylim 10% larger than energy storage level.
     xlabel('Date & Time','FontSize',15);
     ylabel('Energy Storage Energy Level (kWh)','FontSize',15);
     title('Energy Storage Energy Level','FontSize',15) 
@@ -1973,10 +1971,12 @@ if Show_Plots == 1 || Export_Plots ==1
     yyaxis left
     plot(t, Volumetric_Rate_Data)
     xlim([t(1), t(end)])
+    ylim([-max(Volumetric_Rate_Data) * 0.1, max(Volumetric_Rate_Data) * 1.1]) % Make ylim 10% larger than volumetric rate range.
     xlabel('Date & Time','FontSize',15);
     ylabel('Energy Price ($/kWh)', 'FontSize', 15);
     yyaxis right
     plot(t, Marginal_Emissions_Rate_Evaluation_Data)
+    ylim([-max(Marginal_Emissions_Rate_Evaluation_Data) * 0.1, max(Marginal_Emissions_Rate_Evaluation_Data) * 1.1]) % Make ylim 10% larger than emissions rate range.
     ylabel('Marginal Emissions Rate (metric tons/kWh)','FontSize',15);
     title('Electricity Rates and Marginal Emissions Rates','FontSize',15)
     legend('Electricity Rates ($/kWh)','Marginal Carbon Emissions Rate (metric tons/kWh)', ...
@@ -2031,6 +2031,7 @@ if Show_Plots == 1 || Export_Plots ==1
     figure('NumberTitle', 'off')
     plot(t, Total_DC,'Color',[0,0.5,0])
     xlim([t(1), t(end)])
+    ylim([-1, max(Total_DC) + 1])
     xlabel('Date & Time','FontSize',15);
     ylabel('Total Demand Charge ($/kW)','FontSize',15);
     title('Coincident + Non-Coincident Demand Charge Schedule','FontSize',15)
@@ -2136,7 +2137,7 @@ Solar_Storage_Energy_Consumption_Decrease_Percentage = ...
     Annual_Total_Energy_Consumption_with_Solar_and_Storage)/...
     Annual_Total_Energy_Consumption_Baseline) * 100;
 
-sprintf('Baseline annual peak noncoincident demand is %0.00f kW', ...
+sprintf('Baseline annual peak noncoincident demand is %0.00f kW.', ...
     Annual_Peak_Demand_Baseline)
 
 if Model_Type_Input == "Storage Only"
@@ -2191,8 +2192,7 @@ end
 % Calculate Baseline Monthly Costs
 
 Monthly_Costs_Matrix_Baseline = [Fixed_Charge_Vector, NC_DC_Baseline_Vector, ...
-    CPK_DC_Baseline_Vector, CPP_DC_Baseline_Vector, Energy_Charge_Baseline_Vector, ...
-    zeros(size(Fixed_Charge_Vector))];
+    CPK_DC_Baseline_Vector, CPP_DC_Baseline_Vector, Energy_Charge_Baseline_Vector];
 
 Annual_Costs_Vector_Baseline = [sum(Fixed_Charge_Vector); ...
     sum(NC_DC_Baseline_Vector) + sum(CPK_DC_Baseline_Vector) + sum(CPP_DC_Baseline_Vector);...
@@ -2205,7 +2205,7 @@ Annual_Energy_Charge_Cost_Baseline = Annual_Costs_Vector_Baseline(3);
 % Calculate Monthly Costs With Solar Only
 
 Monthly_Costs_Matrix_with_Solar_Only = [Fixed_Charge_Vector, NC_DC_with_Solar_Only_Vector, CPK_DC_with_Solar_Only_Vector,...
-    CPP_DC_with_Solar_Only_Vector, Energy_Charge_with_Solar_Only_Vector, zeros(size(Fixed_Charge_Vector))];
+    CPP_DC_with_Solar_Only_Vector, Energy_Charge_with_Solar_Only_Vector];
 
 Annual_Costs_Vector_with_Solar_Only = [sum(Fixed_Charge_Vector); ...
     sum(NC_DC_with_Solar_Only_Vector) + sum(CPK_DC_with_Solar_Only_Vector) + sum(CPP_DC_with_Solar_Only_Vector);...
@@ -2224,8 +2224,7 @@ end
 % Calculate Monthly Costs with Solar and Storage
 
 Monthly_Costs_Matrix_with_Solar_and_Storage = [Fixed_Charge_Vector, NC_DC_with_Solar_and_Storage_Vector, ...
-    CPK_DC_with_Solar_and_Storage_Vector, CPP_DC_with_Solar_and_Storage_Vector, Energy_Charge_with_Solar_and_Storage_Vector, ...
-    Cycling_Penalty_Vector];
+    CPK_DC_with_Solar_and_Storage_Vector, CPP_DC_with_Solar_and_Storage_Vector, Energy_Charge_with_Solar_and_Storage_Vector];
 
 Annual_Costs_Vector_with_Solar_and_Storage = [sum(Fixed_Charge_Vector); ...
     sum(NC_DC_with_Solar_and_Storage_Vector) + sum(CPK_DC_with_Solar_and_Storage_Vector) + sum(CPP_DC_with_Solar_and_Storage_Vector);...
@@ -2274,7 +2273,7 @@ if Show_Plots == 1 || Export_Plots ==1
     xlabel('Month','FontSize',15);
     ylabel('Cost ($/Month)','FontSize',15);
     title('Monthly Costs, Without Storage','FontSize',15)
-    legend('Fixed Charges','Max DC', 'Peak DC','Part-Peak DC', 'Energy Charge', 'Cycling Penalty', ...
+    legend('Fixed Charges','Max DC', 'Peak DC','Part-Peak DC', 'Energy Charge', ...
         'Location', 'NorthWest')
     set(gca,'FontSize',15);
         
@@ -2302,7 +2301,7 @@ if Model_Type_Input == "Solar Plus Storage"
         xlabel('Month','FontSize',15);
         ylabel('Cost ($/Month)','FontSize',15);
         title('Monthly Costs, With Solar Only','FontSize',15)
-        legend('Fixed Charges','Max DC', 'Peak DC','Part-Peak DC', 'Energy Charge', 'Cycling Penalty', ...
+        legend('Fixed Charges','Max DC', 'Peak DC','Part-Peak DC', 'Energy Charge', ...
             'Location', 'NorthWest')
         set(gca,'FontSize',15);
 
@@ -2331,7 +2330,7 @@ if Show_Plots == 1 || Export_Plots ==1
     xlabel('Month','FontSize',15);
     ylabel('Cost ($/Month)','FontSize',15);
     title('Monthly Costs, With Storage','FontSize',15)
-    legend('Fixed Charges','Max DC', 'Peak DC','Part-Peak DC', 'Energy Charge', 'Cycling Penalty', ...
+    legend('Fixed Charges','Max DC', 'Peak DC','Part-Peak DC', 'Energy Charge', ...
         'Location', 'NorthWest')
     set(gca,'FontSize',15);
         
@@ -2398,14 +2397,6 @@ if Show_Plots == 1 || Export_Plots ==1
     
 end
 
-%% Close All Figures
-
-if Show_Plots == 0
-    
-    close all;
-    
-end
-
 
 %% Report Annual Savings
 
@@ -2441,7 +2432,7 @@ if Model_Type_Input == "Solar Plus Storage"
     Solar_Installed_Cost = Solar_Size_Input * Solar_Installed_Cost_per_kW;
     Solar_Simple_Payback = Solar_Installed_Cost/Annual_Customer_Bill_Savings_from_Solar;
     
-    sprintf('Annual cost savings from solar is $%0.0f, representing %0.2f %% of the original $%0.0f bill.', ...
+    sprintf('Annual cost savings from solar is $%0.0f, representing %0.2f%% of the original $%0.0f bill.', ...
         Annual_Customer_Bill_Savings_from_Solar, Annual_Customer_Bill_Savings_from_Solar_Percent * 100, Annual_Customer_Bill_Baseline)
     
     sprintf('The solar PV system has a simple payback of %0.0f years, not including incentives.', ...
@@ -2493,6 +2484,107 @@ Operational_Capacity_Factor = ((sum(P_ES_out) * delta_t)/((length(Load_Profile_D
 
 sprintf('The battery has an Operational/SGIP Capacity Factor of %0.2f%%.', ...
     Operational_Capacity_Factor * 100)
+
+
+%% Report Grid Costs
+
+% Calculate Total Annual Grid Costs
+
+Annual_Grid_Cost_Baseline = (Generation_Cost_Data + Representative_Distribution_Cost_Data)' * ...
+    Load_Profile_Data * (1/1000) * delta_t;
+
+if Model_Type_Input == "Solar Plus Storage"
+    Annual_Grid_Cost_with_Solar_Only = (Generation_Cost_Data + Representative_Distribution_Cost_Data)' * ...
+        (Load_Profile_Data - Solar_PV_Profile_Data) * (1/1000) * delta_t;
+else
+    Annual_Grid_Cost_with_Solar_Only = "";
+end
+
+Annual_Grid_Cost_with_Solar_and_Storage = (Generation_Cost_Data + Representative_Distribution_Cost_Data)' * ...
+    (Load_Profile_Data - Solar_PV_Profile_Data - P_ES_out + P_ES_in) * (1/1000) * delta_t;
+
+
+% Calculate Monthly Grid Costs
+
+Grid_Cost_Timestep_Baseline = [Generation_Cost_Data .* Load_Profile_Data * (1/1000) * delta_t, ...
+    Representative_Distribution_Cost_Data .* Load_Profile_Data * (1/1000) * delta_t];
+
+Grid_Cost_Month_Baseline = [];
+
+for Month_Iter = 1:12
+    Grid_Cost_Single_Month_Baseline = sum(Grid_Cost_Timestep_Baseline(Month_Data == Month_Iter, :));
+    Grid_Cost_Month_Baseline = [Grid_Cost_Month_Baseline; Grid_Cost_Single_Month_Baseline];
+end
+
+
+Grid_Cost_Timestep_with_Solar_Only = [Generation_Cost_Data .* (Load_Profile_Data - Solar_PV_Profile_Data) * (1/1000) * delta_t, ...
+    Representative_Distribution_Cost_Data .* (Load_Profile_Data - Solar_PV_Profile_Data) * (1/1000) * delta_t];
+
+Grid_Cost_Month_with_Solar_Only = [];
+
+for Month_Iter = 1:12
+    Grid_Cost_Single_Month_with_Solar_Only = sum(Grid_Cost_Timestep_with_Solar_Only(Month_Data == Month_Iter, :));
+    Grid_Cost_Month_with_Solar_Only = [Grid_Cost_Month_with_Solar_Only; Grid_Cost_Single_Month_with_Solar_Only];
+end
+
+
+Grid_Cost_Timestep_with_Solar_and_Storage = [Generation_Cost_Data .* (Load_Profile_Data - Solar_PV_Profile_Data - P_ES_out + P_ES_in) * (1/1000) * delta_t, ...
+    Representative_Distribution_Cost_Data .* (Load_Profile_Data - Solar_PV_Profile_Data - P_ES_out + P_ES_in) * (1/1000) * delta_t];
+
+Grid_Cost_Month_with_Solar_and_Storage = [];
+
+for Month_Iter = 1:12
+    Grid_Cost_Single_Month_with_Solar_and_Storage = sum(Grid_Cost_Timestep_with_Solar_and_Storage(Month_Data == Month_Iter, :));
+    Grid_Cost_Month_with_Solar_and_Storage = [Grid_Cost_Month_with_Solar_and_Storage; Grid_Cost_Single_Month_with_Solar_and_Storage];
+end
+
+
+% Calculate Monthly Grid Cost Savings from Storage
+
+if Model_Type_Input == "Storage Only"
+    
+    Grid_Cost_Savings_Month_from_Storage = Grid_Cost_Month_Baseline - Grid_Cost_Month_with_Solar_and_Storage;
+    
+elseif Model_Type_Input == "Solar Plus Storage"
+    
+    Grid_Cost_Savings_Month_from_Storage = Grid_Cost_Month_with_Solar_Only - Grid_Cost_Month_with_Solar_and_Storage;
+    
+end
+
+
+% Report Grid Cost Savings from Solar
+
+if Model_Type_Input == "Solar Plus Storage"
+    
+    sprintf('Installing solar DECREASES estimated utility grid costs (not including transmission costs, \n and using representative distribution costs) by $%0.2f per year.', ...
+        Annual_Grid_Cost_Baseline - Annual_Grid_Cost_with_Solar_Only)   
+
+end
+
+
+% Report Grid Cost Impact from Storage
+
+if Model_Type_Input == "Storage Only"
+    
+    if Annual_Grid_Cost_Baseline - Annual_Grid_Cost_with_Solar_and_Storage < 0
+        sprintf('Installing energy storage INCREASES estimated utility grid costs (not including transmission costs, \n and using representative distribution costs) by $%0.2f per year.', ...
+            -(Annual_Grid_Cost_Baseline - Annual_Grid_Cost_with_Solar_and_Storage))
+    else
+        sprintf('Installing energy storage DECREASES estimated utility grid costs (not including transmission costs, \n and using representative distribution costs) by $%0.2f per year.', ...
+            Annual_Grid_Cost_Baseline - Annual_Grid_Cost_with_Solar_and_Storage)
+    end
+    
+elseif Model_Type_Input == "Solar Plus Storage"
+    
+    if Annual_Grid_Cost_with_Solar_Only - Annual_Grid_Cost_with_Solar_and_Storage < 0
+        sprintf('Installing energy storage INCREASES estimated utility grid costs (not including transmission costs, \n and using representative distribution costs) by $%0.2f per year.', ...
+            -(Annual_Grid_Cost_with_Solar_Only - Annual_Grid_Cost_with_Solar_and_Storage))
+    else
+        sprintf('Installing energy storage DECREASES estimated utility grid costs (not including transmission costs, \n and using representative distribution costs) by $%0.2f per year.', ...
+            Annual_Grid_Cost_with_Solar_Only - Annual_Grid_Cost_with_Solar_and_Storage)
+    end
+    
+end
 
 %% Report Emissions Impact
 
@@ -2565,14 +2657,275 @@ else
 end
 
 
-%% Report Grid Cost/Grid Impact
+%% Plot Grid Costs
 
- Annual_Grid_Cost_Baseline = ""; % Placeholder
- 
- Annual_Grid_Cost_with_Solar_Only = ""; % Placeholder
- 
- Annual_Grid_Cost_with_Solar_and_Storage = ""; % Placeholder
+% Plot Grid Cost Time-Series
 
+if Show_Plots == 1 || Export_Plots ==1
+    
+    figure('NumberTitle', 'off')
+    plot(t, Generation_Cost_Data * (1/1000), ...
+        t, Representative_Distribution_Cost_Data * (1/1000))
+    xlim([t(1), t(end)])
+    xlabel('Date & Time','FontSize',15);
+    ylim([-max([Generation_Cost_Data; Representative_Distribution_Cost_Data]) * (1/1000) * 0.1, ...
+        max([Generation_Cost_Data; Representative_Distribution_Cost_Data]) * (1/1000) * 1.1]) % Make ylim 10% larger than grid cost range.
+    ylabel('Grid Costs ($/kWh)','FontSize',15);
+    title('Original and Net Load Profiles','FontSize',15)
+    legend('Grid Generation Cost', 'Representative Distribution Cost', 'Location','NorthOutside')
+    set(gca,'FontSize',15);
+    
+    if Export_Plots == 1
+        
+        saveas(gcf, Output_Directory_Filepath + "Grid Costs Time Series Plot.png");
+        
+        saveas(gcf, Output_Directory_Filepath + "Grid Costs Time Series Plot");
+        
+    end
+    
+end
+        
+
+% Calculate Maximum and Minimum Monthly Grid Costs - to set y-axis for all plots
+
+Maximum_Monthly_Grid_Cost_Baseline = max(sum(Grid_Cost_Month_Baseline, 2));
+Minimum_Monthly_Grid_Cost_Baseline = min(sum(Grid_Cost_Month_Baseline, 2));
+
+Grid_Cost_Month_with_Solar_Only_Neg = Grid_Cost_Month_with_Solar_Only;
+Grid_Cost_Month_with_Solar_Only_Neg(Grid_Cost_Month_with_Solar_Only_Neg > 0) = 0;
+Grid_Cost_Month_with_Solar_Only_Pos = Grid_Cost_Month_with_Solar_Only;
+Grid_Cost_Month_with_Solar_Only_Pos(Grid_Cost_Month_with_Solar_Only_Pos < 0) = 0;
+
+Maximum_Monthly_Grid_Cost_with_Solar_Only = max(sum(Grid_Cost_Month_with_Solar_Only_Pos, 2));
+Minimum_Monthly_Grid_Cost_with_Solar_Only = min(sum(Grid_Cost_Month_with_Solar_Only_Neg, 2));
+
+Grid_Cost_Month_with_Solar_and_Storage_Neg = Grid_Cost_Month_with_Solar_and_Storage;
+Grid_Cost_Month_with_Solar_and_Storage_Neg(Grid_Cost_Month_with_Solar_and_Storage_Neg > 0) = 0;
+Grid_Cost_Month_with_Solar_and_Storage_Pos = Grid_Cost_Month_with_Solar_and_Storage;
+Grid_Cost_Month_with_Solar_and_Storage_Pos(Grid_Cost_Month_with_Solar_and_Storage_Pos < 0) = 0;
+
+Maximum_Monthly_Grid_Cost_with_Solar_and_Storage = max(sum(Grid_Cost_Month_with_Solar_and_Storage_Pos, 2));
+Minimum_Monthly_Grid_Cost_with_Solar_and_Storage = min(sum(Grid_Cost_Month_with_Solar_and_Storage_Neg, 2));
+
+Maximum_Monthly_Grid_Cost = max([Maximum_Monthly_Grid_Cost_Baseline, ...
+    Maximum_Monthly_Grid_Cost_with_Solar_Only, ...
+    Maximum_Monthly_Grid_Cost_with_Solar_and_Storage]);
+
+Minimum_Monthly_Grid_Cost = min([Minimum_Monthly_Grid_Cost_Baseline, ...
+    Minimum_Monthly_Grid_Cost_with_Solar_Only, ...
+    Minimum_Monthly_Grid_Cost_with_Solar_and_Storage]);
+
+Max_Monthly_Grid_Cost_ylim = Maximum_Monthly_Grid_Cost * 1.1; % Make upper ylim 10% larger than largest monthly bill.
+
+if Minimum_Monthly_Grid_Cost >= 0
+    Min_Monthly_Grid_Cost_ylim = 0; % Make lower ylim equal to 0 if the lowest monthly bill is greater than zero.
+elseif Minimum_Monthly_Grid_Cost < 0
+    Min_Monthly_Grid_Cost_ylim = Minimum_Monthly_Grid_Cost * 1.1; % Make lower ylim 10% smaller than the smallest monthly bill if less than zero.
+end
+
+
+% Plot Baseline Monthly Grid Costs
+
+if Show_Plots == 1 || Export_Plots ==1
+    
+    figure('NumberTitle', 'off')
+    bar(Grid_Cost_Month_Baseline, 'stacked')
+    xlim([0.5, 12.5])
+    ylim([Min_Monthly_Grid_Cost_ylim, Max_Monthly_Grid_Cost_ylim])
+    xlabel('Month','FontSize',15);
+    xticks(linspace(1,12,12));
+    ylabel('Grid Cost ($/month)','FontSize',15);
+    title('Monthly Baseline Grid Costs','FontSize',15);
+    legend('Generation Cost', 'Representative Distribution Cost', 'Location', 'NorthWest');
+    set(gca,'FontSize',15);
+    
+    if Export_Plots == 1
+        
+        saveas(gcf, Output_Directory_Filepath + "Monthly Grid Costs Baseline Plot.png");
+        
+        saveas(gcf, Output_Directory_Filepath + "Monthly Grid Costs Baseline Plot");
+        
+    end
+    
+end
+
+
+% Plot Monthly Grid Costs With Solar Only
+
+if Model_Type_Input == "Solar Plus Storage"
+    
+    if Show_Plots == 1 || Export_Plots ==1
+               
+        figure('NumberTitle', 'off')
+        hold on
+        bar(Grid_Cost_Month_with_Solar_Only_Neg, 'stacked')
+        ax = gca;
+        ax.ColorOrderIndex = 1; % Reset Color Order
+        bar(Grid_Cost_Month_with_Solar_Only_Pos, 'stacked')
+        hold off
+        xlim([0.5, 12.5])
+        ylim([Min_Monthly_Grid_Cost_ylim, Max_Monthly_Grid_Cost_ylim])
+        xlabel('Month','FontSize',15);
+        xticks(linspace(1,12,12));
+        ylabel('Grid Cost ($/month)','FontSize',15);
+        title('Monthly Grid Costs with Solar Only','FontSize',15);
+        legend('Generation Cost', 'Representative Distribution Cost', 'Location', 'NorthWest');
+        set(gca,'FontSize',15);
+        
+        if Export_Plots == 1
+            
+            saveas(gcf, Output_Directory_Filepath + "Monthly Grid Costs with Solar Only Plot.png");
+            
+            saveas(gcf, Output_Directory_Filepath + "Monthly Grid Costs with Solar Only Plot");
+            
+        end
+        
+    end
+    
+end
+
+
+% Plot Monthly Grid Costs with Solar and Storage
+
+if Show_Plots == 1 || Export_Plots ==1
+        
+    figure('NumberTitle', 'off')
+    hold on
+    bar(Grid_Cost_Month_with_Solar_and_Storage_Neg, 'stacked')
+    ax = gca;
+    ax.ColorOrderIndex = 1; % Reset Color Order
+    bar(Grid_Cost_Month_with_Solar_and_Storage_Pos, 'stacked')
+    hold off
+    xlim([0.5, 12.5])
+    ylim([Min_Monthly_Grid_Cost_ylim, Max_Monthly_Grid_Cost_ylim])
+    xlabel('Month','FontSize',15);
+    xticks(linspace(1,12,12));
+    ylabel('Grid Cost ($/month)','FontSize',15);
+    title('Monthly Grid Costs with Storage','FontSize',15);
+    legend('Generation Cost', 'Representative Distribution Cost', 'Location', 'NorthWest');
+    set(gca,'FontSize',15);
+    
+    
+    if Export_Plots == 1
+        
+        if Model_Type_Input == "Storage Only"
+            
+            saveas(gcf, Output_Directory_Filepath + "Monthly Grid Costs with Storage Plot.png");
+            saveas(gcf, Output_Directory_Filepath + "Monthly Grid Costs with Storage Plot");
+            
+        elseif Model_Type_Input == "Solar Plus Storage"
+            
+            saveas(gcf, Output_Directory_Filepath + "Monthly Grid Costs with Solar and Storage Plot.png");
+            saveas(gcf, Output_Directory_Filepath + "Monthly Grid Costs with Solar and Storage Plot");
+            
+        end
+        
+    end
+    
+end
+
+
+% Plot Monthly Savings from Storage
+
+if Show_Plots == 1 || Export_Plots ==1
+    
+    % Separate negative and positive values for stacked bar chart
+    Grid_Cost_Savings_Month_from_Storage_Neg = Grid_Cost_Savings_Month_from_Storage;
+    Grid_Cost_Savings_Month_from_Storage_Neg(Grid_Cost_Savings_Month_from_Storage_Neg > 0) = 0;
+    
+    Grid_Cost_Savings_Month_from_Storage_Pos = Grid_Cost_Savings_Month_from_Storage;
+    Grid_Cost_Savings_Month_from_Storage_Pos(Grid_Cost_Savings_Month_from_Storage_Pos < 0) = 0;
+    
+    
+    % Calculate Maximum and Minimum Monthly Grid Savings - to set y-axis for plot
+    
+    Maximum_Grid_Cost_Savings_Month_from_Storage = max(sum(Grid_Cost_Savings_Month_from_Storage_Pos, 2));
+    Minimum_Grid_Cost_Savings_Month_from_Storage = min(sum(Grid_Cost_Savings_Month_from_Storage_Neg, 2));
+    
+    Max_Grid_Cost_Savings_from_Storage_ylim = Maximum_Grid_Cost_Savings_Month_from_Storage * 1.1; % Make upper ylim 10% larger than largest monthly savings.
+    
+    if Minimum_Grid_Cost_Savings_Month_from_Storage >= 0
+        Min_Grid_Cost_Savings_from_Storage_ylim = 0; % Make lower ylim equal to 0 if the lowest monthly grid savings.
+    elseif Minimum_Grid_Cost_Savings_Month_from_Storage < 0
+        Min_Grid_Cost_Savings_from_Storage_ylim = Minimum_Grid_Cost_Savings_Month_from_Storage * 1.1 - Max_Grid_Cost_Savings_from_Storage_ylim * 0.1; % Make lower ylim 10% smaller than the smallest monthly bill if less than zero.
+    end
+    
+    
+    figure('NumberTitle', 'off')
+    hold on
+    bar(Grid_Cost_Savings_Month_from_Storage_Neg, 'stacked')
+    ax = gca;
+    ax.ColorOrderIndex = 1; % Reset Color Order
+    bar(Grid_Cost_Savings_Month_from_Storage_Pos, 'stacked')
+    hold off
+    xlim([0.5, 12.5])
+    xlabel('Month','FontSize',15);
+    xticks(linspace(1,12,12));
+    ylim([Min_Grid_Cost_Savings_from_Storage_ylim, Max_Grid_Cost_Savings_from_Storage_ylim])
+    ylabel('Grid Cost Savings ($/month)','FontSize',15);
+    title('Monthly Grid Cost Savings from Storage','FontSize',15);
+    legend('Generation Cost', 'Representative Distribution Cost', 'Location', 'NorthWest');
+    set(gca,'FontSize',15);
+    
+    if Export_Plots == 1
+        
+        saveas(gcf, Output_Directory_Filepath + "Monthly Grid Cost Savings from Storage Plot.png");
+        saveas(gcf, Output_Directory_Filepath + "Monthly Grid Cost Savings from Storage Plot");
+        
+    end
+    
+end
+
+
+%% Plot Emissions Impact by Month
+
+if Show_Plots == 1 || Export_Plots ==1
+    
+    Emissions_Impact_Timestep = Marginal_Emissions_Rate_Evaluation_Data .* -P_ES * (1/1000) * delta_t;
+    
+    Emissions_Impact_Month = [];
+    
+    for Month_Iter = 1:12
+        Emissions_Impact_Single_Month = sum(Emissions_Impact_Timestep(Month_Data == Month_Iter, :));
+        Emissions_Impact_Month = [Emissions_Impact_Month; Emissions_Impact_Single_Month];
+    end
+    
+    figure('NumberTitle', 'off')
+    bar(Emissions_Impact_Month)
+    xlim([0.5, 12.5])
+    xlabel('Month','FontSize',15);
+    xticks(linspace(1,12,12));
+    ylabel('Emissions Increase (metric tons/month)','FontSize',15);
+    title('Monthly Emissions Impact From Storage','FontSize',15)
+    set(gca,'FontSize',15);
+    
+    hold on
+    for i = 1:length(Emissions_Impact_Month)
+        h=bar(i, Emissions_Impact_Month(i));
+        if Emissions_Impact_Month(i) < 0
+            set(h,'FaceColor',[0 0.5 0]);
+        elseif Emissions_Impact_Month(i) >=0
+            set(h,'FaceColor','r');
+        end
+    end
+    hold off
+    
+    if Export_Plots == 1
+        
+        saveas(gcf, Output_Directory_Filepath + "Monthly Emissions Impact from Storage Plot.png");
+        saveas(gcf, Output_Directory_Filepath + "Monthly Emissions Impact from Storage Plot");
+        
+    end
+    
+end
+    
+%% Close All Figures
+
+if Show_Plots == 0
+    
+    close all;
+    
+end
 
 
 %% Write Outputs to CSV

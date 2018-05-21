@@ -61,20 +61,20 @@ cd(OSESMO_Git_Repo_Directory)
 % Avalon East Bay Light Industrial - mapped to PG&E C&I solar profile
 C1_Total_Annual_Consumption = sum(C1_Load_Profile_Data) * (15/60);
 PGE_ComInd_Solar_PV_Total_Annual_Consumption = sum(PGE_ComInd_Solar_PV_Profile_Data) * (15/60);
-C1_40_Percent_Offset_Solar_Size_Input = 100 * (0.40/(PGE_ComInd_Solar_PV_Total_Annual_Consumption/C1_Total_Annual_Consumption));
-C1_80_Percent_Offset_Solar_Size_Input = 100 * (0.80/(PGE_ComInd_Solar_PV_Total_Annual_Consumption/C1_Total_Annual_Consumption));
+C1_40_Percent_Offset_Solar_Size_Input = round(100 * (0.40/(PGE_ComInd_Solar_PV_Total_Annual_Consumption/C1_Total_Annual_Consumption)), 1);
+C1_80_Percent_Offset_Solar_Size_Input = round(100 * (0.80/(PGE_ComInd_Solar_PV_Total_Annual_Consumption/C1_Total_Annual_Consumption)), 1);
 
 % Stem SDG&E Manufacturing - mapped to SDG&E C&I solar profile
 C6_Total_Annual_Consumption = sum(C6_Load_Profile_Data) * (15/60);
 SDGE_Solar_PV_Total_Annual_Consumption = sum(SDGE_ComInd_Solar_PV_Profile_Data) * (15/60);
-C6_40_Percent_Offset_Solar_Size_Input = 100 * (0.40/(SDGE_Solar_PV_Total_Annual_Consumption/C6_Total_Annual_Consumption));
-C6_80_Percent_Offset_Solar_Size_Input = 100 * (0.80/(SDGE_Solar_PV_Total_Annual_Consumption/C6_Total_Annual_Consumption));
+C6_40_Percent_Offset_Solar_Size_Input = round(100 * (0.40/(SDGE_Solar_PV_Total_Annual_Consumption/C6_Total_Annual_Consumption)), 1);
+C6_80_Percent_Offset_Solar_Size_Input = round(100 * (0.80/(SDGE_Solar_PV_Total_Annual_Consumption/C6_Total_Annual_Consumption)), 1);
 
 % PG&E GreenButton A-10S MLB - mapped to PG&E C&I solar profile
 C16_Total_Annual_Consumption = sum(C16_Load_Profile_Data) * (15/60);
 PGE_ComInd_Solar_PV_Total_Annual_Consumption = sum(PGE_ComInd_Solar_PV_Profile_Data) * (15/60);
-C16_40_Percent_Offset_Solar_Size_Input = 100 * (0.40/(PGE_ComInd_Solar_PV_Total_Annual_Consumption/C16_Total_Annual_Consumption));
-C16_80_Percent_Offset_Solar_Size_Input = 100 * (0.80/(PGE_ComInd_Solar_PV_Total_Annual_Consumption/C16_Total_Annual_Consumption));
+C16_40_Percent_Offset_Solar_Size_Input = round(100 * (0.40/(PGE_ComInd_Solar_PV_Total_Annual_Consumption/C16_Total_Annual_Consumption)), 1);
+C16_80_Percent_Offset_Solar_Size_Input = round(100 * (0.80/(PGE_ComInd_Solar_PV_Total_Annual_Consumption/C16_Total_Annual_Consumption)), 1);
 
 %% Storage System Size Inputs
 
