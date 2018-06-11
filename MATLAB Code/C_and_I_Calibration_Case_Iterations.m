@@ -12,7 +12,7 @@ clc;
 %% Set Directory to Box Sync Folder
 
 % OSESMO Git Repository Directory Location
-OSESMO_Git_Repo_Directory = '/Users/ryanden/Desktop/OSESMO Git Repository/OSESMO';
+OSESMO_Git_Repo_Directory = '/Users/ryanden/Desktop/OSESMO Git Repository/OSESMO/MATLAB Code';
 
 % Box Sync Directory Location
 Input_Output_Data_Directory_Location = '/Users/ryanden/Box Sync/GHG Signal Working Group';
@@ -126,14 +126,19 @@ End_of_Month_Padding_Days = 3;
 
 %% Model Input Iteration
 
-Model_Type_Input_Iter = ["Storage Only", "Solar Plus Storage"];
+% Model_Type_Input_Iter = ["Storage Only", "Solar Plus Storage"];
+
+Model_Type_Input_Iter = ["Storage Only"];
 
 for Model_Type_Input = Model_Type_Input_Iter
     
+%     Load_Profile_Name_Input_Iter = ["Avalon GreenButton East Bay Light Industrial", ... % C1
+%         "Stem GreenButton SDG&E G-16 Manufacturing", ... % C6
+%         "PG&E GreenButton A-10S MLB"]; % C16
+
     Load_Profile_Name_Input_Iter = ["Avalon GreenButton East Bay Light Industrial", ... % C1
-        "Stem GreenButton SDG&E G-16 Manufacturing", ... % C6
-        "PG&E GreenButton A-10S MLB"]; % C16
-    
+        "Stem GreenButton SDG&E G-16 Manufacturing"]; % C6
+
     for Load_Profile_Name_Input = Load_Profile_Name_Input_Iter
         
         if Model_Type_Input == "Storage Only"

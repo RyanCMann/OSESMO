@@ -717,7 +717,7 @@ for Month_Iter = 1:12 % Iterate through all months
         
     elseif any(Month_Iter == 2:12)
         
-        b_Ene_Lvl_0 = Previous_Month_Final_Energy_Level;
+        b_Ene_Lvl_0 = Next_Month_Initial_Energy_Level;
         
     end
     
@@ -1337,6 +1337,10 @@ for Month_Iter = 1:12 % Iterate through all months
     
     Previous_Month_Final_Energy_Level = Ene_Lvl_Month_Unpadded(length(Ene_Lvl_Month_Unpadded));
     
+    Next_Month_Initial_Energy_Level = Previous_Month_Final_Energy_Level + ...
+        ((Eff_c * P_ES_in_Month_Unpadded(length(P_ES_in_Month_Unpadded))) - ...
+        ((1/Eff_d) * P_ES_out_Month_Unpadded(length(P_ES_out_Month_Unpadded)))) * delta_t;
+    
     
     %% Calculate Monthly Peak Demand Using 15-Minute Intervals
     
@@ -1724,9 +1728,9 @@ for Month_Iter = 1:12 % Iterate through all months
     % Update Previous Month Final Energy Level to account for capacity fade, if battery is full at end
     % of month. Otherwise, optimization is infeasible.
     
-    if Previous_Month_Final_Energy_Level > Usable_Storage_Capacity
+    if Next_Month_Initial_Energy_Level > Usable_Storage_Capacity
         
-        Previous_Month_Final_Energy_Level = Usable_Storage_Capacity;
+        Next_Month_Initial_Energy_Level = Usable_Storage_Capacity;
         
     end
     
