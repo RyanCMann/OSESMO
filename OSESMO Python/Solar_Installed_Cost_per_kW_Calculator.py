@@ -1,9 +1,4 @@
 
-# coding: utf-8
-
-# In[6]:
-
-# @mfunction("Solar_Installed_Cost_per_kW")
 def Solar_Installed_Cost_per_kW_Calculator(Customer_Class_Input=None, Solar_Size_Input=None):
 
     # Solar Installed Cost per kW
@@ -72,21 +67,3 @@ def Solar_Installed_Cost_per_kW_Calculator(Customer_Class_Input=None, Solar_Size
             Solar_Installed_Cost_per_kW = 2200
 
     return Solar_Installed_Cost_per_kW
-
-    
-
-
-# In[ ]:
-
-
-
-
-# In[ ]:
-
-
-
-
-# In[ ]:
-
-
-

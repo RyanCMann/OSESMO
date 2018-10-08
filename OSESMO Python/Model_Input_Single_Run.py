@@ -6,23 +6,22 @@
 # Description: Allows user to define model inputs for a single model run.
 
 ## Model Inputs - Setup Parameters and Run Options
-import datetime
-import Solar_Installed_Cost_per_kW_Calculator
+import datetime as dt
 
 # OSESMO Git Repository Directory Location
 OSESMO_Git_Repo_Directory = '/Users/Ryan/Library/Mobile Documents/com~apple~CloudDocs/Ryan\'s Stuff/2018/OSESMO/MATLAB Code'
 
 # Import/Output Data Directory Location
-# Input_Output_Data_Directory_Location = '/Users/Ryan/Box Sync/GHG Signal Working Group'
-Input_Output_Data_Directory_Location = '/Users/Ryan/Library/Mobile Documents/com~apple~CloudDocs/Ryan\'s Stuff/2018/OSESMO/Sample Input and Output Data'
+Input_Output_Data_Directory_Location = '/Users/Ryan/Box Sync/GHG Signal Working Group'
+# Input_Output_Data_Directory_Location = '/Users/Ryan/Library/Mobile Documents/com~apple~CloudDocs/Ryan\'s Stuff/2018/OSESMO/Sample Input and Output Data'
 
 # Show/Export Plots and Data Toggles
 
-Show_Plots = 1 # 0 == Don't show plots, 1 == show plots
+Show_Plots = 1  # 0 == Don't show plots, 1 == show plots
 
-Export_Plots = 0 # 0 = Don't export plots, 1 = export plots
+Export_Plots = 0  # 0 = Don't export plots, 1 = export plots
 
-Export_Data = 0 # 0 = Don't export data, 1 = export data
+Export_Data = 0  # 0 = Don't export data, 1 = export data
 
 ## Model Inputs - Model Data
 
@@ -186,17 +185,20 @@ Emissions_Forecast_Signal_Input = "NP15 RT5M"
 # These model inputs are not reported, as they are not common to all models.
 
 # Start Time - Used in Plots
-Start_Time_Input = datetime.date(2017, 1, 1)
+Start_Time_Input = dt.datetime(2017,1,1,0,0)  #2017-01-01 00:00
 
 # Solar Installed Cost per kW
 # Taken from LBNL's Tracking the Sun 10 report, Tables B-2 and B-3 (pgs. 50 & 51)
 
+from Solar_Installed_Cost_per_kW_Calculator import Solar_Installed_Cost_per_kW_Calculator
 Solar_Installed_Cost_per_kW = Solar_Installed_Cost_per_kW_Calculator(Customer_Class_Input, Solar_Size_Input)
 
 
 # Storage Installed Cost per kWh
 # Used values from Lazard's Levelized Cost of Storage report (2017), pg. 19
 # https://www.lazard.com/media/450338/lazard-levelized-cost-of-storage-version-30.pdf
+
+from Storage_Installed_Cost_per_kWh_Calculator import Storage_Installed_Cost_per_kWh_Calculator
 Storage_Installed_Cost_per_kWh = Storage_Installed_Cost_per_kWh_Calculator(Customer_Class_Input, Storage_Type_Input)
 
 # Estimated Future Lithium-Ion Battery Installed Cost per kWh
@@ -235,6 +237,8 @@ End_of_Month_Padding_Days = 3
 
 
 ## Run Storage Model
+
+from OSESMO import OSESMO
 
 OSESMO(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input,
     Model_Timestep_Resolution, Customer_Class_Input, Load_Profile_Name_Input,

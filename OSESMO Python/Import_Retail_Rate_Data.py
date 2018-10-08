@@ -1,217 +1,286 @@
-
-# coding: utf-8
-
-# In[2]:
-
-#@mfunction("Import_Retail_Rate_Data")
-def Import_Retail_Rate_Data(Box_Sync_Directory_Location, OSESMO_Git_Repo_Directory,delta_t, Retail_Rate_Name_Input):
+def Import_Retail_Rate_Data(Input_Output_Data_Directory_Location, OSESMO_Git_Repo_Directory,delta_t, Retail_Rate_Name_Input):
  
-# Set Directory to Box Sync Folder
-# cd(Box_Sync_Directory_Location)
+    # Load Python Packages
     import os
-    os.chdir(Box_Sync_Directory_Location)
- 
-# Import Volumetric (per kWh) Rate Data
     import numpy as np
+
+    # Set Directory to Box Sync Folder
+    os.chdir(Input_Output_Data_Directory_Location)
  
+ 
+    # Import Volumetric (per kWh) Rate Data
     if Retail_Rate_Name_Input == "PG&E A-1-STORAGE (NEW)":
 
         if delta_t == (5/60):
-            Volumetric_Rate_Data = np.genfromtxt('Rates/PG&E A-1-STORAGE (NEW)/2017/5-Minute Data/'                'Vector Format/2017_PGE_A1_STORAGE_Energy_Rates_Vector.csv',delimiter=',')
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/PG&E A-1-STORAGE (NEW)/2017/5-Minute Data/Vector Format/2017_PGE_A1_STORAGE_Energy_Rates_Vector.csv', delimiter=',')
+
         elif delta_t == (15/60):
-            Volumetric_Rate_Data = np.genfromtxt('Rates/PG&E A-1-STORAGE (NEW)/2017/15-Minute Data/'                'Vector Format/2017_PGE_A1_STORAGE_Energy_Rates_Vector.csv',delimiter=',')
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/PG&E A-1-STORAGE (NEW)/2017/15-Minute Data/Vector Format/2017_PGE_A1_STORAGE_Energy_Rates_Vector.csv', delimiter=',')
         
         
     elif Retail_Rate_Name_Input == "PG&E A-6 (OLD)":
         
         if delta_t == (5/60):
-            Volumetric_Rate_Data = np.genfromtxt('Rates/PG&E A-6 (OLD)/2017/5-Minute Data/'                'Vector Format/2017_PGE_A6_OLD_Energy_Rates_Vector.csv',delimiter=',')
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/PG&E A-6 (OLD)/2017/5-Minute Data/Vector Format/2017_PGE_A6_OLD_Energy_Rates_Vector.csv', delimiter=',')
+
         elif delta_t == (15/60):
-            Volumetric_Rate_Data = np.genfromtxt('Rates/PG&E A-6 (OLD)/2017/15-Minute Data/'                'Vector Format/2017_PGE_A6_OLD_Energy_Rates_Vector.csv',delimiter=',')
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/PG&E A-6 (OLD)/2017/15-Minute Data/Vector Format/2017_PGE_A6_OLD_Energy_Rates_Vector.csv', delimiter=',')
         
         
     elif Retail_Rate_Name_Input == "PG&E A-6 PDP (OLD)":
         
         if delta_t == (5/60):
-            Volumetric_Rate_Data = np.genfromtxt('Rates/PG&E A-6 PDP (OLD)/2017/5-Minute Data/'                'Vector Format/2017_PGE_A6_PDP_OLD_Energy_Rates_Vector.csv',delimiter=',')
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/PG&E A-6 PDP (OLD)/2017/5-Minute Data/Vector Format/2017_PGE_A6_PDP_OLD_Energy_Rates_Vector.csv', delimiter=',')
         elif delta_t == (15/60):
-            Volumetric_Rate_Data = np.genfromtxt('Rates/PG&E A-6 PDP (OLD)/2017/15-Minute Data/'                'Vector Format/2017_PGE_A6_PDP_OLD_Energy_Rates_Vector.csv',delimiter=',')
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/PG&E A-6 PDP (OLD)/2017/15-Minute Data/Vector Format/2017_PGE_A6_PDP_OLD_Energy_Rates_Vector.csv', delimiter=',')
         
         
     elif Retail_Rate_Name_Input == "PG&E E-1 Tier 1":
         
         if delta_t == (5/60):
-            Volumetric_Rate_Data = np.genfromtxt('Rates/PG&E E-1 Tier 1/2017/5-Minute Data/'                'Vector Format/2017_PGE_E1_Tier1_Energy_Rates_Vector.csv',delimiter=',')
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/PG&E E-1 Tier 1/2017/5-Minute Data/Vector Format/2017_PGE_E1_Tier1_Energy_Rates_Vector.csv', delimiter=',')
+
         elif delta_t == (15/60):
-            Volumetric_Rate_Data = np.genfromtxt('Rates/PG&E E-1 Tier 1/2017/15-Minute Data/'                'Vector Format/2017_PGE_E1_Tier1_Energy_Rates_Vector.csv',delimiter=',')
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/PG&E E-1 Tier 1/2017/15-Minute Data/Vector Format/2017_PGE_E1_Tier1_Energy_Rates_Vector.csv', delimiter=',')
         
         
     elif Retail_Rate_Name_Input == "PG&E E-1 Tier 1 SmartRate":
         
         if delta_t == (5/60):
-            Volumetric_Rate_Data = np.genfromtxt('Rates/PG&E E-1 Tier 1 SmartRate/2017/5-Minute Data/'                'Vector Format/2017_PGE_E1_Tier1_SmartRate_Energy_Rates_Vector.csv',delimiter=',')
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/PG&E E-1 Tier 1 SmartRate/2017/5-Minute Data/Vector Format/2017_PGE_E1_Tier1_SmartRate_Energy_Rates_Vector.csv', delimiter=',')
+
         elif delta_t == (15/60):
-            Volumetric_Rate_Data = np.genfromtxt('Rates/PG&E E-1 Tier 1 SmartRate/2017/15-Minute Data/'                'Vector Format/2017_PGE_E1_Tier1_SmartRate_Energy_Rates_Vector.csv',delimiter=',')
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/PG&E E-1 Tier 1 SmartRate/2017/15-Minute Data/Vector Format/2017_PGE_E1_Tier1_SmartRate_Energy_Rates_Vector.csv', delimiter=',')
         
         
     elif Retail_Rate_Name_Input == "PG&E E-1 Tier 3":
         
         if delta_t == (5/60):
-            Volumetric_Rate_Data = np.genfromtxt('Rates/PG&E E-1 Tier 3/2017/5-Minute Data/'                'Vector Format/2017_PGE_E1_Tier3_Energy_Rates_Vector.csv',delimiter=',')
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/PG&E E-1 Tier 3/2017/5-Minute Data/Vector Format/2017_PGE_E1_Tier3_Energy_Rates_Vector.csv', delimiter=',')
+
         elif delta_t == (15/60):
-            Volumetric_Rate_Data = np.genfromtxt('Rates/PG&E E-1 Tier 3/2017/15-Minute Data/'                'Vector Format/2017_PGE_E1_Tier3_Energy_Rates_Vector.csv',delimiter=',')
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/PG&E E-1 Tier 3/2017/15-Minute Data/Vector Format/2017_PGE_E1_Tier3_Energy_Rates_Vector.csv', delimiter=',')
         
         
     elif Retail_Rate_Name_Input == "PG&E E-1 Tier 3 SmartRate":
         
         if delta_t == (5/60):
-            Volumetric_Rate_Data = np.genfromtxt('Rates/PG&E E-1 Tier 3 SmartRate/2017/5-Minute Data/'                'Vector Format/2017_PGE_E1_Tier3_SmartRate_Energy_Rates_Vector.csv',delimiter=',')
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/PG&E E-1 Tier 3 SmartRate/2017/5-Minute Data/Vector Format/2017_PGE_E1_Tier3_SmartRate_Energy_Rates_Vector.csv', delimiter=',')
+
         elif delta_t == (15/60):
-            Volumetric_Rate_Data = np.genfromtxt('Rates/PG&E E-1 Tier 3 SmartRate/2017/15-Minute Data/'                'Vector Format/2017_PGE_E1_Tier3_SmartRate_Energy_Rates_Vector.csv',delimiter=',')
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/PG&E E-1 Tier 3 SmartRate/2017/15-Minute Data/Vector Format/2017_PGE_E1_Tier3_SmartRate_Energy_Rates_Vector.csv', delimiter=',')
         
         
     elif Retail_Rate_Name_Input == "PG&E E-19S (OLD)":
         
         if delta_t == (5/60):
-            Volumetric_Rate_Data = np.genfromtxt('Rates/PG&E E-19S (OLD)/2017/5-Minute Data/'                'Vector Format/2017_PGE_E19S_OLD_Energy_Rates_Vector.csv',delimiter=',')
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/PG&E E-19S (OLD)/2017/5-Minute Data/Vector Format/2017_PGE_E19S_OLD_Energy_Rates_Vector.csv', delimiter=',')
+
         elif delta_t == (15/60):
-            Volumetric_Rate_Data = np.genfromtxt('Rates/PG&E E-19S (OLD)/2017/15-Minute Data/'                'Vector Format/2017_PGE_E19S_OLD_Energy_Rates_Vector.csv',delimiter=',')
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/PG&E E-19S (OLD)/2017/15-Minute Data/Vector Format/2017_PGE_E19S_OLD_Energy_Rates_Vector.csv', delimiter=',')
         
         
     elif Retail_Rate_Name_Input == "PG&E E-19S PDP (OLD)":
         
         if delta_t == (5/60):
-            Volumetric_Rate_Data = np.genfromtxt('Rates/PG&E E-19S PDP (OLD)/2017/5-Minute Data/'                'Vector Format/2017_PGE_E19S_PDP_OLD_Energy_Rates_Vector.csv',delimiter=',')
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/PG&E E-19S PDP (OLD)/2017/5-Minute Data/Vector Format/2017_PGE_E19S_PDP_OLD_Energy_Rates_Vector.csv', delimiter=',')
+
         elif delta_t == (15/60):
-            Volumetric_Rate_Data = np.genfromtxt('Rates/PG&E E-19S PDP (OLD)/2017/15-Minute Data/'                'Vector Format/2017_PGE_E19S_PDP_OLD_Energy_Rates_Vector.csv',delimiter=',')
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/PG&E E-19S PDP (OLD)/2017/15-Minute Data/Vector Format/2017_PGE_E19S_PDP_OLD_Energy_Rates_Vector.csv', delimiter=',')
         
         
     elif Retail_Rate_Name_Input == "PG&E E-19S-R (OLD)":
         
         if delta_t == (5/60):
-            Volumetric_Rate_Data = np.genfromtxt('Rates/PG&E E-19S-R (OLD)/2017/5-Minute Data/'                'Vector Format/2017_PGE_E19SR_OLD_Energy_Rates_Vector.csv',delimiter=',')
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/PG&E E-19S-R (OLD)/2017/5-Minute Data/Vector Format/2017_PGE_E19SR_OLD_Energy_Rates_Vector.csv', delimiter=',')
+
         elif delta_t == (15/60):
-            Volumetric_Rate_Data = np.genfromtxt('Rates/PG&E E-19S-R (OLD)/2017/15-Minute Data/'                'Vector Format/2017_PGE_E19SR_OLD_Energy_Rates_Vector.csv',delimiter=',')
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/PG&E E-19S-R (OLD)/2017/15-Minute Data/Vector Format/2017_PGE_E19SR_OLD_Energy_Rates_Vector.csv', delimiter=',')
         
         
     elif Retail_Rate_Name_Input == "PG&E E-19S (NEW)":
         
         if delta_t == (5/60):
-            Volumetric_Rate_Data = np.genfromtxt('Rates/PG&E E-19S (NEW)/2017/5-Minute Data/'                'Vector Format/2017_PGE_E19S_NEW_Energy_Rates_Vector.csv',delimiter=',')
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/PG&E E-19S (NEW)/2017/5-Minute Data/Vector Format/2017_PGE_E19S_NEW_Energy_Rates_Vector.csv', delimiter=',')
+
         elif delta_t == (15/60):
-            Volumetric_Rate_Data = np.genfromtxt('Rates/PG&E E-19S (NEW)/2017/15-Minute Data/'                'Vector Format/2017_PGE_E19S_NEW_Energy_Rates_Vector.csv',delimiter=',')
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/PG&E E-19S (NEW)/2017/15-Minute Data/Vector Format/2017_PGE_E19S_NEW_Energy_Rates_Vector.csv', delimiter=',')
         
         
     elif Retail_Rate_Name_Input == "PG&E E-19S PDP (NEW)":
         
         if delta_t == (5/60):
-            Volumetric_Rate_Data = np.genfromtxt('Rates/PG&E E-19S PDP (NEW)/2017/5-Minute Data/'                'Vector Format/2017_PGE_E19S_PDP_NEW_Energy_Rates_Vector.csv',delimiter=',')
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/PG&E E-19S PDP (NEW)/2017/5-Minute Data/Vector Format/2017_PGE_E19S_PDP_NEW_Energy_Rates_Vector.csv', delimiter=',')
+
         elif delta_t == (15/60):
-            Volumetric_Rate_Data = np.genfromtxt('Rates/PG&E E-19S PDP (NEW)/2017/15-Minute Data/'                'Vector Format/2017_PGE_E19S_PDP_NEW_Energy_Rates_Vector.csv',delimiter=',')
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/PG&E E-19S PDP (NEW)/2017/15-Minute Data/Vector Format/2017_PGE_E19S_PDP_NEW_Energy_Rates_Vector.csv', delimiter=',')
         
         
     elif Retail_Rate_Name_Input == "PG&E E-19S-R (NEW)":
         
         if delta_t == (5/60):
-            Volumetric_Rate_Data = np.genfromtxt('Rates/PG&E E-19S-R (NEW)/2017/5-Minute Data/'                'Vector Format/2017_PGE_E19SR_NEW_Energy_Rates_Vector.csv',delimiter=',')
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/PG&E E-19S-R (NEW)/2017/5-Minute Data/Vector Format/2017_PGE_E19SR_NEW_Energy_Rates_Vector.csv', delimiter=',')
+
         elif delta_t == (15/60):
-            Volumetric_Rate_Data = np.genfromtxt('Rates/PG&E E-19S-R (NEW)/2017/15-Minute Data/'                'Vector Format/2017_PGE_E19SR_NEW_Energy_Rates_Vector.csv',delimiter=',')
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/PG&E E-19S-R (NEW)/2017/15-Minute Data/Vector Format/2017_PGE_E19SR_NEW_Energy_Rates_Vector.csv', delimiter=',')
         
         
     elif Retail_Rate_Name_Input == "PG&E EV-A (NEW)":
         
         if delta_t == (5/60):
-            Volumetric_Rate_Data = np.genfromtxt('Rates/PG&E EV-A (NEW)/2017/5-Minute Data/'                'Vector Format/2017_PGE_EVA_Energy_Rates_Vector.csv',delimiter=',')
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/PG&E EV-A (NEW)/2017/5-Minute Data/Vector Format/2017_PGE_EVA_Energy_Rates_Vector.csv', delimiter=',')
+
         elif delta_t == (15/60):
-            Volumetric_Rate_Data = np.genfromtxt('Rates/PG&E EV-A (NEW)/2017/15-Minute Data/'                'Vector Format/2017_PGE_EVA_Energy_Rates_Vector.csv',delimiter=',')
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/PG&E EV-A (NEW)/2017/15-Minute Data/Vector Format/2017_PGE_EVA_Energy_Rates_Vector.csv', delimiter=',')
         
         
     elif Retail_Rate_Name_Input == "SCE TOU-8-B":
         
         if delta_t == (5/60):
-            Volumetric_Rate_Data = np.genfromtxt('Rates/SCE TOU-8-B/2017/5-Minute Data/'                'Vector Format/2017_SCE_TOU8B_Energy_Rates_Vector.csv',delimiter=',')
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/SCE TOU-8-B/2017/5-Minute Data/Vector Format/2017_SCE_TOU8B_Energy_Rates_Vector.csv', delimiter=',')
+
         elif delta_t == (15/60):
-            Volumetric_Rate_Data = np.genfromtxt('Rates/SCE TOU-8-B/2017/15-Minute Data/'                'Vector Format/2017_SCE_TOU8B_Energy_Rates_Vector.csv',delimiter=',')
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/SCE TOU-8-B/2017/15-Minute Data/Vector Format/2017_SCE_TOU8B_Energy_Rates_Vector.csv', delimiter=',')
         
         
     elif Retail_Rate_Name_Input == "SCE TOU-8-CPP":
         
         if delta_t == (5/60):
-            Volumetric_Rate_Data = np.genfromtxt('Rates/SCE TOU-8-CPP/2017/5-Minute Data/'                'Vector Format/2017_SCE_TOU8_CPP_Energy_Rates_Vector.csv',delimiter=',')
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/SCE TOU-8-CPP/2017/5-Minute Data/Vector Format/2017_SCE_TOU8_CPP_Energy_Rates_Vector.csv', delimiter=',')
+
         elif delta_t == (15/60):
-            Volumetric_Rate_Data = np.genfromtxt('Rates/SCE TOU-8-CPP/2017/15-Minute Data/'                'Vector Format/2017_SCE_TOU8_CPP_Energy_Rates_Vector.csv',delimiter=',')
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/SCE TOU-8-CPP/2017/15-Minute Data/Vector Format/2017_SCE_TOU8_CPP_Energy_Rates_Vector.csv', delimiter=',')
         
         
     elif Retail_Rate_Name_Input == "SCE TOU-8-R":
         
         if delta_t == (5/60):
-            Volumetric_Rate_Data = np.genfromtxt('Rates/SCE TOU-8-R/2017/5-Minute Data/'                'Vector Format/2017_SCE_TOU8R_Energy_Rates_Vector.csv',delimiter=',')
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/SCE TOU-8-R/2017/5-Minute Data/Vector Format/2017_SCE_TOU8R_Energy_Rates_Vector.csv', delimiter=',')
+
         elif delta_t == (15/60):
-            Volumetric_Rate_Data = np.genfromtxt('Rates/SCE TOU-8-R/2017/15-Minute Data/'                'Vector Format/2017_SCE_TOU8R_Energy_Rates_Vector.csv',delimiter=',')
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/SCE TOU-8-R/2017/15-Minute Data/Vector Format/2017_SCE_TOU8R_Energy_Rates_Vector.csv', delimiter=',')
         
         
     elif Retail_Rate_Name_Input == "SCE TOU-8-RTP":
         
         if delta_t == (5/60):
-            Volumetric_Rate_Data = np.genfromtxt('Rates/SCE TOU-8-RTP/2017/5-Minute Data/'                'Vector Format/2017_SCE_TOU8_RTP_Energy_Rates_Vector.csv',delimiter=',')
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/SCE TOU-8-RTP/2017/5-Minute Data/Vector Format/2017_SCE_TOU8_RTP_Energy_Rates_Vector.csv', delimiter=',')
+
         elif delta_t == (15/60):
-            Volumetric_Rate_Data = np.genfromtxt('Rates/SCE TOU-8-RTP/2017/15-Minute Data/'                'Vector Format/2017_SCE_TOU8_RTP_Energy_Rates_Vector.csv',delimiter=',')
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/SCE TOU-8-RTP/2017/15-Minute Data/Vector Format/2017_SCE_TOU8_RTP_Energy_Rates_Vector.csv', delimiter=',')
         
         
     elif Retail_Rate_Name_Input == "SDG&E AL-TOU (OLD)":
         
         if delta_t == (5/60):
-            Volumetric_Rate_Data = np.genfromtxt('Rates/SDG&E AL-TOU (OLD)/2017/5-Minute Data/'                'Vector Format/2017_SDGE_AL_TOU_OLD_Energy_Rates_Vector.csv',delimiter=',')
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/SDG&E AL-TOU (OLD)/2017/5-Minute Data/Vector Format/2017_SDGE_AL_TOU_OLD_Energy_Rates_Vector.csv', delimiter=',')
+
         elif delta_t == (15/60):
-            Volumetric_Rate_Data = np.genfromtxt('Rates/SDG&E AL-TOU (OLD)/2017/15-Minute Data/'                'Vector Format/2017_SDGE_AL_TOU_OLD_Energy_Rates_Vector.csv',delimiter=',')
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/SDG&E AL-TOU (OLD)/2017/15-Minute Data/Vector Format/2017_SDGE_AL_TOU_OLD_Energy_Rates_Vector.csv', delimiter=',')
         
         
     elif Retail_Rate_Name_Input == "SDG&E AL-TOU-CP2 (OLD)":
         
         if delta_t == (5/60):
-            Volumetric_Rate_Data = np.genfromtxt('Rates/SDG&E AL-TOU-CP2 (OLD)/2017/5-Minute Data/'                'Vector Format/2017_SDGE_AL_TOU_CP2_OLD_Energy_Rates_Vector.csv',delimiter=',')
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/SDG&E AL-TOU-CP2 (OLD)/2017/5-Minute Data/Vector Format/2017_SDGE_AL_TOU_CP2_OLD_Energy_Rates_Vector.csv', delimiter=',')
+
         elif delta_t == (15/60):
-            Volumetric_Rate_Data = np.genfromtxt('Rates/SDG&E AL-TOU-CP2 (OLD)/2017/15-Minute Data/'                'Vector Format/2017_SDGE_AL_TOU_CP2_OLD_Energy_Rates_Vector.csv',delimiter=',')
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/SDG&E AL-TOU-CP2 (OLD)/2017/15-Minute Data/Vector Format/2017_SDGE_AL_TOU_CP2_OLD_Energy_Rates_Vector.csv', delimiter=',')
         
         
     elif Retail_Rate_Name_Input == "SDG&E AL-TOU (NEW)":
         
         if delta_t == (5/60):
-            Volumetric_Rate_Data = np.genfromtxt('Rates/SDG&E AL-TOU (NEW)/2017/5-Minute Data/'                'Vector Format/2017_SDGE_AL_TOU_NEW_Energy_Rates_Vector.csv',delimiter=',')
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/SDG&E AL-TOU (NEW)/2017/5-Minute Data/Vector Format/2017_SDGE_AL_TOU_NEW_Energy_Rates_Vector.csv', delimiter=',')
+
         elif delta_t == (15/60):
-            Volumetric_Rate_Data = np.genfromtxt('Rates/SDG&E AL-TOU (NEW)/2017/15-Minute Data/'                'Vector Format/2017_SDGE_AL_TOU_NEW_Energy_Rates_Vector.csv',delimiter=',')
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/SDG&E AL-TOU (NEW)/2017/15-Minute Data/Vector Format/2017_SDGE_AL_TOU_NEW_Energy_Rates_Vector.csv', delimiter=',')
         
         
     elif Retail_Rate_Name_Input == "SDG&E AL-TOU-CP2 (NEW)":
         
         if delta_t == (5/60):
-            Volumetric_Rate_Data = np.genfromtxt('Rates/SDG&E AL-TOU-CP2 (NEW)/2017/5-Minute Data/'                'Vector Format/2017_SDGE_AL_TOU_CP2_NEW_Energy_Rates_Vector.csv',delimiter=',')
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/SDG&E AL-TOU-CP2 (NEW)/2017/5-Minute Data/Vector Format/2017_SDGE_AL_TOU_CP2_NEW_Energy_Rates_Vector.csv', delimiter=',')
+
         elif delta_t == (15/60):
-            Volumetric_Rate_Data = np.genfromtxt('Rates/SDG&E AL-TOU-CP2 (NEW)/2017/15-Minute Data/'                'Vector Format/2017_SDGE_AL_TOU_CP2_NEW_Energy_Rates_Vector.csv',delimiter=',')
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/SDG&E AL-TOU-CP2 (NEW)/2017/15-Minute Data/Vector Format/2017_SDGE_AL_TOU_CP2_NEW_Energy_Rates_Vector.csv', delimiter=',')
         
         
     elif Retail_Rate_Name_Input == "SDG&E AL-TOU (NEW) with DA CAISO":
         
         if delta_t == (5/60):
-            Volumetric_Rate_Data = np.genfromtxt('Rates/SDG&E AL-TOU (NEW) with DA CAISO/2017/5-Minute Data/'                'Vector Format/2017_SDGE_AL_TOU_NEW_with_DA_CAISO_Energy_Rates_Vector.csv',delimiter=',')
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/SDG&E AL-TOU (NEW) with DA CAISO/2017/5-Minute Data/Vector Format/2017_SDGE_AL_TOU_NEW_with_DA_CAISO_Energy_Rates_Vector.csv', delimiter=',')
+
         elif delta_t == (15/60):
-            Volumetric_Rate_Data = np.genfromtxt('Rates/SDG&E AL-TOU (NEW) with DA CAISO/2017/15-Minute Data/'                'Vector Format/2017_SDGE_AL_TOU_NEW_with_DA_CAISO_Energy_Rates_Vector.csv',delimiter=',')
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/SDG&E AL-TOU (NEW) with DA CAISO/2017/15-Minute Data/Vector Format/2017_SDGE_AL_TOU_NEW_with_DA_CAISO_Energy_Rates_Vector.csv', delimiter=',')
         
         
     elif Retail_Rate_Name_Input == "SDG&E DG-R":
         
         if delta_t == (5/60):
-            Volumetric_Rate_Data = np.genfromtxt('Rates/SDG&E DG-R/2017/5-Minute Data/'                'Vector Format/2017_SDGE_DGR_Energy_Rates_Vector.csv',delimiter=',')
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/SDG&E DG-R/2017/5-Minute Data/Vector Format/2017_SDGE_DGR_Energy_Rates_Vector.csv', delimiter=',')
+
         elif delta_t == (15/60):
-            Volumetric_Rate_Data = np.genfromtxt('Rates/SDG&E DG-R/2017/15-Minute Data/'                'Vector Format/2017_SDGE_DGR_Energy_Rates_Vector.csv',delimiter=',')
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/SDG&E DG-R/2017/15-Minute Data/Vector Format/2017_SDGE_DGR_Energy_Rates_Vector.csv', delimiter=',')
         
         
     elif Retail_Rate_Name_Input == "SDG&E DR-SES":
         
         if delta_t == (5/60):
-            Volumetric_Rate_Data = np.genfromtxt('Rates/SDG&E DR-SES/2017/5-Minute Data/'                'Vector Format/2017_SDGE_DR_SES_Energy_Rates_Vector.csv',delimiter=',')
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/SDG&E DR-SES/2017/5-Minute Data/Vector Format/2017_SDGE_DR_SES_Energy_Rates_Vector.csv', delimiter=',')
+
         elif delta_t == (15/60):
-            Volumetric_Rate_Data = np.genfromtxt('Rates/SDG&E DR-SES/2017/15-Minute Data/'                'Vector Format/2017_SDGE_DR_SES_Energy_Rates_Vector.csv',delimiter=',')
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/SDG&E DR-SES/2017/15-Minute Data/Vector Format/2017_SDGE_DR_SES_Energy_Rates_Vector.csv', delimiter=',')
         
         
 
@@ -717,207 +786,281 @@ def Import_Retail_Rate_Data(Box_Sync_Directory_Location, OSESMO_Git_Repo_Directo
     if Retail_Rate_Name_Input == "PG&E A-1-STORAGE (NEW)":
         
         if delta_t == (5/60):
-            Month_Data = np.genfromtxt('Rates/PG&E A-1-STORAGE (NEW)/2017/5-Minute Data/Vector Format/'                '2017_PGE_A1_STORAGE_Month_Vector.csv',delimiter=',')
+            Month_Data = np.genfromtxt(
+                'Rates/PG&E A-1-STORAGE (NEW)/2017/5-Minute Data/Vector Format/2017_PGE_A1_STORAGE_Month_Vector.csv', delimiter=',')
+
         elif delta_t == (15/60):
-            Month_Data = np.genfromtxt('Rates/PG&E A-1-STORAGE (NEW)/2017/15-Minute Data/Vector Format/'                '2017_PGE_A1_STORAGE_Month_Vector.csv',delimiter=',')
+            Month_Data = np.genfromtxt(
+                'Rates/PG&E A-1-STORAGE (NEW)/2017/15-Minute Data/Vector Format/2017_PGE_A1_STORAGE_Month_Vector.csv', delimiter=',')
         
         
     elif Retail_Rate_Name_Input == "PG&E A-6 (OLD)":
         
         if delta_t == (5/60):
-            Month_Data = np.genfromtxt('Rates/PG&E A-6 (OLD)/2017/5-Minute Data/Vector Format/'                '2017_PGE_A6_OLD_Month_Vector.csv',delimiter=',')
+            Month_Data = np.genfromtxt(
+                'Rates/PG&E A-6 (OLD)/2017/5-Minute Data/Vector Format/2017_PGE_A6_OLD_Month_Vector.csv', delimiter=',')
+
         elif delta_t == (15/60):
-            Month_Data = np.genfromtxt('Rates/PG&E A-6 (OLD)/2017/15-Minute Data/Vector Format/'                '2017_PGE_A6_OLD_Month_Vector.csv',delimiter=',')
+            Month_Data = np.genfromtxt(
+                'Rates/PG&E A-6 (OLD)/2017/15-Minute Data/Vector Format/2017_PGE_A6_OLD_Month_Vector.csv', delimiter=',')
         
         
         
     elif Retail_Rate_Name_Input == "PG&E A-6 PDP (OLD)":
         
         if delta_t == (5/60):
-            Month_Data = np.genfromtxt('Rates/PG&E A-6 PDP (OLD)/2017/5-Minute Data/Vector Format/'                '2017_PGE_A6_PDP_OLD_Month_Vector.csv',delimiter=',')
+            Month_Data = np.genfromtxt(
+                'Rates/PG&E A-6 PDP (OLD)/2017/5-Minute Data/Vector Format/2017_PGE_A6_PDP_OLD_Month_Vector.csv', delimiter=',')
+
         elif delta_t == (15/60):
-            Month_Data = np.genfromtxt('Rates/PG&E A-6 PDP (OLD)/2017/15-Minute Data/Vector Format/'                '2017_PGE_A6_PDP_OLD_Month_Vector.csv',delimiter=',')
+            Month_Data = np.genfromtxt(
+                'Rates/PG&E A-6 PDP (OLD)/2017/15-Minute Data/Vector Format/2017_PGE_A6_PDP_OLD_Month_Vector.csv', delimiter=',')
         
         
     elif Retail_Rate_Name_Input == "PG&E E-1 Tier 1":
         
         if delta_t == (5/60):
-            Month_Data = np.genfromtxt('Rates/PG&E E-1 Tier 1/2017/5-Minute Data/Vector Format/'                '2017_PGE_E1_Tier1_Month_Vector.csv',delimiter=',')
+            Month_Data = np.genfromtxt(
+                'Rates/PG&E E-1 Tier 1/2017/5-Minute Data/Vector Format/2017_PGE_E1_Tier1_Month_Vector.csv', delimiter=',')
+
         elif delta_t == (15/60):
-            Month_Data = np.genfromtxt('Rates/PG&E E-1 Tier 1/2017/15-Minute Data/Vector Format/'                '2017_PGE_E1_Tier1_Month_Vector.csv',delimiter=',')
+            Month_Data = np.genfromtxt(
+                'Rates/PG&E E-1 Tier 1/2017/15-Minute Data/Vector Format/2017_PGE_E1_Tier1_Month_Vector.csv', delimiter=',')
         
         
     elif Retail_Rate_Name_Input == "PG&E E-1 Tier 1 SmartRate":
         
         if delta_t == (5/60):
-            Month_Data = np.genfromtxt('Rates/PG&E E-1 Tier 1 SmartRate/2017/5-Minute Data/Vector Format/'                '2017_PGE_E1_Tier1_SmartRate_Month_Vector.csv',delimiter=',')
+            Month_Data = np.genfromtxt(
+                'Rates/PG&E E-1 Tier 1 SmartRate/2017/5-Minute Data/Vector Format/2017_PGE_E1_Tier1_SmartRate_Month_Vector.csv', delimiter=',')
+
         elif delta_t == (15/60):
-            Month_Data = np.genfromtxt('Rates/PG&E E-1 Tier 1 SmartRate/2017/15-Minute Data/Vector Format/'                '2017_PGE_E1_Tier1_SmartRate_Month_Vector.csv',delimiter=',')
+            Month_Data = np.genfromtxt(
+                'Rates/PG&E E-1 Tier 1 SmartRate/2017/15-Minute Data/Vector Format/2017_PGE_E1_Tier1_SmartRate_Month_Vector.csv', delimiter=',')
         
         
     elif Retail_Rate_Name_Input == "PG&E E-1 Tier 3":
         
         if delta_t == (5/60):
-            Month_Data = np.genfromtxt('Rates/PG&E E-1 Tier 3/2017/5-Minute Data/Vector Format/'                '2017_PGE_E1_Tier3_Month_Vector.csv',delimiter=',')
+            Month_Data = np.genfromtxt(
+                'Rates/PG&E E-1 Tier 3/2017/5-Minute Data/Vector Format/2017_PGE_E1_Tier3_Month_Vector.csv', delimiter=',')
+
         elif delta_t == (15/60):
-            Month_Data = np.genfromtxt('Rates/PG&E E-1 Tier 3/2017/15-Minute Data/Vector Format/'                '2017_PGE_E1_Tier3_Month_Vector.csv',delimiter=',')
+            Month_Data = np.genfromtxt(
+                'Rates/PG&E E-1 Tier 3/2017/15-Minute Data/Vector Format/2017_PGE_E1_Tier3_Month_Vector.csv', delimiter=',')
         
         
     elif Retail_Rate_Name_Input == "PG&E E-1 Tier 3 SmartRate":
         
         if delta_t == (5/60):
-            Month_Data = np.genfromtxt('Rates/PG&E E-1 Tier 3 SmartRate/2017/5-Minute Data/Vector Format/'                '2017_PGE_E1_Tier3_SmartRate_Month_Vector.csv',delimiter=',')
+            Month_Data = np.genfromtxt(
+                'Rates/PG&E E-1 Tier 3 SmartRate/2017/5-Minute Data/Vector Format/2017_PGE_E1_Tier3_SmartRate_Month_Vector.csv', delimiter=',')
+
         elif delta_t == (15/60):
-            Month_Data = np.genfromtxt('Rates/PG&E E-1 Tier 3 SmartRate/2017/15-Minute Data/Vector Format/'                '2017_PGE_E1_Tier3_SmartRate_Month_Vector.csv',delimiter=',')
+            Month_Data = np.genfromtxt(
+                'Rates/PG&E E-1 Tier 3 SmartRate/2017/15-Minute Data/Vector Format/2017_PGE_E1_Tier3_SmartRate_Month_Vector.csv', delimiter=',')
         
         
     elif Retail_Rate_Name_Input == "PG&E E-19S (OLD)":
         
         if delta_t == (5/60):
-            Month_Data = np.genfromtxt('Rates/PG&E E-19S (OLD)/2017/5-Minute Data/Vector Format/'                '2017_PGE_E19S_OLD_Month_Vector.csv',delimiter=',')
+            Month_Data = np.genfromtxt(
+                'Rates/PG&E E-19S (OLD)/2017/5-Minute Data/Vector Format/2017_PGE_E19S_OLD_Month_Vector.csv', delimiter=',')
+
         elif delta_t == (15/60):
-            Month_Data = np.genfromtxt('Rates/PG&E E-19S (OLD)/2017/15-Minute Data/Vector Format/'                '2017_PGE_E19S_OLD_Month_Vector.csv',delimiter=',')
+            Month_Data = np.genfromtxt(
+                'Rates/PG&E E-19S (OLD)/2017/15-Minute Data/Vector Format/2017_PGE_E19S_OLD_Month_Vector.csv', delimiter=',')
         
         
     elif Retail_Rate_Name_Input == "PG&E E-19S PDP (OLD)":
         
         if delta_t == (5/60):
-            Month_Data = np.genfromtxt('Rates/PG&E E-19S PDP (OLD)/2017/5-Minute Data/Vector Format/'                '2017_PGE_E19S_PDP_OLD_Month_Vector.csv',delimiter=',')
+            Month_Data = np.genfromtxt(
+                'Rates/PG&E E-19S PDP (OLD)/2017/5-Minute Data/Vector Format/2017_PGE_E19S_PDP_OLD_Month_Vector.csv', delimiter=',')
+
         elif delta_t == (15/60):
-            Month_Data = np.genfromtxt('Rates/PG&E E-19S PDP (OLD)/2017/15-Minute Data/Vector Format/'                '2017_PGE_E19S_PDP_OLD_Month_Vector.csv',delimiter=',')
+            Month_Data = np.genfromtxt(
+                'Rates/PG&E E-19S PDP (OLD)/2017/15-Minute Data/Vector Format/2017_PGE_E19S_PDP_OLD_Month_Vector.csv', delimiter=',')
         
         
     elif Retail_Rate_Name_Input == "PG&E E-19S-R (OLD)":
         
         if delta_t == (5/60):
-            Month_Data = np.genfromtxt('Rates/PG&E E-19S-R (OLD)/2017/5-Minute Data/Vector Format/'                '2017_PGE_E19SR_OLD_Month_Vector.csv',delimiter=',')
+            Month_Data = np.genfromtxt(
+                'Rates/PG&E E-19S-R (OLD)/2017/5-Minute Data/Vector Format/2017_PGE_E19SR_OLD_Month_Vector.csv', delimiter=',')
+
         elif delta_t == (15/60):
-            Month_Data = np.genfromtxt('Rates/PG&E E-19S-R (OLD)/2017/15-Minute Data/Vector Format/'                '2017_PGE_E19SR_OLD_Month_Vector.csv',delimiter=',')
+            Month_Data = np.genfromtxt(
+                'Rates/PG&E E-19S-R (OLD)/2017/15-Minute Data/Vector Format/2017_PGE_E19SR_OLD_Month_Vector.csv', delimiter=',')
         
         
     elif Retail_Rate_Name_Input == "PG&E E-19S (NEW)":
         
         if delta_t == (5/60):
-            Month_Data = np.genfromtxt('Rates/PG&E E-19S (NEW)/2017/5-Minute Data/Vector Format/'                '2017_PGE_E19S_NEW_Month_Vector.csv',delimiter=',')
+            Month_Data = np.genfromtxt(
+                'Rates/PG&E E-19S (NEW)/2017/5-Minute Data/Vector Format/2017_PGE_E19S_NEW_Month_Vector.csv', delimiter=',')
+
         elif delta_t == (15/60):
-            Month_Data = np.genfromtxt('Rates/PG&E E-19S (NEW)/2017/15-Minute Data/Vector Format/'                '2017_PGE_E19S_NEW_Month_Vector.csv',delimiter=',')
+            Month_Data = np.genfromtxt(
+                'Rates/PG&E E-19S (NEW)/2017/15-Minute Data/Vector Format/2017_PGE_E19S_NEW_Month_Vector.csv', delimiter=',')
         
         
     elif Retail_Rate_Name_Input == "PG&E E-19S PDP (NEW)":
         
         if delta_t == (5/60):
-            Month_Data = np.genfromtxt('Rates/PG&E E-19S PDP (NEW)/2017/5-Minute Data/Vector Format/'                '2017_PGE_E19S_PDP_NEW_Month_Vector.csv',delimiter=',')
+            Month_Data = np.genfromtxt(
+                'Rates/PG&E E-19S PDP (NEW)/2017/5-Minute Data/Vector Format/2017_PGE_E19S_PDP_NEW_Month_Vector.csv', delimiter=',')
+
         elif delta_t == (15/60):
-            Month_Data = np.genfromtxt('Rates/PG&E E-19S PDP (NEW)/2017/15-Minute Data/Vector Format/'                '2017_PGE_E19S_PDP_NEW_Month_Vector.csv',delimiter=',')
+            Month_Data = np.genfromtxt(
+                'Rates/PG&E E-19S PDP (NEW)/2017/15-Minute Data/Vector Format/2017_PGE_E19S_PDP_NEW_Month_Vector.csv', delimiter=',')
         
         
     elif Retail_Rate_Name_Input == "PG&E E-19S-R (NEW)":
         
         if delta_t == (5/60):
-            Month_Data = np.genfromtxt('Rates/PG&E E-19S-R (NEW)/2017/5-Minute Data/Vector Format/'                '2017_PGE_E19SR_NEW_Month_Vector.csv',delimiter=',')
+            Month_Data = np.genfromtxt(
+                'Rates/PG&E E-19S-R (NEW)/2017/5-Minute Data/Vector Format/2017_PGE_E19SR_NEW_Month_Vector.csv', delimiter=',')
+
         elif delta_t == (15/60):
-            Month_Data = np.genfromtxt('Rates/PG&E E-19S-R (NEW)/2017/15-Minute Data/Vector Format/'                '2017_PGE_E19SR_NEW_Month_Vector.csv',delimiter=',')
+            Month_Data = np.genfromtxt(
+                'Rates/PG&E E-19S-R (NEW)/2017/15-Minute Data/Vector Format/2017_PGE_E19SR_NEW_Month_Vector.csv', delimiter=',')
         
         
     elif Retail_Rate_Name_Input == "PG&E EV-A (NEW)":
         
         if delta_t == (5/60):
-            Month_Data = np.genfromtxt('Rates/PG&E EV-A (NEW)/2017/5-Minute Data/Vector Format/'                '2017_PGE_EVA_Month_Vector.csv',delimiter=',')
+            Month_Data = np.genfromtxt(
+                'Rates/PG&E EV-A (NEW)/2017/5-Minute Data/Vector Format/2017_PGE_EVA_Month_Vector.csv', delimiter=',')
+
         elif delta_t == (15/60):
-            Month_Data = np.genfromtxt('Rates/PG&E EV-A (NEW)/2017/15-Minute Data/Vector Format/'                '2017_PGE_EVA_Month_Vector.csv',delimiter=',')
+            Month_Data = np.genfromtxt(
+                'Rates/PG&E EV-A (NEW)/2017/15-Minute Data/Vector Format/2017_PGE_EVA_Month_Vector.csv', delimiter=',')
         
         
     elif Retail_Rate_Name_Input == "SCE TOU-8-B":
         
         if delta_t == (5/60):
-            Month_Data = np.genfromtxt('Rates/SCE TOU-8-B/2017/5-Minute Data/Vector Format/'                '2017_SCE_TOU8B_Month_Vector.csv',delimiter=',')
+            Month_Data = np.genfromtxt(
+                'Rates/SCE TOU-8-B/2017/5-Minute Data/Vector Format/2017_SCE_TOU8B_Month_Vector.csv', delimiter=',')
+
         elif delta_t == (15/60):
-            Month_Data = np.genfromtxt('Rates/SCE TOU-8-B/2017/15-Minute Data/Vector Format/'                '2017_SCE_TOU8B_Month_Vector.csv',delimiter=',')
+            Month_Data = np.genfromtxt(
+                'Rates/SCE TOU-8-B/2017/15-Minute Data/Vector Format/2017_SCE_TOU8B_Month_Vector.csv', delimiter=',')
         
         
     elif Retail_Rate_Name_Input == "SCE TOU-8-CPP":
         
         if delta_t == (5/60):
-            Month_Data = np.genfromtxt('Rates/SCE TOU-8-CPP/2017/5-Minute Data/Vector Format/'                '2017_SCE_TOU8_CPP_Month_Vector.csv',delimiter=',')
+            Month_Data = np.genfromtxt(
+                'Rates/SCE TOU-8-CPP/2017/5-Minute Data/Vector Format/2017_SCE_TOU8_CPP_Month_Vector.csv', delimiter=',')
+
         elif delta_t == (15/60):
-            Month_Data = np.genfromtxt('Rates/SCE TOU-8-CPP/2017/15-Minute Data/Vector Format/'                '2017_SCE_TOU8_CPP_Month_Vector.csv',delimiter=',')
+            Month_Data = np.genfromtxt(
+                'Rates/SCE TOU-8-CPP/2017/15-Minute Data/Vector Format/2017_SCE_TOU8_CPP_Month_Vector.csv', delimiter=',')
         
         
     elif Retail_Rate_Name_Input == "SCE TOU-8-R":
         
         if delta_t == (5/60):
-            Month_Data = np.genfromtxt('Rates/SCE TOU-8-R/2017/5-Minute Data/Vector Format/'                '2017_SCE_TOU8R_Month_Vector.csv',delimiter=',')
+            Month_Data = np.genfromtxt(
+                'Rates/SCE TOU-8-R/2017/5-Minute Data/Vector Format/2017_SCE_TOU8R_Month_Vector.csv', delimiter=',')
+
         elif delta_t == (15/60):
-            Month_Data = np.genfromtxt('Rates/SCE TOU-8-R/2017/15-Minute Data/Vector Format/'                '2017_SCE_TOU8R_Month_Vector.csv',delimiter=',')
+            Month_Data = np.genfromtxt(
+                'Rates/SCE TOU-8-R/2017/15-Minute Data/Vector Format/2017_SCE_TOU8R_Month_Vector.csv', delimiter=',')
         
         
     elif Retail_Rate_Name_Input == "SCE TOU-8-RTP":
         
         if delta_t == (5/60):
-            Month_Data = np.genfromtxt('Rates/SCE TOU-8-RTP/2017/5-Minute Data/Vector Format/'                '2017_SCE_TOU8_RTP_Month_Vector.csv',delimiter=',')
+            Month_Data = np.genfromtxt(
+                'Rates/SCE TOU-8-RTP/2017/5-Minute Data/Vector Format/2017_SCE_TOU8_RTP_Month_Vector.csv', delimiter=',')
+
         elif delta_t == (15/60):
-            Month_Data = np.genfromtxt('Rates/SCE TOU-8-RTP/2017/15-Minute Data/Vector Format/'                '2017_SCE_TOU8_RTP_Month_Vector.csv',delimiter=',')
+            Month_Data = np.genfromtxt(
+                'Rates/SCE TOU-8-RTP/2017/15-Minute Data/Vector Format/2017_SCE_TOU8_RTP_Month_Vector.csv', delimiter=',')
         
         
     elif Retail_Rate_Name_Input == "SDG&E AL-TOU (OLD)":
         
         if delta_t == (5/60):
-            Month_Data = np.genfromtxt('Rates/SDG&E AL-TOU (OLD)/2017/5-Minute Data/Vector Format/'                '2017_SDGE_AL_TOU_OLD_Month_Vector.csv',delimiter=',')
+            Month_Data = np.genfromtxt(
+                'Rates/SDG&E AL-TOU (OLD)/2017/5-Minute Data/Vector Format/2017_SDGE_AL_TOU_OLD_Month_Vector.csv', delimiter=',')
+
         elif delta_t == (15/60):
-            Month_Data = np.genfromtxt('Rates/SDG&E AL-TOU (OLD)/2017/15-Minute Data/Vector Format/'                '2017_SDGE_AL_TOU_OLD_Month_Vector.csv',delimiter=',')
+            Month_Data = np.genfromtxt(
+                'Rates/SDG&E AL-TOU (OLD)/2017/15-Minute Data/Vector Format/2017_SDGE_AL_TOU_OLD_Month_Vector.csv', delimiter=',')
         
         
     elif Retail_Rate_Name_Input == "SDG&E AL-TOU-CP2 (OLD)":
         
         if delta_t == (5/60):
-            Month_Data = np.genfromtxt('Rates/SDG&E AL-TOU-CP2 (OLD)/2017/5-Minute Data/Vector Format/'                '2017_SDGE_AL_TOU_CP2_OLD_Month_Vector.csv',delimiter=',')
+            Month_Data = np.genfromtxt(
+                'Rates/SDG&E AL-TOU-CP2 (OLD)/2017/5-Minute Data/Vector Format/2017_SDGE_AL_TOU_CP2_OLD_Month_Vector.csv', delimiter=',')
+
         elif delta_t == (15/60):
-            Month_Data = np.genfromtxt('Rates/SDG&E AL-TOU-CP2 (OLD)/2017/15-Minute Data/Vector Format/'                '2017_SDGE_AL_TOU_CP2_OLD_Month_Vector.csv',delimiter=',')
+            Month_Data = np.genfromtxt(
+                'Rates/SDG&E AL-TOU-CP2 (OLD)/2017/15-Minute Data/Vector Format/2017_SDGE_AL_TOU_CP2_OLD_Month_Vector.csv', delimiter=',')
         
         
     elif Retail_Rate_Name_Input == "SDG&E AL-TOU (NEW)":
         
         if delta_t == (5/60):
-            Month_Data = np.genfromtxt('Rates/SDG&E AL-TOU (NEW)/2017/5-Minute Data/Vector Format/'                '2017_SDGE_AL_TOU_NEW_Month_Vector.csv',delimiter=',')
+            Month_Data = np.genfromtxt(
+                'Rates/SDG&E AL-TOU (NEW)/2017/5-Minute Data/Vector Format/2017_SDGE_AL_TOU_NEW_Month_Vector.csv', delimiter=',')
+
         elif delta_t == (15/60):
-            Month_Data = np.genfromtxt('Rates/SDG&E AL-TOU (NEW)/2017/15-Minute Data/Vector Format/'                '2017_SDGE_AL_TOU_NEW_Month_Vector.csv',delimiter=',')
+            Month_Data = np.genfromtxt(
+                'Rates/SDG&E AL-TOU (NEW)/2017/15-Minute Data/Vector Format/2017_SDGE_AL_TOU_NEW_Month_Vector.csv', delimiter=',')
         
         
     elif Retail_Rate_Name_Input == "SDG&E AL-TOU-CP2 (NEW)":
         
         if delta_t == (5/60):
-            Month_Data = np.genfromtxt('Rates/SDG&E AL-TOU-CP2 (NEW)/2017/5-Minute Data/Vector Format/'                '2017_SDGE_AL_TOU_CP2_NEW_Month_Vector.csv',delimiter=',')
+            Month_Data = np.genfromtxt(
+                'Rates/SDG&E AL-TOU-CP2 (NEW)/2017/5-Minute Data/Vector Format/2017_SDGE_AL_TOU_CP2_NEW_Month_Vector.csv', delimiter=',')
+
         elif delta_t == (15/60):
-            Month_Data = np.genfromtxt('Rates/SDG&E AL-TOU-CP2 (NEW)/2017/15-Minute Data/Vector Format/'                '2017_SDGE_AL_TOU_CP2_NEW_Month_Vector.csv',delimiter=',')
+            Month_Data = np.genfromtxt(
+                'Rates/SDG&E AL-TOU-CP2 (NEW)/2017/15-Minute Data/Vector Format/2017_SDGE_AL_TOU_CP2_NEW_Month_Vector.csv', delimiter=',')
         
         
     elif Retail_Rate_Name_Input == "SDG&E AL-TOU (NEW) with DA CAISO":
         
         if delta_t == (5/60):
-            Month_Data = np.genfromtxt('Rates/SDG&E AL-TOU (NEW) with DA CAISO/2017/5-Minute Data/Vector Format/'                '2017_SDGE_AL_TOU_NEW_with_DA_CAISO_Month_Vector.csv',delimiter=',')
+            Month_Data = np.genfromtxt(
+                'Rates/SDG&E AL-TOU (NEW) with DA CAISO/2017/5-Minute Data/Vector Format/2017_SDGE_AL_TOU_NEW_with_DA_CAISO_Month_Vector.csv', delimiter=',')
+
         elif delta_t == (15/60):
-            Month_Data = np.genfromtxt('Rates/SDG&E AL-TOU (NEW) with DA CAISO/2017/15-Minute Data/Vector Format/'                '2017_SDGE_AL_TOU_NEW_with_DA_CAISO_Month_Vector.csv',delimiter=',')
+            Month_Data = np.genfromtxt(
+                'Rates/SDG&E AL-TOU (NEW) with DA CAISO/2017/15-Minute Data/Vector Format/2017_SDGE_AL_TOU_NEW_with_DA_CAISO_Month_Vector.csv', delimiter=',')
         
         
     elif Retail_Rate_Name_Input == "SDG&E DG-R":
         
         if delta_t == (5/60):
-            Month_Data = np.genfromtxt('Rates/SDG&E DG-R/2017/5-Minute Data/Vector Format/'                '2017_SDGE_DGR_Month_Vector.csv',delimiter=',')
+            Month_Data = np.genfromtxt(
+                'Rates/SDG&E DG-R/2017/5-Minute Data/Vector Format/2017_SDGE_DGR_Month_Vector.csv', delimiter=',')
+
         elif delta_t == (15/60):
-            Month_Data = np.genfromtxt('Rates/SDG&E DG-R/2017/15-Minute Data/Vector Format/'                '2017_SDGE_DGR_Month_Vector.csv',delimiter=',')
+            Month_Data = np.genfromtxt(
+                'Rates/SDG&E DG-R/2017/15-Minute Data/Vector Format/2017_SDGE_DGR_Month_Vector.csv', delimiter=',')
         
         
     elif Retail_Rate_Name_Input == "SDG&E DR-SES":
         
         if delta_t == (5/60):
-            Month_Data = np.genfromtxt('Rates/SDG&E DR-SES/2017/5-Minute Data/Vector Format/'                '2017_SDGE_DR_SES_Month_Vector.csv',delimiter=',')
+            Month_Data = np.genfromtxt(
+                'Rates/SDG&E DR-SES/2017/5-Minute Data/Vector Format/2017_SDGE_DR_SES_Month_Vector.csv', delimiter=',')
+
         elif delta_t == (15/60):
-            Month_Data = np.genfromtxt('Rates/SDG&E DR-SES/2017/15-Minute Data/Vector Format/'                '2017_SDGE_DR_SES_Month_Vector.csv',delimiter=',')
+            Month_Data = np.genfromtxt(
+                'Rates/SDG&E DR-SES/2017/15-Minute Data/Vector Format/2017_SDGE_DR_SES_Month_Vector.csv', delimiter=',')
         
         
 
- 
- 
+
     # Import Peak and Part-Peak Binary Variable Data
  
     if Retail_Rate_Name_Input == "PG&E A-1-STORAGE (NEW)":
@@ -985,54 +1128,75 @@ def Import_Retail_Rate_Data(Box_Sync_Directory_Location, OSESMO_Git_Repo_Directo
         
     elif Retail_Rate_Name_Input == "PG&E E-19S (OLD)":
         if delta_t == (5/60):
-            Summer_Peak_Binary_Data = np.genfromtxt('Rates/PG&E E-19S (OLD)/2017/5-Minute Data/'                'Vector Format/2017_PGE_E19S_OLD_Summer_Peak_Binary_Vector.csv',delimiter=',')
+            Summer_Peak_Binary_Data = np.genfromtxt(
+                'Rates/PG&E E-19S (OLD)/2017/5-Minute Data/Vector Format/2017_PGE_E19S_OLD_Summer_Peak_Binary_Vector.csv', delimiter=',')
             
-            Summer_Part_Peak_Binary_Data = np.genfromtxt('Rates/PG&E E-19S (OLD)/2017/5-Minute Data/'                 'Vector Format/2017_PGE_E19S_OLD_Summer_Partial_Peak_Binary_Vector.csv',delimiter=',')
+            Summer_Part_Peak_Binary_Data = np.genfromtxt(
+                'Rates/PG&E E-19S (OLD)/2017/5-Minute Data/Vector Format/2017_PGE_E19S_OLD_Summer_Partial_Peak_Binary_Vector.csv', delimiter=',')
             
-            Winter_Part_Peak_Binary_Data = np.genfromtxt('Rates/PG&E E-19S (OLD)/2017/5-Minute Data/'                 'Vector Format/2017_PGE_E19S_OLD_Winter_Partial_Peak_Binary_Vector.csv',delimiter=',')
+            Winter_Part_Peak_Binary_Data = np.genfromtxt(
+                'Rates/PG&E E-19S (OLD)/2017/5-Minute Data/Vector Format/2017_PGE_E19S_OLD_Winter_Partial_Peak_Binary_Vector.csv', delimiter=',')
+
         elif delta_t == (15/60):
-            Summer_Peak_Binary_Data = np.genfromtxt('Rates/PG&E E-19S (OLD)/2017/15-Minute Data/'                'Vector Format/2017_PGE_E19S_OLD_Summer_Peak_Binary_Vector.csv',delimiter=',')
+            Summer_Peak_Binary_Data = np.genfromtxt(
+                'Rates/PG&E E-19S (OLD)/2017/15-Minute Data/Vector Format/2017_PGE_E19S_OLD_Summer_Peak_Binary_Vector.csv', delimiter=',')
             
-            Summer_Part_Peak_Binary_Data = np.genfromtxt('Rates/PG&E E-19S (OLD)/2017/15-Minute Data/'                 'Vector Format/2017_PGE_E19S_OLD_Summer_Partial_Peak_Binary_Vector.csv',delimiter=',')
+            Summer_Part_Peak_Binary_Data = np.genfromtxt(
+                'Rates/PG&E E-19S (OLD)/2017/15-Minute Data/Vector Format/2017_PGE_E19S_OLD_Summer_Partial_Peak_Binary_Vector.csv', delimiter=',')
             
-            Winter_Part_Peak_Binary_Data = np.genfromtxt('Rates/PG&E E-19S (OLD)/2017/15-Minute Data/'                 'Vector Format/2017_PGE_E19S_OLD_Winter_Partial_Peak_Binary_Vector.csv',delimiter=',')
+            Winter_Part_Peak_Binary_Data = np.genfromtxt(
+                'Rates/PG&E E-19S (OLD)/2017/15-Minute Data/Vector Format/2017_PGE_E19S_OLD_Winter_Partial_Peak_Binary_Vector.csv', delimiter=',')
         
         
         # PG&E E-19S (OLD) does not have a winter peak demand charge.
-        Winter_Peak_Binary_Data = np.np.zeros(np.shape(Month_Data))
+        Winter_Peak_Binary_Data = np.zeros(np.shape(Month_Data))
         
         
     elif Retail_Rate_Name_Input == "PG&E E-19S PDP (OLD)":
         if delta_t == (5/60):
-            Summer_Peak_Binary_Data = np.genfromtxt('Rates/PG&E E-19S PDP (OLD)/2017/5-Minute Data/'                'Vector Format/2017_PGE_E19S_PDP_OLD_Summer_Peak_Binary_Vector.csv',delimiter=',')
+            Summer_Peak_Binary_Data = np.genfromtxt(
+                'Rates/PG&E E-19S PDP (OLD)/2017/5-Minute Data/Vector Format/2017_PGE_E19S_PDP_OLD_Summer_Peak_Binary_Vector.csv', delimiter=',')
             
-            Summer_Part_Peak_Binary_Data = np.genfromtxt('Rates/PG&E E-19S PDP (OLD)/2017/5-Minute Data/'                 'Vector Format/2017_PGE_E19S_PDP_OLD_Summer_Partial_Peak_Binary_Vector.csv',delimiter=',')
+            Summer_Part_Peak_Binary_Data = np.genfromtxt(
+                'Rates/PG&E E-19S PDP (OLD)/2017/5-Minute Data/Vector Format/2017_PGE_E19S_PDP_OLD_Summer_Partial_Peak_Binary_Vector.csv', delimiter=',')
             
-            Winter_Part_Peak_Binary_Data = np.genfromtxt('Rates/PG&E E-19S PDP (OLD)/2017/5-Minute Data/'                 'Vector Format/2017_PGE_E19S_PDP_OLD_Winter_Partial_Peak_Binary_Vector.csv',delimiter=',')
+            Winter_Part_Peak_Binary_Data = np.genfromtxt(
+                'Rates/PG&E E-19S PDP (OLD)/2017/5-Minute Data/Vector Format/2017_PGE_E19S_PDP_OLD_Winter_Partial_Peak_Binary_Vector.csv', delimiter=',')
+
         elif delta_t == (15/60):
-            Summer_Peak_Binary_Data = np.genfromtxt('Rates/PG&E E-19S PDP (OLD)/2017/15-Minute Data/'                'Vector Format/2017_PGE_E19S_PDP_OLD_Summer_Peak_Binary_Vector.csv',delimiter=',')
+            Summer_Peak_Binary_Data = np.genfromtxt(
+                'Rates/PG&E E-19S PDP (OLD)/2017/15-Minute Data/Vector Format/2017_PGE_E19S_PDP_OLD_Summer_Peak_Binary_Vector.csv', delimiter=',')
             
-            Summer_Part_Peak_Binary_Data = np.genfromtxt('Rates/PG&E E-19S PDP (OLD)/2017/15-Minute Data/'                 'Vector Format/2017_PGE_E19S_PDP_OLD_Summer_Partial_Peak_Binary_Vector.csv',delimiter=',')
+            Summer_Part_Peak_Binary_Data = np.genfromtxt(
+                'Rates/PG&E E-19S PDP (OLD)/2017/15-Minute Data/Vector Format/2017_PGE_E19S_PDP_OLD_Summer_Partial_Peak_Binary_Vector.csv', delimiter=',')
             
-            Winter_Part_Peak_Binary_Data = np.genfromtxt('Rates/PG&E E-19S PDP (OLD)/2017/15-Minute Data/'                 'Vector Format/2017_PGE_E19S_PDP_OLD_Winter_Partial_Peak_Binary_Vector.csv',delimiter=',')
+            Winter_Part_Peak_Binary_Data = np.genfromtxt(
+                'Rates/PG&E E-19S PDP (OLD)/2017/15-Minute Data/Vector Format/2017_PGE_E19S_PDP_OLD_Winter_Partial_Peak_Binary_Vector.csv', delimiter=',')
         
         
         # PG&E E-19S PDP (OLD) does not have a winter peak demand charge.
-        Winter_Peak_Binary_Data = np.np.zeros(np.shape(Month_Data))
+        Winter_Peak_Binary_Data = np.zeros(np.shape(Month_Data))
         
     elif Retail_Rate_Name_Input == "PG&E E-19S-R (OLD)":
         if delta_t == (5/60):
-            Summer_Peak_Binary_Data = np.genfromtxt('Rates/PG&E E-19S-R (OLD)/2017/5-Minute Data/'                'Vector Format/2017_PGE_E19SR_OLD_Summer_Peak_Binary_Vector.csv',delimiter=',')
+            Summer_Peak_Binary_Data = np.genfromtxt(
+                'Rates/PG&E E-19S-R (OLD)/2017/5-Minute Data/Vector Format/2017_PGE_E19SR_OLD_Summer_Peak_Binary_Vector.csv', delimiter=',')
             
-            Summer_Part_Peak_Binary_Data = np.genfromtxt('Rates/PG&E E-19S-R (OLD)/2017/5-Minute Data/'                 'Vector Format/2017_PGE_E19SR_OLD_Summer_Partial_Peak_Binary_Vector.csv',delimiter=',')
+            Summer_Part_Peak_Binary_Data = np.genfromtxt(
+                'Rates/PG&E E-19S-R (OLD)/2017/5-Minute Data/Vector Format/2017_PGE_E19SR_OLD_Summer_Partial_Peak_Binary_Vector.csv', delimiter=',')
             
-            Winter_Part_Peak_Binary_Data = np.genfromtxt('Rates/PG&E E-19S-R (OLD)/2017/5-Minute Data/'                 'Vector Format/2017_PGE_E19SR_OLD_Winter_Partial_Peak_Binary_Vector.csv',delimiter=',')
+            Winter_Part_Peak_Binary_Data = np.genfromtxt(
+                'Rates/PG&E E-19S-R (OLD)/2017/5-Minute Data/Vector Format/2017_PGE_E19SR_OLD_Winter_Partial_Peak_Binary_Vector.csv', delimiter=',')
+
         elif delta_t == (15/60):
-            Summer_Peak_Binary_Data = np.genfromtxt('Rates/PG&E E-19S-R (OLD)/2017/15-Minute Data/'                'Vector Format/2017_PGE_E19SR_OLD_Summer_Peak_Binary_Vector.csv',delimiter=',')
+            Summer_Peak_Binary_Data = np.genfromtxt(
+                'Rates/PG&E E-19S-R (OLD)/2017/15-Minute Data/Vector Format/2017_PGE_E19SR_OLD_Summer_Peak_Binary_Vector.csv', delimiter=',')
             
-            Summer_Part_Peak_Binary_Data = np.genfromtxt('Rates/PG&E E-19S-R (OLD)/2017/15-Minute Data/'                 'Vector Format/2017_PGE_E19SR_OLD_Summer_Partial_Peak_Binary_Vector.csv',delimiter=',')
+            Summer_Part_Peak_Binary_Data = np.genfromtxt(
+                'Rates/PG&E E-19S-R (OLD)/2017/15-Minute Data/Vector Format/2017_PGE_E19SR_OLD_Summer_Partial_Peak_Binary_Vector.csv', delimiter=',')
             
-            Winter_Part_Peak_Binary_Data = np.genfromtxt('Rates/PG&E E-19S-R (OLD)/2017/15-Minute Data/'                 'Vector Format/2017_PGE_E19SR_OLD_Winter_Partial_Peak_Binary_Vector.csv',delimiter=',')
+            Winter_Part_Peak_Binary_Data = np.genfromtxt(
+                'Rates/PG&E E-19S-R (OLD)/2017/15-Minute Data/Vector Format/2017_PGE_E19SR_OLD_Winter_Partial_Peak_Binary_Vector.csv', delimiter=',')
         
         
         # PG&E E-19S-R (OLD) does not have a winter peak demand charge.
@@ -1041,17 +1205,24 @@ def Import_Retail_Rate_Data(Box_Sync_Directory_Location, OSESMO_Git_Repo_Directo
         
     elif Retail_Rate_Name_Input == "PG&E E-19S (NEW)":
         if delta_t == (5/60):
-            Summer_Peak_Binary_Data = np.genfromtxt('Rates/PG&E E-19S (NEW)/2017/5-Minute Data/'                'Vector Format/2017_PGE_E19S_NEW_Summer_Peak_Binary_Vector.csv',delimiter=',')
+            Summer_Peak_Binary_Data = np.genfromtxt(
+                'Rates/PG&E E-19S (NEW)/2017/5-Minute Data/Vector Format/2017_PGE_E19S_NEW_Summer_Peak_Binary_Vector.csv', delimiter=',')
             
-            Summer_Part_Peak_Binary_Data = np.genfromtxt('Rates/PG&E E-19S (NEW)/2017/5-Minute Data/'                 'Vector Format/2017_PGE_E19S_NEW_Summer_Partial_Peak_Binary_Vector.csv',delimiter=',')
+            Summer_Part_Peak_Binary_Data = np.genfromtxt(
+                'Rates/PG&E E-19S (NEW)/2017/5-Minute Data/Vector Format/2017_PGE_E19S_NEW_Summer_Partial_Peak_Binary_Vector.csv', delimiter=',')
             
-            Winter_Peak_Binary_Data = np.genfromtxt('Rates/PG&E E-19S (NEW)/2017/5-Minute Data/'                 'Vector Format/2017_PGE_E19S_NEW_Winter_Peak_Binary_Vector.csv',delimiter=',')
+            Winter_Peak_Binary_Data = np.genfromtxt(
+                'Rates/PG&E E-19S (NEW)/2017/5-Minute Data/Vector Format/2017_PGE_E19S_NEW_Winter_Peak_Binary_Vector.csv', delimiter=',')
+
         elif delta_t == (15/60):
-            Summer_Peak_Binary_Data = np.genfromtxt('Rates/PG&E E-19S (NEW)/2017/15-Minute Data/'                'Vector Format/2017_PGE_E19S_NEW_Summer_Peak_Binary_Vector.csv',delimiter=',')
+            Summer_Peak_Binary_Data = np.genfromtxt(
+                'Rates/PG&E E-19S (NEW)/2017/15-Minute Data/Vector Format/2017_PGE_E19S_NEW_Summer_Peak_Binary_Vector.csv', delimiter=',')
             
-            Summer_Part_Peak_Binary_Data = np.genfromtxt('Rates/PG&E E-19S (NEW)/2017/15-Minute Data/'                 'Vector Format/2017_PGE_E19S_NEW_Summer_Partial_Peak_Binary_Vector.csv',delimiter=',')
+            Summer_Part_Peak_Binary_Data = np.genfromtxt(
+                'Rates/PG&E E-19S (NEW)/2017/15-Minute Data/Vector Format/2017_PGE_E19S_NEW_Summer_Partial_Peak_Binary_Vector.csv', delimiter=',')
             
-            Winter_Peak_Binary_Data = np.genfromtxt('Rates/PG&E E-19S (NEW)/2017/15-Minute Data/'                 'Vector Format/2017_PGE_E19S_NEW_Winter_Peak_Binary_Vector.csv',delimiter=',')
+            Winter_Peak_Binary_Data = np.genfromtxt(
+                'Rates/PG&E E-19S (NEW)/2017/15-Minute Data/Vector Format/2017_PGE_E19S_NEW_Winter_Peak_Binary_Vector.csv', delimiter=',')
         
         
         # PG&E E-19S (NEW) does not have a winter part-peak demand charge.
@@ -1060,17 +1231,24 @@ def Import_Retail_Rate_Data(Box_Sync_Directory_Location, OSESMO_Git_Repo_Directo
         
     elif Retail_Rate_Name_Input == "PG&E E-19S PDP (NEW)":
         if delta_t == (5/60):
-            Summer_Peak_Binary_Data = np.genfromtxt('Rates/PG&E E-19S PDP (NEW)/2017/5-Minute Data/'                'Vector Format/2017_PGE_E19S_PDP_NEW_Summer_Peak_Binary_Vector.csv',delimiter=',')
+            Summer_Peak_Binary_Data = np.genfromtxt(
+                'Rates/PG&E E-19S PDP (NEW)/2017/5-Minute Data/Vector Format/2017_PGE_E19S_PDP_NEW_Summer_Peak_Binary_Vector.csv', delimiter=',')
             
-            Summer_Part_Peak_Binary_Data = np.genfromtxt('Rates/PG&E E-19S PDP (NEW)/2017/5-Minute Data/'                 'Vector Format/2017_PGE_E19S_PDP_NEW_Summer_Partial_Peak_Binary_Vector.csv',delimiter=',')
+            Summer_Part_Peak_Binary_Data = np.genfromtxt(
+                'Rates/PG&E E-19S PDP (NEW)/2017/5-Minute Data/Vector Format/2017_PGE_E19S_PDP_NEW_Summer_Partial_Peak_Binary_Vector.csv', delimiter=',')
             
-            Winter_Peak_Binary_Data = np.genfromtxt('Rates/PG&E E-19S PDP (NEW)/2017/5-Minute Data/'                 'Vector Format/2017_PGE_E19S_PDP_NEW_Winter_Peak_Binary_Vector.csv',delimiter=',')
+            Winter_Peak_Binary_Data = np.genfromtxt(
+                'Rates/PG&E E-19S PDP (NEW)/2017/5-Minute Data/Vector Format/2017_PGE_E19S_PDP_NEW_Winter_Peak_Binary_Vector.csv', delimiter=',')
+
         elif delta_t == (15/60):
-            Summer_Peak_Binary_Data = np.genfromtxt('Rates/PG&E E-19S PDP (NEW)/2017/15-Minute Data/'                'Vector Format/2017_PGE_E19S_PDP_NEW_Summer_Peak_Binary_Vector.csv',delimiter=',')
+            Summer_Peak_Binary_Data = np.genfromtxt(
+                'Rates/PG&E E-19S PDP (NEW)/2017/15-Minute Data/Vector Format/2017_PGE_E19S_PDP_NEW_Summer_Peak_Binary_Vector.csv', delimiter=',')
             
-            Summer_Part_Peak_Binary_Data = np.genfromtxt('Rates/PG&E E-19S PDP (NEW)/2017/15-Minute Data/'                 'Vector Format/2017_PGE_E19S_PDP_NEW_Summer_Partial_Peak_Binary_Vector.csv',delimiter=',')
+            Summer_Part_Peak_Binary_Data = np.genfromtxt(
+                'Rates/PG&E E-19S PDP (NEW)/2017/15-Minute Data/Vector Format/2017_PGE_E19S_PDP_NEW_Summer_Partial_Peak_Binary_Vector.csv', delimiter=',')
             
-            Winter_Peak_Binary_Data = np.genfromtxt('Rates/PG&E E-19S PDP (NEW)/2017/15-Minute Data/'                 'Vector Format/2017_PGE_E19S_PDP_NEW_Winter_Peak_Binary_Vector.csv',delimiter=',')
+            Winter_Peak_Binary_Data = np.genfromtxt(
+                'Rates/PG&E E-19S PDP (NEW)/2017/15-Minute Data/Vector Format/2017_PGE_E19S_PDP_NEW_Winter_Peak_Binary_Vector.csv', delimiter=',')
         
         
         # PG&E E-19S PDP (NEW) does not have a winter part-peak demand charge.
@@ -1079,17 +1257,24 @@ def Import_Retail_Rate_Data(Box_Sync_Directory_Location, OSESMO_Git_Repo_Directo
         
     elif Retail_Rate_Name_Input == "PG&E E-19S-R (NEW)":
         if delta_t == (5/60):
-            Summer_Peak_Binary_Data = np.genfromtxt('Rates/PG&E E-19S-R (NEW)/2017/5-Minute Data/'                'Vector Format/2017_PGE_E19SR_NEW_Summer_Peak_Binary_Vector.csv',delimiter=',')
+            Summer_Peak_Binary_Data = np.genfromtxt(
+                'Rates/PG&E E-19S-R (NEW)/2017/5-Minute Data/Vector Format/2017_PGE_E19SR_NEW_Summer_Peak_Binary_Vector.csv', delimiter=',')
             
-            Summer_Part_Peak_Binary_Data = np.genfromtxt('Rates/PG&E E-19S-R (NEW)/2017/5-Minute Data/'                 'Vector Format/2017_PGE_E19SR_NEW_Summer_Partial_Peak_Binary_Vector.csv',delimiter=',')
+            Summer_Part_Peak_Binary_Data = np.genfromtxt(
+                'Rates/PG&E E-19S-R (NEW)/2017/5-Minute Data/Vector Format/2017_PGE_E19SR_NEW_Summer_Partial_Peak_Binary_Vector.csv', delimiter=',')
             
-            Winter_Peak_Binary_Data = np.genfromtxt('Rates/PG&E E-19S-R (NEW)/2017/5-Minute Data/'                 'Vector Format/2017_PGE_E19SR_NEW_Winter_Peak_Binary_Vector.csv',delimiter=',')
+            Winter_Peak_Binary_Data = np.genfromtxt(
+                'Rates/PG&E E-19S-R (NEW)/2017/5-Minute Data/Vector Format/2017_PGE_E19SR_NEW_Winter_Peak_Binary_Vector.csv', delimiter=',')
+
         elif delta_t == (15/60):
-            Summer_Peak_Binary_Data = np.genfromtxt('Rates/PG&E E-19S-R (NEW)/2017/15-Minute Data/'                'Vector Format/2017_PGE_E19SR_NEW_Summer_Peak_Binary_Vector.csv',delimiter=',')
+            Summer_Peak_Binary_Data = np.genfromtxt(
+                'Rates/PG&E E-19S-R (NEW)/2017/15-Minute Data/Vector Format/2017_PGE_E19SR_NEW_Summer_Peak_Binary_Vector.csv', delimiter=',')
             
-            Summer_Part_Peak_Binary_Data = np.genfromtxt('Rates/PG&E E-19S-R (NEW)/2017/15-Minute Data/'                 'Vector Format/2017_PGE_E19SR_NEW_Summer_Partial_Peak_Binary_Vector.csv',delimiter=',')
+            Summer_Part_Peak_Binary_Data = np.genfromtxt(
+                'Rates/PG&E E-19S-R (NEW)/2017/15-Minute Data/Vector Format/2017_PGE_E19SR_NEW_Summer_Partial_Peak_Binary_Vector.csv', delimiter=',')
             
-            Winter_Peak_Binary_Data = np.genfromtxt('Rates/PG&E E-19S-R (NEW)/2017/15-Minute Data/'                 'Vector Format/2017_PGE_E19SR_NEW_Winter_Peak_Binary_Vector.csv',delimiter=',')
+            Winter_Peak_Binary_Data = np.genfromtxt(
+                'Rates/PG&E E-19S-R (NEW)/2017/15-Minute Data/Vector Format/2017_PGE_E19SR_NEW_Winter_Peak_Binary_Vector.csv', delimiter=',')
         
         
         # PG&E E-19S-R (NEW) does not have a winter part-peak demand charge.
@@ -1107,14 +1292,18 @@ def Import_Retail_Rate_Data(Box_Sync_Directory_Location, OSESMO_Git_Repo_Directo
         
     elif Retail_Rate_Name_Input == "SCE TOU-8-B":
         if delta_t == (5/60):
-            Summer_Peak_Binary_Data = np.genfromtxt('Rates/SCE TOU-8-B/2017/5-Minute Data/'                'Vector Format/2017_SCE_TOU8B_Summer_Peak_Binary_Vector.csv',delimiter=',')
+            Summer_Peak_Binary_Data = np.genfromtxt(
+                'Rates/SCE TOU-8-B/2017/5-Minute Data/Vector Format/2017_SCE_TOU8B_Summer_Peak_Binary_Vector.csv', delimiter=',')
             
-            Summer_Part_Peak_Binary_Data = np.genfromtxt('Rates/SCE TOU-8-B/2017/5-Minute Data/'                 'Vector Format/2017_SCE_TOU8B_Summer_Partial_Peak_Binary_Vector.csv',delimiter=',')
+            Summer_Part_Peak_Binary_Data = np.genfromtxt(
+                'Rates/SCE TOU-8-B/2017/5-Minute Data/Vector Format/2017_SCE_TOU8B_Summer_Partial_Peak_Binary_Vector.csv', delimiter=',')
             
         elif delta_t == (15/60):
-            Summer_Peak_Binary_Data = np.genfromtxt('Rates/SCE TOU-8-B/2017/15-Minute Data/'                'Vector Format/2017_SCE_TOU8B_Summer_Peak_Binary_Vector.csv',delimiter=',')
+            Summer_Peak_Binary_Data = np.genfromtxt(
+                'Rates/SCE TOU-8-B/2017/15-Minute Data/Vector Format/2017_SCE_TOU8B_Summer_Peak_Binary_Vector.csv', delimiter=',')
             
-            Summer_Part_Peak_Binary_Data = np.genfromtxt('Rates/SCE TOU-8-B/2017/15-Minute Data/'                 'Vector Format/2017_SCE_TOU8B_Summer_Partial_Peak_Binary_Vector.csv',delimiter=',')
+            Summer_Part_Peak_Binary_Data = np.genfromtxt(
+                'Rates/SCE TOU-8-B/2017/15-Minute Data/Vector Format/2017_SCE_TOU8B_Summer_Partial_Peak_Binary_Vector.csv', delimiter=',')
         
         
         # SCE TOU-8-B does not have a winter peak or part-peak demand charge.
@@ -1124,14 +1313,18 @@ def Import_Retail_Rate_Data(Box_Sync_Directory_Location, OSESMO_Git_Repo_Directo
         
     elif Retail_Rate_Name_Input == "SCE TOU-8-CPP":
         if delta_t == (5/60):
-            Summer_Peak_Binary_Data = np.genfromtxt('Rates/SCE TOU-8-CPP/2017/5-Minute Data/'                'Vector Format/2017_SCE_TOU8_CPP_Summer_Peak_Binary_Vector.csv',delimiter=',')
+            Summer_Peak_Binary_Data = np.genfromtxt(
+                'Rates/SCE TOU-8-CPP/2017/5-Minute Data/Vector Format/2017_SCE_TOU8_CPP_Summer_Peak_Binary_Vector.csv', delimiter=',')
             
-            Summer_Part_Peak_Binary_Data = np.genfromtxt('Rates/SCE TOU-8-CPP/2017/5-Minute Data/'                 'Vector Format/2017_SCE_TOU8_CPP_Summer_Partial_Peak_Binary_Vector.csv',delimiter=',')
+            Summer_Part_Peak_Binary_Data = np.genfromtxt(
+                'Rates/SCE TOU-8-CPP/2017/5-Minute Data/Vector Format/2017_SCE_TOU8_CPP_Summer_Partial_Peak_Binary_Vector.csv', delimiter=',')
             
         elif delta_t == (15/60):
-            Summer_Peak_Binary_Data = np.genfromtxt('Rates/SCE TOU-8-CPP/2017/15-Minute Data/'                'Vector Format/2017_SCE_TOU8_CPP_Summer_Peak_Binary_Vector.csv',delimiter=',')
+            Summer_Peak_Binary_Data = np.genfromtxt(
+                'Rates/SCE TOU-8-CPP/2017/15-Minute Data/Vector Format/2017_SCE_TOU8_CPP_Summer_Peak_Binary_Vector.csv', delimiter=',')
             
-            Summer_Part_Peak_Binary_Data = np.genfromtxt('Rates/SCE TOU-8-CPP/2017/15-Minute Data/'                 'Vector Format/2017_SCE_TOU8_CPP_Summer_Partial_Peak_Binary_Vector.csv',delimiter=',')
+            Summer_Part_Peak_Binary_Data = np.genfromtxt(
+                'Rates/SCE TOU-8-CPP/2017/15-Minute Data/Vector Format/2017_SCE_TOU8_CPP_Summer_Partial_Peak_Binary_Vector.csv', delimiter=',')
         
         
         # SCE TOU-8-CPP does not have a winter peak or part-peak demand charge.
@@ -1158,13 +1351,18 @@ def Import_Retail_Rate_Data(Box_Sync_Directory_Location, OSESMO_Git_Repo_Directo
     elif Retail_Rate_Name_Input == "SDG&E AL-TOU (OLD)":
         
         if delta_t == (5/60):
-            Summer_Peak_Binary_Data = np.genfromtxt('Rates/SDG&E AL-TOU (OLD)/2017/5-Minute Data/'                'Vector Format/2017_SDGE_AL_TOU_OLD_Summer_Peak_Binary_Vector.csv',delimiter=',')
+            Summer_Peak_Binary_Data = np.genfromtxt(
+                'Rates/SDG&E AL-TOU (OLD)/2017/5-Minute Data/Vector Format/2017_SDGE_AL_TOU_OLD_Summer_Peak_Binary_Vector.csv', delimiter=',')
             
-            Winter_Peak_Binary_Data = np.genfromtxt('Rates/SDG&E AL-TOU (OLD)/2017/5-Minute Data/'                 'Vector Format/2017_SDGE_AL_TOU_OLD_Winter_Peak_Binary_Vector.csv',delimiter=',')
+            Winter_Peak_Binary_Data = np.genfromtxt(
+                'Rates/SDG&E AL-TOU (OLD)/2017/5-Minute Data/Vector Format/2017_SDGE_AL_TOU_OLD_Winter_Peak_Binary_Vector.csv', delimiter=',')
+
         elif delta_t == (15/60):
-            Summer_Peak_Binary_Data = np.genfromtxt('Rates/SDG&E AL-TOU (OLD)/2017/15-Minute Data/'                'Vector Format/2017_SDGE_AL_TOU_OLD_Summer_Peak_Binary_Vector.csv',delimiter=',')
+            Summer_Peak_Binary_Data = np.genfromtxt(
+                'Rates/SDG&E AL-TOU (OLD)/2017/15-Minute Data/Vector Format/2017_SDGE_AL_TOU_OLD_Summer_Peak_Binary_Vector.csv', delimiter=',')
             
-            Winter_Peak_Binary_Data = np.genfromtxt('Rates/SDG&E AL-TOU (OLD)/2017/15-Minute Data/'                 'Vector Format/2017_SDGE_AL_TOU_OLD_Winter_Peak_Binary_Vector.csv',delimiter=',')
+            Winter_Peak_Binary_Data = np.genfromtxt(
+                'Rates/SDG&E AL-TOU (OLD)/2017/15-Minute Data/Vector Format/2017_SDGE_AL_TOU_OLD_Winter_Peak_Binary_Vector.csv', delimiter=',')
         
         
         # SDG&E AL-TOU (OLD) does not have any summer or winter part-peak demand charges.
@@ -1174,13 +1372,18 @@ def Import_Retail_Rate_Data(Box_Sync_Directory_Location, OSESMO_Git_Repo_Directo
         
     elif Retail_Rate_Name_Input == "SDG&E AL-TOU-CP2 (OLD)":
         if delta_t == (5/60):
-            Summer_Peak_Binary_Data = np.genfromtxt('Rates/SDG&E AL-TOU-CP2 (OLD)/2017/5-Minute Data/'                'Vector Format/2017_SDGE_AL_TOU_CP2_OLD_Summer_Peak_Binary_Vector.csv',delimiter=',')
+            Summer_Peak_Binary_Data = np.genfromtxt(
+                'Rates/SDG&E AL-TOU-CP2 (OLD)/2017/5-Minute Data/Vector Format/2017_SDGE_AL_TOU_CP2_OLD_Summer_Peak_Binary_Vector.csv', delimiter=',')
             
-            Winter_Peak_Binary_Data = np.genfromtxt('Rates/SDG&E AL-TOU-CP2 (OLD)/2017/5-Minute Data/'                 'Vector Format/2017_SDGE_AL_TOU_CP2_OLD_Winter_Peak_Binary_Vector.csv',delimiter=',')
+            Winter_Peak_Binary_Data = np.genfromtxt(
+                'Rates/SDG&E AL-TOU-CP2 (OLD)/2017/5-Minute Data/Vector Format/2017_SDGE_AL_TOU_CP2_OLD_Winter_Peak_Binary_Vector.csv', delimiter=',')
+
         elif delta_t == (15/60):
-            Summer_Peak_Binary_Data = np.genfromtxt('Rates/SDG&E AL-TOU-CP2 (OLD)/2017/15-Minute Data/'                'Vector Format/2017_SDGE_AL_TOU_CP2_OLD_Summer_Peak_Binary_Vector.csv',delimiter=',')
+            Summer_Peak_Binary_Data = np.genfromtxt(
+                'Rates/SDG&E AL-TOU-CP2 (OLD)/2017/15-Minute Data/Vector Format/2017_SDGE_AL_TOU_CP2_OLD_Summer_Peak_Binary_Vector.csv', delimiter=',')
             
-            Winter_Peak_Binary_Data = np.genfromtxt('Rates/SDG&E AL-TOU-CP2 (OLD)/2017/15-Minute Data/'                 'Vector Format/2017_SDGE_AL_TOU_CP2_OLD_Winter_Peak_Binary_Vector.csv',delimiter=',')
+            Winter_Peak_Binary_Data = np.genfromtxt(
+                'Rates/SDG&E AL-TOU-CP2 (OLD)/2017/15-Minute Data/Vector Format/2017_SDGE_AL_TOU_CP2_OLD_Winter_Peak_Binary_Vector.csv', delimiter=',')
         
         
         # SDG&E AL-TOU-CP2 (OLD) does not have any summer or winter part-peak demand charges.
@@ -1190,13 +1393,18 @@ def Import_Retail_Rate_Data(Box_Sync_Directory_Location, OSESMO_Git_Repo_Directo
         
     elif Retail_Rate_Name_Input == "SDG&E AL-TOU (NEW)":
         if delta_t == (5/60):
-            Summer_Peak_Binary_Data = np.genfromtxt('Rates/SDG&E AL-TOU (NEW)/2017/5-Minute Data/'                'Vector Format/2017_SDGE_AL_TOU_NEW_Summer_Peak_Binary_Vector.csv',delimiter=',')
+            Summer_Peak_Binary_Data = np.genfromtxt(
+                'Rates/SDG&E AL-TOU (NEW)/2017/5-Minute Data/Vector Format/2017_SDGE_AL_TOU_NEW_Summer_Peak_Binary_Vector.csv', delimiter=',')
             
-            Winter_Peak_Binary_Data = np.genfromtxt('Rates/SDG&E AL-TOU (NEW)/2017/5-Minute Data/'                 'Vector Format/2017_SDGE_AL_TOU_NEW_Winter_Peak_Binary_Vector.csv',delimiter=',')
+            Winter_Peak_Binary_Data = np.genfromtxt(
+                'Rates/SDG&E AL-TOU (NEW)/2017/5-Minute Data/Vector Format/2017_SDGE_AL_TOU_NEW_Winter_Peak_Binary_Vector.csv', delimiter=',')
+
         elif delta_t == (15/60):
-            Summer_Peak_Binary_Data = np.genfromtxt('Rates/SDG&E AL-TOU (NEW)/2017/15-Minute Data/'                'Vector Format/2017_SDGE_AL_TOU_NEW_Summer_Peak_Binary_Vector.csv',delimiter=',')
+            Summer_Peak_Binary_Data = np.genfromtxt(
+                'Rates/SDG&E AL-TOU (NEW)/2017/15-Minute Data/Vector Format/2017_SDGE_AL_TOU_NEW_Summer_Peak_Binary_Vector.csv', delimiter=',')
             
-            Winter_Peak_Binary_Data = np.genfromtxt('Rates/SDG&E AL-TOU (NEW)/2017/15-Minute Data/'                 'Vector Format/2017_SDGE_AL_TOU_NEW_Winter_Peak_Binary_Vector.csv',delimiter=',')
+            Winter_Peak_Binary_Data = np.genfromtxt(
+                'Rates/SDG&E AL-TOU (NEW)/2017/15-Minute Data/Vector Format/2017_SDGE_AL_TOU_NEW_Winter_Peak_Binary_Vector.csv', delimiter=',')
         
         
         # SDG&E AL-TOU (NEW) does not have any summer or winter part-peak demand charges.
@@ -1206,13 +1414,18 @@ def Import_Retail_Rate_Data(Box_Sync_Directory_Location, OSESMO_Git_Repo_Directo
         
     elif Retail_Rate_Name_Input == "SDG&E AL-TOU-CP2 (NEW)":
         if delta_t == (5/60):
-            Summer_Peak_Binary_Data = np.genfromtxt('Rates/SDG&E AL-TOU-CP2 (NEW)/2017/5-Minute Data/'                'Vector Format/2017_SDGE_AL_TOU_CP2_NEW_Summer_Peak_Binary_Vector.csv',delimiter=',')
+            Summer_Peak_Binary_Data = np.genfromtxt(
+                'Rates/SDG&E AL-TOU-CP2 (NEW)/2017/5-Minute Data/Vector Format/2017_SDGE_AL_TOU_CP2_NEW_Summer_Peak_Binary_Vector.csv', delimiter=',')
             
-            Winter_Peak_Binary_Data = np.genfromtxt('Rates/SDG&E AL-TOU-CP2 (NEW)/2017/5-Minute Data/'                 'Vector Format/2017_SDGE_AL_TOU_CP2_NEW_Winter_Peak_Binary_Vector.csv',delimiter=',')
+            Winter_Peak_Binary_Data = np.genfromtxt(
+                'Rates/SDG&E AL-TOU-CP2 (NEW)/2017/5-Minute Data/Vector Format/2017_SDGE_AL_TOU_CP2_NEW_Winter_Peak_Binary_Vector.csv', delimiter=',')
+
         elif delta_t == (15/60):
-            Summer_Peak_Binary_Data = np.genfromtxt('Rates/SDG&E AL-TOU-CP2 (NEW)/2017/15-Minute Data/'                'Vector Format/2017_SDGE_AL_TOU_CP2_NEW_Summer_Peak_Binary_Vector.csv',delimiter=',')
+            Summer_Peak_Binary_Data = np.genfromtxt(
+                'Rates/SDG&E AL-TOU-CP2 (NEW)/2017/15-Minute Data/Vector Format/2017_SDGE_AL_TOU_CP2_NEW_Summer_Peak_Binary_Vector.csv', delimiter=',')
             
-            Winter_Peak_Binary_Data = np.genfromtxt('Rates/SDG&E AL-TOU-CP2 (NEW)/2017/15-Minute Data/'                 'Vector Format/2017_SDGE_AL_TOU_CP2_NEW_Winter_Peak_Binary_Vector.csv',delimiter=',')
+            Winter_Peak_Binary_Data = np.genfromtxt(
+                'Rates/SDG&E AL-TOU-CP2 (NEW)/2017/15-Minute Data/Vector Format/2017_SDGE_AL_TOU_CP2_NEW_Winter_Peak_Binary_Vector.csv', delimiter=',')
         
         
         # SDG&E AL-TOU-CP2 (NEW) does not have any summer or winter part-peak demand charges.
@@ -1223,13 +1436,18 @@ def Import_Retail_Rate_Data(Box_Sync_Directory_Location, OSESMO_Git_Repo_Directo
     elif Retail_Rate_Name_Input == "SDG&E AL-TOU (NEW) with DA CAISO":
         
         if delta_t == (5/60):
-            Summer_Peak_Binary_Data = np.genfromtxt('Rates/SDG&E AL-TOU (NEW) with DA CAISO/2017/5-Minute Data/'                'Vector Format/2017_SDGE_AL_TOU_NEW_with_DA_CAISO_Summer_Peak_Binary_Vector.csv',delimiter=',')
+            Summer_Peak_Binary_Data = np.genfromtxt(
+                'Rates/SDG&E AL-TOU (NEW) with DA CAISO/2017/5-Minute Data/Vector Format/2017_SDGE_AL_TOU_NEW_with_DA_CAISO_Summer_Peak_Binary_Vector.csv', delimiter=',')
             
-            Winter_Peak_Binary_Data = np.genfromtxt('Rates/SDG&E AL-TOU (NEW) with DA CAISO/2017/5-Minute Data/'                 'Vector Format/2017_SDGE_AL_TOU_NEW_with_DA_CAISO_Winter_Peak_Binary_Vector.csv',delimiter=',')
+            Winter_Peak_Binary_Data = np.genfromtxt(
+                'Rates/SDG&E AL-TOU (NEW) with DA CAISO/2017/5-Minute Data/Vector Format/2017_SDGE_AL_TOU_NEW_with_DA_CAISO_Winter_Peak_Binary_Vector.csv', delimiter=',')
+
         elif delta_t == (15/60):
-            Summer_Peak_Binary_Data = np.genfromtxt('Rates/SDG&E AL-TOU (NEW) with DA CAISO/2017/15-Minute Data/'                'Vector Format/2017_SDGE_AL_TOU_NEW_with_DA_CAISO_Summer_Peak_Binary_Vector.csv',delimiter=',')
+            Summer_Peak_Binary_Data = np.genfromtxt(
+                'Rates/SDG&E AL-TOU (NEW) with DA CAISO/2017/15-Minute Data/Vector Format/2017_SDGE_AL_TOU_NEW_with_DA_CAISO_Summer_Peak_Binary_Vector.csv', delimiter=',')
             
-            Winter_Peak_Binary_Data = np.genfromtxt('Rates/SDG&E AL-TOU (NEW) with DA CAISO/2017/15-Minute Data/'                 'Vector Format/2017_SDGE_AL_TOU_NEW_with_DA_CAISO_Winter_Peak_Binary_Vector.csv',delimiter=',')
+            Winter_Peak_Binary_Data = np.genfromtxt(
+                'Rates/SDG&E AL-TOU (NEW) with DA CAISO/2017/15-Minute Data/Vector Format/2017_SDGE_AL_TOU_NEW_with_DA_CAISO_Winter_Peak_Binary_Vector.csv', delimiter=',')
         
         
         # SDG&E AL-TOU (NEW) with DA CAISO does not have any summer or winter part-peak demand charges.
@@ -1239,13 +1457,18 @@ def Import_Retail_Rate_Data(Box_Sync_Directory_Location, OSESMO_Git_Repo_Directo
         
     elif Retail_Rate_Name_Input == "SDG&E DG-R":
         if delta_t == (5/60):
-            Summer_Peak_Binary_Data = np.genfromtxt('Rates/SDG&E DG-R/2017/5-Minute Data/'                'Vector Format/2017_SDGE_DGR_Summer_Peak_Binary_Vector.csv',delimiter=',')
+            Summer_Peak_Binary_Data = np.genfromtxt(
+                'Rates/SDG&E DG-R/2017/5-Minute Data/Vector Format/2017_SDGE_DGR_Summer_Peak_Binary_Vector.csv', delimiter=',')
             
-            Winter_Peak_Binary_Data = np.genfromtxt('Rates/SDG&E DG-R/2017/5-Minute Data/'                 'Vector Format/2017_SDGE_DGR_Winter_Peak_Binary_Vector.csv',delimiter=',')
+            Winter_Peak_Binary_Data = np.genfromtxt(
+                'Rates/SDG&E DG-R/2017/5-Minute Data/Vector Format/2017_SDGE_DGR_Winter_Peak_Binary_Vector.csv', delimiter=',')
+
         elif delta_t == (15/60):
-            Summer_Peak_Binary_Data = np.genfromtxt('Rates/SDG&E DG-R/2017/15-Minute Data/'                'Vector Format/2017_SDGE_DGR_Summer_Peak_Binary_Vector.csv',delimiter=',')
+            Summer_Peak_Binary_Data = np.genfromtxt(
+                'Rates/SDG&E DG-R/2017/15-Minute Data/Vector Format/2017_SDGE_DGR_Summer_Peak_Binary_Vector.csv', delimiter=',')
             
-            Winter_Peak_Binary_Data = np.genfromtxt('Rates/SDG&E DG-R/2017/15-Minute Data/'                 'Vector Format/2017_SDGE_DGR_Winter_Peak_Binary_Vector.csv',delimiter=',')
+            Winter_Peak_Binary_Data = np.genfromtxt(
+                'Rates/SDG&E DG-R/2017/15-Minute Data/Vector Format/2017_SDGE_DGR_Winter_Peak_Binary_Vector.csv', delimiter=',')
         
         
         # SDG&E DG-R does not have any summer or winter part-peak demand charges.
@@ -1260,25 +1483,13 @@ def Import_Retail_Rate_Data(Box_Sync_Directory_Location, OSESMO_Git_Repo_Directo
         Summer_Part_Peak_Binary_Data = np.zeros(np.shape(Month_Data))
         Winter_Peak_Binary_Data = np.zeros(np.shape(Month_Data))
         Winter_Part_Peak_Binary_Data = np.zeros(np.shape(Month_Data))
-        
 
- 
-# Return to OSESMO Git Repository Directory
-# cd(OSESMO_Git_Repo_Directory)
 
+    # Return to OSESMO Git Repository Directory
     os.chdir(OSESMO_Git_Repo_Directory)
 
-    return Volumetric_Rate_Data, Summer_Peak_DC, Summer_Part_Peak_DC, Summer_Noncoincident_DC, Winter_Peak_DC, Winter_Part_Peak_DC, Winter_Noncoincident_DC, Fixed_Per_Meter_Day_Charge, Fixed_Per_Meter_Month_Charge, First_Summer_Month, Last_Summer_Month, Month_Data, Summer_Peak_Binary_Data, Summer_Part_Peak_Binary_Data, Winter_Peak_Binary_Data, Winter_Part_Peak_Binary_Data 
- 
 
-
-
-# In[ ]:
-
-
-
-
-# In[ ]:
-
-
-
+    return Volumetric_Rate_Data, Summer_Peak_DC, Summer_Part_Peak_DC, Summer_Noncoincident_DC, \
+           Winter_Peak_DC, Winter_Part_Peak_DC, Winter_Noncoincident_DC, Fixed_Per_Meter_Day_Charge, Fixed_Per_Meter_Month_Charge, \
+           First_Summer_Month, Last_Summer_Month, Month_Data, \
+           Summer_Peak_Binary_Data, Summer_Part_Peak_Binary_Data, Winter_Peak_Binary_Data, Winter_Part_Peak_Binary_Data

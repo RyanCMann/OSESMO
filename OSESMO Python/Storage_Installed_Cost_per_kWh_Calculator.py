@@ -1,11 +1,5 @@
 
-# coding: utf-8
-
-# In[10]:
-
-# @mfunction("Storage_Installed_Cost_per_kWh")
 def Storage_Installed_Cost_per_kWh_Calculator(Customer_Class_Input=None, Storage_Type_Input=None):
-    # Storage_Installed_Cost_per_kWh=0
 
     # Storage Installed Cost per kWh
     # For lithium-ion batteries, used values from Lazard's Levelized Cost of Storage report (2017), pg. 19.
@@ -29,16 +23,9 @@ def Storage_Installed_Cost_per_kWh_Calculator(Customer_Class_Input=None, Storage
             Storage_Installed_Cost_per_kWh = (643 + 720) / 2
 
         elif Storage_Type_Input == "Flow Battery":
-            Storage_Installed_Cost_per_kWh = (902 + 1102) / 2           
+            Storage_Installed_Cost_per_kWh = (902 + 1102) / 2
+
     return Storage_Installed_Cost_per_kWh
-
-
-# In[ ]:
-
-
-
-
-# In[ ]:
 
 
 
