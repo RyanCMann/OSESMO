@@ -1635,8 +1635,7 @@ for Month_Iter = 1:12 % Iterate through all months
     if any(Month_Iter == First_Summer_Month:Last_Summer_Month)
         CPK_Demand_Charge_Month_Baseline = Summer_Peak_DC * P_max_CPK_Month_Baseline;
     else
-        % There is no coincident peak demand charge in the winter.
-        CPK_Demand_Charge_Month_Baseline = 0;
+        CPK_Demand_Charge_Month_Baseline = Winter_Peak_DC * P_max_CPK_Month_Baseline;
     end
     
     
@@ -1645,8 +1644,7 @@ for Month_Iter = 1:12 % Iterate through all months
     if any(Month_Iter == First_Summer_Month:Last_Summer_Month)
         CPK_Demand_Charge_Month_with_Solar_Only = Summer_Peak_DC * P_max_CPK_Month_with_Solar_Only;
     else
-        % There is no coincident peak demand charge in the winter.
-        CPK_Demand_Charge_Month_with_Solar_Only = 0;
+        CPK_Demand_Charge_Month_with_Solar_Only = Winter_Peak_DC * P_max_CPK_Month_with_Solar_Only;
     end
     
     
@@ -1655,8 +1653,7 @@ for Month_Iter = 1:12 % Iterate through all months
     if any(Month_Iter == First_Summer_Month:Last_Summer_Month)
         CPK_Demand_Charge_Month_with_Solar_and_Storage = Summer_Peak_DC * P_max_CPK_Month_with_Solar_and_Storage;
     else
-        % There is no coincident peak demand charge in the winter.
-        CPK_Demand_Charge_Month_with_Solar_and_Storage = 0;
+        CPK_Demand_Charge_Month_with_Solar_and_Storage = Winter_Peak_DC * P_max_CPK_Month_with_Solar_and_Storage;
     end
     
     
