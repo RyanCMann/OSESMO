@@ -43,7 +43,7 @@ Model_Run_Number_Input = 1;
 
 % Model Type
 % Storage Only or Solar Plus Storage
-Model_Type_Input = "Solar Plus Storage";
+Model_Type_Input = "Storage Only";
 
 % Model Timestep Resolution
 % Model timestep resolution, in minutes.
@@ -54,26 +54,27 @@ Model_Timestep_Resolution = 15;
 
 % Customer Class
 % Customer class/building type (Residential, or Commercial and Industrial).
-Customer_Class_Input = "Commercial and Industrial";
+Customer_Class_Input = "Residential";
+% Customer_Class_Input = "Commercial and Industrial";
 
 % Load Profile Name
 % Name of the selected customer load profile.
-Load_Profile_Name_Input = "EnerNOC GreenButton San Francisco Office";
+Load_Profile_Name_Input = "PG&E GreenButton Central Valley Residential CARE";
 
 % Retail Rate Name
 % Name of the selected retail rate.
-Retail_Rate_Name_Input = "PG&E E-19S (OLD)";
+Retail_Rate_Name_Input = "PG&E E-6 (NEW) Tier 2";
 
 
 %% Model Input - Solar Data
 
 % Solar Profile Name
 % Name of selected solar production profile.
-Solar_Profile_Name_Input = "CSI PG&E Commercial & Industrial";
+Solar_Profile_Name_Input = "CSI PG&E Residential";
 
 % Solar Size kW
 % Nameplate power rating of the solar PV system (kW-DC).
-Solar_Size_Input = 256;
+Solar_Size_Input = 10.8;
 
 
 %% Model Input - Storage Hardware Data
@@ -84,11 +85,11 @@ Storage_Type_Input = "Lithium-Ion Battery";
 
 % Storage Power Rating
 % Nameplate storage system charge/discharge power rating (kW).
-Storage_Power_Rating_Input = 250;
+Storage_Power_Rating_Input = 5;
 
 % Usable Storage Capacity
 % Usable storage energy capacity (kWh). Report usable capacity (accounting for depth of discharge), and not nameplate capacity.
-Usable_Storage_Capacity_Input = 500;
+Usable_Storage_Capacity_Input = 13.5;
 
 % Single-Cycle RTE
 % Single-cycle (or nameplate) storage round-trip efficiency (50%, 70%, or 85%).

@@ -93,6 +93,32 @@ switch Retail_Rate_Name_Input
                 'Vector Format/2017_SDGE_DR_SES_Energy_Rates_Vector.csv']);
         end
         
+    case "PG&E E-6 (NEW) Tier 1"
+        
+        Retail_Rate_Master_Index = "R5";
+        Retail_Rate_Effective_Date = "Proposed - 2017 GRC Phase II";
+        
+        if delta_t == (5/60)
+            Volumetric_Rate_Data = csvread(['Rates/PG&E E-6 (NEW) Tier 1/2017/5-Minute Data/'...
+                'Vector Format/2017_PGE_E6_NEW_Tier1_Energy_Rates_Vector.csv']);
+        elseif delta_t == (15/60)
+            Volumetric_Rate_Data = csvread(['Rates/PG&E E-6 (NEW) Tier 1/2017/15-Minute Data/'...
+                'Vector Format/2017_PGE_E6_NEW_Tier1_Energy_Rates_Vector.csv']);
+        end
+     
+    case "PG&E E-6 (NEW) Tier 2"
+        
+        Retail_Rate_Master_Index = "R6";
+        Retail_Rate_Effective_Date = "Proposed - 2017 GRC Phase II";
+        
+        if delta_t == (5/60)
+            Volumetric_Rate_Data = csvread(['Rates/PG&E E-6 (NEW) Tier 2/2017/5-Minute Data/'...
+                'Vector Format/2017_PGE_E6_NEW_Tier2_Energy_Rates_Vector.csv']);
+        elseif delta_t == (15/60)
+            Volumetric_Rate_Data = csvread(['Rates/PG&E E-6 (NEW) Tier 2/2017/15-Minute Data/'...
+                'Vector Format/2017_PGE_E6_NEW_Tier2_Energy_Rates_Vector.csv']);
+        end
+        
     case "PG&E A-1-STORAGE (NEW)"
         
         Retail_Rate_Master_Index = "C1";
@@ -465,6 +491,44 @@ switch Retail_Rate_Name_Input
         % Summer Months
         First_Summer_Month = 6; % June is the first summer month for this rate.
         Last_Summer_Month = 10; % October is the last summer month for this rate.
+        
+        
+    case "PG&E E-6 (NEW) Tier 1"
+        
+        % Demand Charges - PG&E E-6 NEW Tier 1
+        Summer_Peak_DC = 0;
+        Summer_Part_Peak_DC = 0;
+        Summer_Noncoincident_DC = 0;
+        Winter_Peak_DC = 0;
+        Winter_Part_Peak_DC = 0;
+        Winter_Noncoincident_DC = 0;
+        
+        % Fixed Per-Meter-Day Charge - PG&E E-6 NEW Tier 1
+        Fixed_Per_Meter_Day_Charge = 0.32854;  % $ per meter per day
+        Fixed_Per_Meter_Month_Charge = 0; % $ per meter per month
+        
+        % Summer Months
+        First_Summer_Month = 6; % June is the first summer month for this rate.
+        Last_Summer_Month = 9; % September is the last summer month for this rate.
+        
+        
+    case "PG&E E-6 (NEW) Tier 2"
+        
+        % Demand Charges - PG&E E-6 NEW Tier 2
+        Summer_Peak_DC = 0;
+        Summer_Part_Peak_DC = 0;
+        Summer_Noncoincident_DC = 0;
+        Winter_Peak_DC = 0;
+        Winter_Part_Peak_DC = 0;
+        Winter_Noncoincident_DC = 0;
+        
+        % Fixed Per-Meter-Day Charge - PG&E E-6 NEW Tier 2
+        Fixed_Per_Meter_Day_Charge = 0.32854;  % $ per meter per day
+        Fixed_Per_Meter_Month_Charge = 0; % $ per meter per month
+        
+        % Summer Months
+        First_Summer_Month = 6; % June is the first summer month for this rate.
+        Last_Summer_Month = 9; % September is the last summer month for this rate.
         
         
     case "PG&E A-1-STORAGE (NEW)"
@@ -934,6 +998,26 @@ switch Retail_Rate_Name_Input
                 '2017_PGE_E1_Tier3_SmartRate_Month_Vector.csv']);
         end
         
+    case "PG&E E-6 (NEW) Tier 1"
+        
+        if delta_t == (5/60)
+            Month_Data = csvread(['Rates/PG&E E-6 (NEW) Tier 1/2017/5-Minute Data/Vector Format/'...
+                '2017_PGE_E6_NEW_Tier1_Month_Vector.csv']);
+        elseif delta_t == (15/60)
+            Month_Data = csvread(['Rates/PG&E E-6 (NEW) Tier 1/2017/15-Minute Data/Vector Format/'...
+                '2017_PGE_E6_NEW_Tier1_Month_Vector.csv']);
+        end
+        
+    case "PG&E E-6 (NEW) Tier 2"
+        
+        if delta_t == (5/60)
+            Month_Data = csvread(['Rates/PG&E E-6 (NEW) Tier 2/2017/5-Minute Data/Vector Format/'...
+                '2017_PGE_E6_NEW_Tier2_Month_Vector.csv']);
+        elseif delta_t == (15/60)
+            Month_Data = csvread(['Rates/PG&E E-6 (NEW) Tier 2/2017/15-Minute Data/Vector Format/'...
+                '2017_PGE_E6_NEW_Tier2_Month_Vector.csv']);
+        end
+        
     case "PG&E E-19S (OLD)"
         
         if delta_t == (5/60)
@@ -1178,6 +1262,24 @@ switch Retail_Rate_Name_Input
     case "PG&E E-1 Tier 3 SmartRate"
         
         % PG&E E-1 Tier 3 SmartRate does not have any coincident peak or part-peak demand charges.
+        
+        Summer_Peak_Binary_Data = zeros(size(Month_Data));
+        Summer_Part_Peak_Binary_Data = zeros(size(Month_Data));
+        Winter_Peak_Binary_Data = zeros(size(Month_Data));
+        Winter_Part_Peak_Binary_Data = zeros(size(Month_Data));
+        
+    case "PG&E E-6 (NEW) Tier 1"
+        
+        % PG&E E-6 (NEW) Tier 1 does not have any coincident peak or part-peak demand charges.
+        
+        Summer_Peak_Binary_Data = zeros(size(Month_Data));
+        Summer_Part_Peak_Binary_Data = zeros(size(Month_Data));
+        Winter_Peak_Binary_Data = zeros(size(Month_Data));
+        Winter_Part_Peak_Binary_Data = zeros(size(Month_Data));
+        
+    case "PG&E E-6 (NEW) Tier 2"
+        
+        % PG&E E-6 (NEW) Tier 2 does not have any coincident peak or part-peak demand charges.
         
         Summer_Peak_Binary_Data = zeros(size(Month_Data));
         Summer_Part_Peak_Binary_Data = zeros(size(Month_Data));
