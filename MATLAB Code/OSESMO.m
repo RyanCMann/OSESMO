@@ -1794,7 +1794,7 @@ for Model_Run_Date_Time_Component_Iter = 1:length(Model_Run_Date_Time_Components
    
     Model_Run_Date_Time_Component_Num = Model_Run_Date_Time_Components(Model_Run_Date_Time_Component_Iter);
     
-    if Model_Run_Date_Time_Component_Num > 10
+    if Model_Run_Date_Time_Component_Num >= 10
         Model_Run_Date_Time_Component_String = num2str(Model_Run_Date_Time_Component_Num);
     else
         Model_Run_Date_Time_Component_String = ['0', num2str(Model_Run_Date_Time_Component_Num)];
