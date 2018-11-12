@@ -1718,55 +1718,71 @@ def OSESMO(Modeling_Team_Input=None, Model_Run_Number_Input=None, Model_Type_Inp
         if Next_Month_Initial_Energy_Level > Usable_Storage_Capacity:
             Next_Month_Initial_Energy_Level = Usable_Storage_Capacity
 
+
         ## Concatenate Decision Variable & Monthly Cost Values from Month Iteration
 
         # Decision Variable Concatenation
-        P_ES_in = np.concatenate((P_ES_in, P_ES_in_Month_Unpadded)) if P_ES_in.size else P_ES_in_Month_Unpadded
+        P_ES_in = np.concatenate((P_ES_in, P_ES_in_Month_Unpadded)) if P_ES_in.size != 0 else P_ES_in_Month_Unpadded
 
-        P_ES_out = np.concatenate((P_ES_out, P_ES_out_Month_Unpadded)) if P_ES_out.size else P_ES_out_Month_Unpadded
+        P_ES_out = np.concatenate((P_ES_out, P_ES_out_Month_Unpadded)) if P_ES_out.size != 0 else P_ES_out_Month_Unpadded
 
-        Ene_Lvl = np.concatenate((Ene_Lvl, Ene_Lvl_Month_Unpadded)) if Ene_Lvl.size else Ene_Lvl_Month_Unpadded
+        Ene_Lvl = np.concatenate((Ene_Lvl, Ene_Lvl_Month_Unpadded)) if Ene_Lvl.size != 0 else Ene_Lvl_Month_Unpadded
 
-        P_max_NC = np.concatenate((P_max_NC, P_max_NC_Month_with_Solar_and_Storage)) if P_max_NC.size else P_max_NC_Month_with_Solar_and_Storage
+        P_max_NC = np.concatenate((P_max_NC, np.asarray(P_max_NC_Month_with_Solar_and_Storage).reshape((-1,1)))) if P_max_NC.size != 0 else np.asarray(P_max_NC_Month_with_Solar_and_Storage).reshape((-1,1))
 
-        P_max_peak = np.concatenate((P_max_peak, P_max_CPK_Month_with_Solar_and_Storage)) if P_max_peak.size else P_max_CPK_Month_with_Solar_and_Storage
+        P_max_peak = np.concatenate((P_max_peak, np.asarray(P_max_CPK_Month_with_Solar_and_Storage).reshape((-1, 1)))) if P_max_peak.size != 0 else np.asarray(P_max_CPK_Month_with_Solar_and_Storage).reshape((-1, 1))
 
-        P_max_part_peak = np.concatenate((P_max_part_peak, P_max_CPP_Month_with_Solar_and_Storage)) if P_max_part_peak.size else P_max_CPP_Month_with_Solar_and_Storage
+        P_max_part_peak = np.concatenate((P_max_part_peak, np.asarray(P_max_CPP_Month_with_Solar_and_Storage).reshape((-1, 1)))) if P_max_part_peak.size != 0 else np.asarray(P_max_CPP_Month_with_Solar_and_Storage).reshape((-1, 1))
+
 
         # Monthly Cost Variable Concatenation
-        Fixed_Charge_Vector = np.concatenate((Fixed_Charge_Vector, Fixed_Charge_Month)) if Fixed_Charge_Vector.size else Fixed_Charge_Month
+        Fixed_Charge_Vector = np.concatenate((Fixed_Charge_Vector, np.asarray(Fixed_Charge_Month).reshape((-1,1)))) if Fixed_Charge_Vector.size != 0 else  np.asarray(Fixed_Charge_Month).reshape((-1,1))
 
         NC_DC_Baseline_Vector = np.concatenate((NC_DC_Baseline_Vector,
-                                                NC_Demand_Charge_Month_Baseline)) if NC_DC_Baseline_Vector.size else NC_Demand_Charge_Month_Baseline
+                                                np.asarray(NC_Demand_Charge_Month_Baseline).reshape((-1, 1)))) if NC_DC_Baseline_Vector.size != 0 else  np.asarray(NC_Demand_Charge_Month_Baseline).reshape((-1,1))
+
         NC_DC_with_Solar_Only_Vector = np.concatenate((NC_DC_with_Solar_Only_Vector,
-                                                       NC_Demand_Charge_Month_with_Solar_Only)) if NC_DC_with_Solar_Only_Vector.size else NC_Demand_Charge_Month_with_Solar_Only
+                                                       np.asarray(NC_Demand_Charge_Month_with_Solar_Only).reshape((-1, 1)))) if NC_DC_with_Solar_Only_Vector.size != 0 else np.asarray(NC_Demand_Charge_Month_with_Solar_Only).reshape((-1,1))
+
         NC_DC_with_Solar_and_Storage_Vector = np.concatenate((NC_DC_with_Solar_and_Storage_Vector,
-                                                              NC_Demand_Charge_Month_with_Solar_and_Storage)) if NC_DC_with_Solar_and_Storage_Vector.size else NC_Demand_Charge_Month_with_Solar_and_Storage
+                                                              np.asarray(
+                                                                  NC_Demand_Charge_Month_with_Solar_and_Storage).reshape((-1, 1)))) if NC_DC_with_Solar_and_Storage_Vector.size != 0 else \
+            np.asarray(NC_Demand_Charge_Month_with_Solar_and_Storage).reshape((-1,1))
 
         CPK_DC_Baseline_Vector = np.concatenate((CPK_DC_Baseline_Vector,
-                                                 CPK_Demand_Charge_Month_Baseline)) if CPK_DC_Baseline_Vector.size else CPK_Demand_Charge_Month_Baseline
+                                                 np.asarray(CPK_Demand_Charge_Month_Baseline).reshape((-1, 1)))) if CPK_DC_Baseline_Vector.size != 0 else np.asarray(CPK_Demand_Charge_Month_Baseline).reshape((-1,1))
+
         CPK_DC_with_Solar_Only_Vector = np.concatenate((CPK_DC_with_Solar_Only_Vector,
-                                                        CPK_Demand_Charge_Month_with_Solar_Only)) if CPK_DC_with_Solar_Only_Vector.size else CPK_Demand_Charge_Month_with_Solar_Only
+                                                        np.asarray(CPK_Demand_Charge_Month_with_Solar_Only).reshape((-1, 1)))) if CPK_DC_with_Solar_Only_Vector.size != 0 else np.asarray(CPK_Demand_Charge_Month_with_Solar_Only).reshape((-1,1))
+
         CPK_DC_with_Solar_and_Storage_Vector = np.concatenate((CPK_DC_with_Solar_and_Storage_Vector,
-                                                               CPK_Demand_Charge_Month_with_Solar_and_Storage)) if CPK_DC_with_Solar_and_Storage_Vector.size else CPK_Demand_Charge_Month_with_Solar_and_Storage
+                                                               np.asarray(
+                                                                   CPK_Demand_Charge_Month_with_Solar_and_Storage).reshape((-1, 1)))) if CPK_DC_with_Solar_and_Storage_Vector.size != 0 else \
+            np.asarray(CPK_Demand_Charge_Month_with_Solar_and_Storage).reshape((-1,1))
 
         CPP_DC_Baseline_Vector = np.concatenate((CPP_DC_Baseline_Vector,
-                                                 CPP_Demand_Charge_Month_Baseline)) if CPP_DC_Baseline_Vector.size else CPP_Demand_Charge_Month_Baseline
+                                                 np.asarray(CPP_Demand_Charge_Month_Baseline).reshape((-1, 1)))) if CPP_DC_Baseline_Vector.size != 0 else np.asarray(CPP_Demand_Charge_Month_Baseline).reshape((-1,1))
+
         CPP_DC_with_Solar_Only_Vector = np.concatenate((CPP_DC_with_Solar_Only_Vector,
-                                                        CPP_Demand_Charge_Month_with_Solar_Only)) if CPP_DC_with_Solar_Only_Vector.size else CPP_Demand_Charge_Month_with_Solar_Only
+                                                        np.asarray(CPP_Demand_Charge_Month_with_Solar_Only).reshape((-1, 1)))) if CPP_DC_with_Solar_Only_Vector.size != 0 else np.asarray(CPP_Demand_Charge_Month_with_Solar_Only).reshape((-1,1))
+
         CPP_DC_with_Solar_and_Storage_Vector = np.concatenate((CPP_DC_with_Solar_and_Storage_Vector,
-                                                               CPP_Demand_Charge_Month_with_Solar_and_Storage)) if CPP_DC_with_Solar_and_Storage_Vector.size else CPP_Demand_Charge_Month_with_Solar_and_Storage
+                                                               np.asarray(CPP_Demand_Charge_Month_with_Solar_and_Storage).reshape((-1, 1)))) if CPP_DC_with_Solar_and_Storage_Vector.size != 0 else \
+            np.asarray(CPP_Demand_Charge_Month_with_Solar_and_Storage).reshape((-1,1))
 
         Energy_Charge_Baseline_Vector = np.concatenate((Energy_Charge_Baseline_Vector,
-                                                        Energy_Charge_Month_Baseline)) if Energy_Charge_Baseline_Vector.size else Energy_Charge_Month_Baseline
+                                                        np.asarray(Energy_Charge_Month_Baseline).reshape((-1, 1)))) if Energy_Charge_Baseline_Vector.size != 0 else np.asarray(Energy_Charge_Month_Baseline).reshape((-1,1))
+
         Energy_Charge_with_Solar_Only_Vector = np.concatenate((Energy_Charge_with_Solar_Only_Vector,
-                                                               Energy_Charge_Month_with_Solar_Only)) if Energy_Charge_with_Solar_Only_Vector.size else Energy_Charge_Month_with_Solar_Only
+                                                               np.asarray(Energy_Charge_Month_with_Solar_Only).reshape((-1, 1)))) if Energy_Charge_with_Solar_Only_Vector.size != 0 else np.asarray(Energy_Charge_Month_with_Solar_Only).reshape((-1,1))
+
         Energy_Charge_with_Solar_and_Storage_Vector = np.concatenate((Energy_Charge_with_Solar_and_Storage_Vector,
-                                                                      Energy_Charge_Month_with_Solar_and_Storage)) if Energy_Charge_with_Solar_and_Storage_Vector.size else Energy_Charge_Month_with_Solar_and_Storage
+                                                                      np.asarray(Energy_Charge_Month_with_Solar_and_Storage).reshape((-1, 1)))) if Energy_Charge_with_Solar_and_Storage_Vector.size != 0 else \
+            np.asarray(Energy_Charge_Month_with_Solar_and_Storage).reshape((-1,1))
 
-        Cycles_Vector = np.concatenate((Cycles_Vector, Cycles_Month)) if Cycles_Vector.size else Cycles_Month
+        Cycles_Vector = np.concatenate((Cycles_Vector, np.asarray(Cycles_Month).reshape((-1,1)))) if Cycles_Vector.size != 0 else np.asarray(Cycles_Month).reshape((-1,1))
 
-        Cycling_Penalty_Vector = np.concatenate((Cycling_Penalty_Vector, Cycling_Penalty_Month)) if Cycling_Penalty_Vector.size else Cycling_Penalty_Month
+        Cycling_Penalty_Vector = np.concatenate((Cycling_Penalty_Vector, np.asarray(Cycling_Penalty_Month).reshape((-1,1)))) if Cycling_Penalty_Vector.size != 0 else np.asarray(Cycling_Penalty_Month).reshape((-1,1))
 
 
     # Report total script runtime.
@@ -1841,13 +1857,13 @@ def OSESMO(Modeling_Team_Input=None, Model_Run_Number_Input=None, Model_Type_Inp
     if Emissions_Forecast_Signal_Input == "No Emissions Forecast Signal":
         Emissions_Forecast_Signal_Input = "No"
 
-    Output_Directory_Filepath = os.path.join("Models", "OSESMO", "Model Outputs", \
+    Output_Directory_Filepath = os.path.join(Input_Output_Data_Directory_Location, "Models", "OSESMO", "Model Outputs", \
                                 Model_Type_Input, str(Model_Timestep_Resolution) + "-Minute Timestep Resolution", \
                                 Customer_Class_Input, Load_Profile_Name_Input, Retail_Rate_Name_Input, \
                                 Solar_Profile_Name_Input, str(Solar_Size_Input) + " kW Solar", Storage_Type_Input, \
                                 str(Storage_Power_Rating_Input) + " kW " + str(Usable_Storage_Capacity_Input) + " kWh Storage", \
                                 str(int(Single_Cycle_RTE_Input * 100)) + " Percent Single-Cycle RTE", \
-                                str(int(Parasitic_Storage_Load_Input * 100)) + " Percent Parasitic Load", \
+                                str(Parasitic_Storage_Load_Input * 100) + " Percent Parasitic Load", \
                                 Storage_Control_Algorithm_Name, GHG_Reduction_Solution_Input, \
                                 str(Equivalent_Cycling_Constraint_Input) + " Equivalent Cycles Constraint", \
                                 str(int(Annual_RTE_Constraint_Input * 100)) + " Percent Annual RTE Constraint", \
@@ -1863,9 +1879,8 @@ def OSESMO(Modeling_Team_Input=None, Model_Run_Number_Input=None, Model_Type_Inp
 
     # Create folder if one does not exist already
 
-    if ~exist(Output_Directory_Filepath, 'dir'):
-        Output_Directory_Filepath_Single_Quotes = char(Output_Directory_Filepath)
-        mkdir(Output_Directory_Filepath_Single_Quotes)  # mkdir only works with single-quote filepath
+    if os.path.isdir(Output_Directory_Filepath) == False:
+        os.mkdir(Output_Directory_Filepath)
 
 
     ## Plot Energy Storage Dispatch Schedule
@@ -1874,43 +1889,46 @@ def OSESMO(Modeling_Team_Input=None, Model_Run_Number_Input=None, Model_Type_Inp
 
     t = np.linspace(1, 35040, 35040)
     t = [Start_Time_Input + datetime.timedelta(minutes = int(60 * delta_t) * x) for x in range(0, numtsteps_year)]
-    t = Start_Time_Input + np.linspace(0, ((numtsteps_year - 1) * delta_t) / (24), numtsteps_year)
-    # (transpose)
 
-    P_ES = P_ES_out - P_ES_in
+    P_ES = np.reshape(P_ES_out - P_ES_in, (numtsteps_year,))
+
 
     if Show_Plots == 1 or Export_Plots == 1:
-        figure('NumberTitle', 'off')
-        plot(t, P_ES, 'r')
-        xlim([t(1), t()])
-        ylim([-Storage_Power_Rating_Input * 1.1,
-              Storage_Power_Rating_Input * 1.1])  # Make ylim 10% larger than storage power rating.
-        xlabel('Date & Time', 'FontSize', 15)
-        ylabel('Energy Storage Output (kW)', 'FontSize', 15)
-        title('Energy Storage Dispatch Profile', 'FontSize', 15)
+        fig, ax = plt.subplots()
+        ax.plot(t, P_ES, 'r-')
+        ax.set_xlabel('Date & Time')
+        ax.xaxis.set_major_formatter(matplotlib.dates.DateFormatter('%Y-%m-%d %H:%M'))
+        ax.set_ylabel('Energy Storage Output (kW)')
+        ax.set_title('Energy Storage Dispatch Profile')
+        fig.autofmt_xdate()
+        fig.tight_layout()
+        plt.show()
 
     if Export_Plots == 1:
-        saveas(gcf, Output_Directory_Filepath + "Storage Dispatch Plot.png")
+        plt.savefig(os.path.join(Output_Directory_Filepath, 'Storage Dispatch Plot.png'))
 
-        saveas(gcf, Output_Directory_Filepath + "Storage Dispatch Plot")
+        # Note: The MATLAB version of OSESMO which saves files in .fig format, which allows plots of model runs to be
+        # re-opened and then explored interactively (ex. zooming in on specific days).
+        # OSESMO Python does not have this functionality currently, as matplotlib does not have any built-in features that make this possible.
+        # It may be possible to add this functionality in the future, using the pickle package.
+        # https://stackoverflow.com/questions/4348733/saving-interactive-matplotlib-figures
 
 
     ## Plot Energy Storage Energy Level
 
     if Show_Plots == 1 or Export_Plots == 1:
-        figure('NumberTitle', 'off')
-        plot(t, Ene_Lvl, 'r')
-        xlim([t(1), t()])
-        ylim([-Usable_Storage_Capacity_Input * 0.1,
-              Usable_Storage_Capacity_Input * 1.1])  # Make ylim 10% larger than energy storage level.
-        xlabel('Date & Time', 'FontSize', 15)
-        ylabel('Energy Storage Energy Level (kWh)', 'FontSize', 15)
-        title('Energy Storage Energy Level', 'FontSize', 15)
+        fig, ax = plt.subplots()
+        ax.plot(t, Ene_Lvl, 'r-')
+        ax.set_xlabel('Date & Time')
+        ax.xaxis.set_major_formatter(matplotlib.dates.DateFormatter('%Y-%m-%d %H:%M'))
+        ax.set_ylabel('Energy Storage Energy Level (kWh)')
+        ax.set_title('Energy Storage Energy Level')
+        fig.autofmt_xdate()
+        fig.tight_layout()
+        plt.show()
 
     if Export_Plots == 1:
-        saveas(gcf, Output_Directory_Filepath + "Energy Level Plot.png")
-
-        saveas(gcf, Output_Directory_Filepath + "Energy Level Plot")
+        plt.savefig(os.path.join(Output_Directory_Filepath, 'Energy Level Plot.png'))
 
 
     ## Plot Volumetric Electricity Price Schedule and Marginal Carbon Emission Rates
@@ -1934,17 +1952,19 @@ def OSESMO(Modeling_Team_Input=None, Model_Run_Number_Input=None, Model_Type_Inp
 
 
     if Export_Plots == 1:
-        saveas(gcf, Output_Directory_Filepath + "Energy Price and Carbon Plot.png")
-
-        saveas(gcf, Output_Directory_Filepath + "Energy Price and Carbon Plot")
+        plt.savefig(os.path.join(Output_Directory_Filepath, 'Energy Price and Carbon Plot.png'))
 
 
     ## Plot Coincident and Non-Coincident Demand Charge Schedule
 
     # Create Summer/Winter Binary Flag Vector
-    Summer_Binary_Data = np.sum(Month_Data == First_Summer_Month:Last_Summer_Month, 2)
+    Summer_Binary_Data_1 = Month_Data >= First_Summer_Month
+    Summer_Binary_Data_2 = Month_Data <= Last_Summer_Month
+    Summer_Binary_Data = np.logical_and(Summer_Binary_Data_1, Summer_Binary_Data_2)
 
-    Winter_Binary_Data = np.sum(Month_Data == [1:(First_Summer_Month - 1), (Last_Summer_Month + 1): 12], 2)
+    Winter_Binary_Data_1 = Month_Data < First_Summer_Month
+    Winter_Binary_Data_2 = Month_Data > Last_Summer_Month
+    Winter_Binary_Data = np.logical_or(Winter_Binary_Data_1, Winter_Binary_Data_2)
 
     # Create Total-Demand-Charge Vector
     # Noncoincident Demand Charge is always included (although it may be 0).
@@ -1967,18 +1987,18 @@ def OSESMO(Modeling_Team_Input=None, Model_Run_Number_Input=None, Model_Type_Inp
         Total_DC = Total_DC + (Summer_Part_Peak_DC * Summer_Part_Peak_Binary_Data)
 
     if Show_Plots == 1 or Export_Plots == 1:
-        figure('NumberTitle', 'off')
-        plot(t, Total_DC, 'Color', [0, 0.5, 0])
-        xlim([t(1), t()])
-        ylim([-1, max(Total_DC) + 1])
-        xlabel('Date & Time', 'FontSize', 15)
-        ylabel('Total Demand Charge ($/kW)', 'FontSize', 15)
-        title('Coincident + Non-Coincident Demand Charge Schedule', 'FontSize', 15)
+        fig, ax = plt.subplots()
+        ax.plot(t, Total_DC, 'g-')
+        ax.set_xlabel('Date & Time')
+        ax.xaxis.set_major_formatter(matplotlib.dates.DateFormatter('%Y-%m-%d %H:%M'))
+        ax.set_ylabel('Total Demand Charge ($/kW)')
+        ax.set_title('Coincident + Non-Coincident Demand Charge Schedule')
+        fig.autofmt_xdate()
+        fig.tight_layout()
+        plt.show()
 
     if Export_Plots == 1:
-        saveas(gcf, Output_Directory_Filepath + "Demand Charge Plot.png")
-
-        saveas(gcf, Output_Directory_Filepath + "Demand Charge Plot")
+        plt.savefig(os.path.join(Output_Directory_Filepath, 'Demand Charge Plot.png'))
 
 
     ## Plot Load, Net Load with Solar Only, Net Load with Solar and Storage
@@ -1986,33 +2006,36 @@ def OSESMO(Modeling_Team_Input=None, Model_Run_Number_Input=None, Model_Type_Inp
     if Show_Plots == 1 or Export_Plots == 1:
         if Model_Type_Input == "Storage Only":
 
-            figure('NumberTitle', 'off')
-            plot(t, Load_Profile_Data, 'k', \
-                 t, Load_Profile_Data - P_ES, 'r')
-            xlim([t(1), t()])
-            xlabel('Date & Time', 'FontSize', 15)
-            ylabel('Load (kW)', 'FontSize', 15)
-            title('Original and Net Load Profiles', 'FontSize', 15)
-            leg('Original Load', 'Net Load with Storage', 'Location', 'NorthOutside')
-            set(gca, 'FontSize', 15)
+            fig, ax = plt.subplots()
+            ax.plot(t, Load_Profile_Data, 'k-', label = 'Original Load')
+            ax.plot(t, Load_Profile_Data - P_ES, 'r-', label = 'Net Load with Storage')
+            ax.set_xlabel('Date & Time')
+            ax.xaxis.set_major_formatter(matplotlib.dates.DateFormatter('%Y-%m-%d %H:%M'))
+            ax.set_ylabel('Load (kW)')
+            ax.set_title('Original and Net Load Profiles')
+            ax.legend()
+            fig.autofmt_xdate()
+            fig.tight_layout()
+            plt.show()
 
         elif Model_Type_Input == "Solar Plus Storage":
 
-            figure('NumberTitle', 'off')
-            plot(t, Load_Profile_Data, 'k', \
-                 t, Load_Profile_Data - Solar_PV_Profile_Data, 'b', \
-                 t, Load_Profile_Data - (Solar_PV_Profile_Data + P_ES), 'r')
-            xlim([t(1), t()])
-            xlabel('Date & Time', 'FontSize', 15)
-            ylabel('Load (kW)', 'FontSize', 15)
-            title('Original and Net Load Profiles', 'FontSize', 15)
-            leg('Original Load', 'Net Load with Solar Only', 'Net Load with Solar + Storage', 'Location', 'NorthOutside')
-            set(gca, 'FontSize', 15)
+            fig, ax = plt.subplots()
+            ax.plot(t, Load_Profile_Data, 'k-', label = 'Original Load')
+            ax.plot(t, Load_Profile_Data - Solar_PV_Profile_Data, 'b-', label='Net Load with Solar Only')
+            ax.plot(t, Load_Profile_Data - (Solar_PV_Profile_Data + P_ES), 'r-', label = 'Net Load with Solar + Storage')
+            ax.set_xlabel('Date & Time')
+            ax.xaxis.set_major_formatter(matplotlib.dates.DateFormatter('%Y-%m-%d %H:%M'))
+            ax.set_ylabel('Load (kW)')
+            ax.set_title('Original and Net Load Profiles')
+            ax.legend()
+            fig.autofmt_xdate()
+            fig.tight_layout()
+            plt.show()
 
     if Export_Plots == 1:
-        saveas(gcf, Output_Directory_Filepath + "Net Load Plot.png")
+        plt.savefig(os.path.join(Output_Directory_Filepath, 'Net Load Plot.png'))
 
-        saveas(gcf, Output_Directory_Filepath + "Net Load Plot")
 
     if Model_Type_Input == "Storage Only":
         Annual_Peak_Demand_with_Solar_Only = ""
@@ -2021,154 +2044,126 @@ def OSESMO(Modeling_Team_Input=None, Model_Run_Number_Input=None, Model_Type_Inp
 
     elif Model_Type_Input == "Solar Plus Storage":
 
-        Annual_Peak_Demand_with_Solar_Only = max(Load_Profile_Data - Solar_PV_Profile_Data)
+        Annual_Peak_Demand_with_Solar_Only = np.max(Load_Profile_Data - Solar_PV_Profile_Data)
 
-        Annual_Total_Energy_Consumption_with_Solar_Only = sum(Load_Profile_Data - Solar_PV_Profile_Data) * delta_t
+        Annual_Total_Energy_Consumption_with_Solar_Only = np.sum(Load_Profile_Data - Solar_PV_Profile_Data) * delta_t
 
-        Annual_Peak_Demand_with_Solar_and_Storage = max(Load_Profile_Data - (Solar_PV_Profile_Data + P_ES))
+        Annual_Peak_Demand_with_Solar_and_Storage = np.max(Load_Profile_Data - (Solar_PV_Profile_Data + P_ES))
 
-        Annual_Total_Energy_Consumption_with_Solar_and_Storage = sum(
-            Load_Profile_Data - (Solar_PV_Profile_Data + P_ES)) * delta_t
+        Annual_Total_Energy_Consumption_with_Solar_and_Storage = np.sum(Load_Profile_Data - (Solar_PV_Profile_Data + P_ES)) * delta_t
 
     if Model_Type_Input == "Storage Only":
         Solar_Only_Peak_Demand_Reduction_Percentage = ""
 
     elif Model_Type_Input == "Solar Plus Storage":
-        Solar_Only_Peak_Demand_Reduction_Percentage = \
-        ((Annual_Peak_Demand_Baseline - Annual_Peak_Demand_with_Solar_Only) / \
-         Annual_Peak_Demand_Baseline) * 100
+        Solar_Only_Peak_Demand_Reduction_Percentage = ((Annual_Peak_Demand_Baseline - Annual_Peak_Demand_with_Solar_Only) / Annual_Peak_Demand_Baseline) * 100
 
-        Solar_Storage_Peak_Demand_Reduction_Percentage = \
-            ((Annual_Peak_Demand_Baseline - Annual_Peak_Demand_with_Solar_and_Storage) / \
-             Annual_Peak_Demand_Baseline) * 100
+        Solar_Storage_Peak_Demand_Reduction_Percentage = ((Annual_Peak_Demand_Baseline - Annual_Peak_Demand_with_Solar_and_Storage) / Annual_Peak_Demand_Baseline) * 100
 
     if Model_Type_Input == "Storage Only":
         Solar_Only_Energy_Consumption_Decrease_Percentage = ""
 
     elif Model_Type_Input == "Solar Plus Storage":
-        Solar_Only_Energy_Consumption_Decrease_Percentage = \
-            ((Annual_Total_Energy_Consumption_Baseline - \
-              Annual_Total_Energy_Consumption_with_Solar_Only) / \
-             Annual_Total_Energy_Consumption_Baseline) * 100
+        Solar_Only_Energy_Consumption_Decrease_Percentage = ((Annual_Total_Energy_Consumption_Baseline - Annual_Total_Energy_Consumption_with_Solar_Only) / Annual_Total_Energy_Consumption_Baseline) * 100
 
-    Solar_Storage_Energy_Consumption_Decrease_Percentage = \
-        ((Annual_Total_Energy_Consumption_Baseline - \
-          Annual_Total_Energy_Consumption_with_Solar_and_Storage) / \
-         Annual_Total_Energy_Consumption_Baseline) * 100
+        Solar_Storage_Energy_Consumption_Decrease_Percentage = ((Annual_Total_Energy_Consumption_Baseline - Annual_Total_Energy_Consumption_with_Solar_and_Storage) / Annual_Total_Energy_Consumption_Baseline) * 100
 
-    sprintf('Baseline annual peak noncoincident demand is %0.00f kW.', \
-            Annual_Peak_Demand_Baseline)
+
+    print('Baseline annual peak noncoincident demand is {0} kW.'.format(round(Annual_Peak_Demand_Baseline, 2)))
 
     if Model_Type_Input == "Storage Only":
         if Solar_Storage_Peak_Demand_Reduction_Percentage >= 0:
 
-            sprintf('Peak demand with storage is %0.00f kW, representing a DECREASE OF %0.02f%%.', \
-                    Annual_Peak_Demand_with_Solar_and_Storage, Solar_Storage_Peak_Demand_Reduction_Percentage)
+            print('Peak demand with storage is {0} kW, representing a DECREASE OF {1}%.'.format(round(Annual_Peak_Demand_with_Solar_and_Storage, 2), round(Solar_Storage_Peak_Demand_Reduction_Percentage, 2)))
 
-    elif Solar_Storage_Peak_Demand_Reduction_Percentage < 0:
+        elif Solar_Storage_Peak_Demand_Reduction_Percentage < 0:
 
-        sprintf('Peak demand with storage is %0.00f kW, representing an INCREASE OF %0.02f%%.', \
-                Annual_Peak_Demand_with_Solar_and_Storage, -Solar_Storage_Peak_Demand_Reduction_Percentage)
+            print('Peak demand with storage is {0} kW, representing an INCREASE OF {1}%.'.format(round(Annual_Peak_Demand_with_Solar_and_Storage, 2), round(-Solar_Storage_Peak_Demand_Reduction_Percentage, 2)))
 
-        sprintf('Baseline annual total electricity consumption is %0.00f kWh.', \
-                Annual_Total_Energy_Consumption_Baseline)
+        print('Baseline annual total electricity consumption is {0} kWh.'.format(round(Annual_Total_Energy_Consumption_Baseline, 2)))
 
-        sprintf('Electricity consumption with storage is %0.00f kWh, representing an INCREASE OF %0.02f%%.', \
-                Annual_Total_Energy_Consumption_with_Solar_and_Storage,
-                -Solar_Storage_Energy_Consumption_Decrease_Percentage)
+        print('Electricity consumption with storage is {0} kWh, representing an INCREASE OF {1}%.'.format(round(Annual_Total_Energy_Consumption_with_Solar_and_Storage, 2),
+                                                                                                          round(-Solar_Storage_Energy_Consumption_Decrease_Percentage, 2)))
 
     elif Model_Type_Input == "Solar Plus Storage":
 
-        sprintf('Peak demand with solar only is %0.00f kW, representing a DECREASE OF %0.02f%%.', \
-                Annual_Peak_Demand_with_Solar_Only, Solar_Only_Peak_Demand_Reduction_Percentage)
+        print('Peak demand with solar only is {0} kW, representing a DECREASE OF {1}%.'.format(round(Annual_Peak_Demand_with_Solar_Only, 2), round(Solar_Only_Peak_Demand_Reduction_Percentage, 2)))
 
     if Solar_Storage_Peak_Demand_Reduction_Percentage >= 0:
-        sprintf('Peak demand with solar and storage is %0.00f kW, representing a DECREASE OF %0.02f%%.', \
-                Annual_Peak_Demand_with_Solar_and_Storage, Solar_Storage_Peak_Demand_Reduction_Percentage)
+        print('Peak demand with solar and storage is {0} kW, representing a DECREASE OF {1}%.'.format(round(Annual_Peak_Demand_with_Solar_and_Storage, 2), round(Solar_Storage_Peak_Demand_Reduction_Percentage, 2)))
 
     elif Solar_Storage_Peak_Demand_Reduction_Percentage < 0:
-        sprintf('Peak demand with solar and storage is %0.00f kW, representing an INCREASE OF %0.02f%%.', \
-                Annual_Peak_Demand_with_Solar_and_Storage, -Solar_Storage_Peak_Demand_Reduction_Percentage)
+        print('Peak demand with solar and storage is {0} kW, representing an INCREASE OF {1}%.'.format(round(Annual_Peak_Demand_with_Solar_and_Storage, 2), round(-Solar_Storage_Peak_Demand_Reduction_Percentage, 2)))
 
-        sprintf('Baseline annual total electricity consumption is %0.00f kWh.', \
-                Annual_Total_Energy_Consumption_Baseline)
+    print('Baseline annual total electricity consumption is {0} kWh.'.format(round(Annual_Total_Energy_Consumption_Baseline, 2)))
 
-        sprintf('Electricity consumption with solar only is %0.00f kWh, representing a DECREASE OF %0.02f%%.', \
-                Annual_Total_Energy_Consumption_with_Solar_Only, Solar_Only_Energy_Consumption_Decrease_Percentage)
+    print('Electricity consumption with solar only is {0} kWh, representing a DECREASE OF {1}%.'.format(round(Annual_Total_Energy_Consumption_with_Solar_Only, 2),
+                                                                                                        round(Solar_Only_Energy_Consumption_Decrease_Percentage, 2)))
 
-        sprintf('Electricity consumption with solar and storage is %0.00f kWh, representing a DECREASE OF %0.02f%%.', \
-                Annual_Total_Energy_Consumption_with_Solar_and_Storage,
-                Solar_Storage_Energy_Consumption_Decrease_Percentage)
+    print('Electricity consumption with solar and storage is {0} kWh, representing a DECREASE OF {1}%.'.format(round(Annual_Total_Energy_Consumption_with_Solar_and_Storage, 2),
+                                                                                                               round(Solar_Storage_Energy_Consumption_Decrease_Percentage, 2)))
 
 
     ## Plot Monthly Costs as Bar Plot
 
     # Calculate Baseline Monthly Costs
 
-    Monthly_Costs_Matrix_Baseline = [Fixed_Charge_Vector, NC_DC_Baseline_Vector, \
-                                     CPK_DC_Baseline_Vector, CPP_DC_Baseline_Vector, Energy_Charge_Baseline_Vector]
+    Monthly_Costs_Matrix_Baseline = np.concatenate((Fixed_Charge_Vector, NC_DC_Baseline_Vector, CPK_DC_Baseline_Vector, CPP_DC_Baseline_Vector, Energy_Charge_Baseline_Vector), axis = 1)
 
-    Annual_Costs_Vector_Baseline = [sum(Fixed_Charge_Vector), \
-                                    sum(NC_DC_Baseline_Vector) + sum(CPK_DC_Baseline_Vector) + sum(
-                                        CPP_DC_Baseline_Vector), \
-                                    sum(Energy_Charge_Baseline_Vector)]
+    Annual_Costs_Vector_Baseline = np.concatenate((np.asarray(np.sum(Fixed_Charge_Vector)).reshape(1, -1), \
+                                                   np.asarray(np.sum(NC_DC_Baseline_Vector) + np.sum(CPK_DC_Baseline_Vector) + np.sum(CPP_DC_Baseline_Vector)).reshape(1, -1), \
+                                                   np.asarray(np.sum(Energy_Charge_Baseline_Vector)).reshape(1, -1)), axis = 0)
 
-    Annual_Demand_Charge_Cost_Baseline = Annual_Costs_Vector_Baseline(2)
-    Annual_Energy_Charge_Cost_Baseline = Annual_Costs_Vector_Baseline(3)
+    Annual_Demand_Charge_Cost_Baseline = Annual_Costs_Vector_Baseline[1, 0]
+    Annual_Energy_Charge_Cost_Baseline = Annual_Costs_Vector_Baseline[2, 0]
 
     # Calculate Monthly Costs With Solar Only
 
-    Monthly_Costs_Matrix_with_Solar_Only = [Fixed_Charge_Vector, NC_DC_with_Solar_Only_Vector,
-                                            CPK_DC_with_Solar_Only_Vector, \
-                                            CPP_DC_with_Solar_Only_Vector, Energy_Charge_with_Solar_Only_Vector]
+    Monthly_Costs_Matrix_with_Solar_Only = np.concatenate((Fixed_Charge_Vector, NC_DC_with_Solar_Only_Vector, CPK_DC_with_Solar_Only_Vector, CPP_DC_with_Solar_Only_Vector, Energy_Charge_with_Solar_Only_Vector), axis = 1)
 
-    Annual_Costs_Vector_with_Solar_Only = [sum(Fixed_Charge_Vector), \
-                                           sum(NC_DC_with_Solar_Only_Vector) + sum(
-                                               CPK_DC_with_Solar_Only_Vector) + sum(CPP_DC_with_Solar_Only_Vector), \
-                                           sum(Energy_Charge_with_Solar_Only_Vector)]
+    Annual_Costs_Vector_with_Solar_Only = np.concatenate((np.asarray(np.sum(Fixed_Charge_Vector)).reshape(1, -1), \
+                                                   np.asarray(np.sum(NC_DC_with_Solar_Only_Vector) + np.sum(CPK_DC_with_Solar_Only_Vector) + np.sum(CPP_DC_with_Solar_Only_Vector)).reshape(1, -1), \
+                                                   np.asarray(np.sum(Energy_Charge_with_Solar_Only_Vector)).reshape(1, -1)), axis = 0)
+
 
     if Model_Type_Input == "Storage Only":
         Annual_Demand_Charge_Cost_with_Solar_Only = ""
         Annual_Energy_Charge_Cost_with_Solar_Only = ""
 
     elif Model_Type_Input == "Solar Plus Storage":
-        Annual_Demand_Charge_Cost_with_Solar_Only = Annual_Costs_Vector_with_Solar_Only(2)
-        Annual_Energy_Charge_Cost_with_Solar_Only = Annual_Costs_Vector_with_Solar_Only(3)
+        Annual_Demand_Charge_Cost_with_Solar_Only = Annual_Costs_Vector_with_Solar_Only[1, 0]
+        Annual_Energy_Charge_Cost_with_Solar_Only = Annual_Costs_Vector_with_Solar_Only[2, 0]
 
     # Calculate Monthly Costs with Solar and Storage
 
-    Monthly_Costs_Matrix_with_Solar_and_Storage = [Fixed_Charge_Vector, NC_DC_with_Solar_and_Storage_Vector, \
-                                                   CPK_DC_with_Solar_and_Storage_Vector,
-                                                   CPP_DC_with_Solar_and_Storage_Vector,
-                                                   Energy_Charge_with_Solar_and_Storage_Vector]
+    Monthly_Costs_Matrix_with_Solar_and_Storage = np.concatenate((Fixed_Charge_Vector, NC_DC_with_Solar_and_Storage_Vector, CPK_DC_with_Solar_and_Storage_Vector, CPP_DC_with_Solar_and_Storage_Vector, \
+                                                                  Energy_Charge_with_Solar_and_Storage_Vector), axis = 1)
 
-    Annual_Costs_Vector_with_Solar_and_Storage = [sum(Fixed_Charge_Vector), \
-                                                  sum(NC_DC_with_Solar_and_Storage_Vector) + sum(
-                                                      CPK_DC_with_Solar_and_Storage_Vector) + sum(
-                                                      CPP_DC_with_Solar_and_Storage_Vector), \
-                                                  sum(Energy_Charge_with_Solar_and_Storage_Vector)]
+    Annual_Costs_Vector_with_Solar_and_Storage = np.concatenate((np.asarray(np.sum(Fixed_Charge_Vector)).reshape(1, -1), \
+                                                   np.asarray(np.sum(NC_DC_with_Solar_and_Storage_Vector) + np.sum(CPK_DC_with_Solar_and_Storage_Vector) + np.sum(CPP_DC_with_Solar_and_Storage_Vector)).reshape(1, -1), \
+                                                   np.asarray(np.sum(Energy_Charge_with_Solar_and_Storage_Vector)).reshape(1, -1)), axis = 0)
 
-    Annual_Demand_Charge_Cost_with_Solar_and_Storage = Annual_Costs_Vector_with_Solar_and_Storage(2)
-    Annual_Energy_Charge_Cost_with_Solar_and_Storage = Annual_Costs_Vector_with_Solar_and_Storage(3)
+    Annual_Demand_Charge_Cost_with_Solar_and_Storage = Annual_Costs_Vector_with_Solar_and_Storage[1, 0]
+    Annual_Energy_Charge_Cost_with_Solar_and_Storage = Annual_Costs_Vector_with_Solar_and_Storage[2, 0]
 
     # Calculate Maximum and Minimum Monthly Bills - to set y-axis for all plots
 
-    Maximum_Monthly_Bill_Baseline = max(sum(Monthly_Costs_Matrix_Baseline, 2))
-    Minimum_Monthly_Bill_Baseline = min(sum(Monthly_Costs_Matrix_Baseline, 2))
+    Maximum_Monthly_Bill_Baseline = np.max(np.sum(Monthly_Costs_Matrix_Baseline, axis = 1))
+    Minimum_Monthly_Bill_Baseline = np.min(np.sum(Monthly_Costs_Matrix_Baseline, axis = 1))
 
-    Maximum_Monthly_Bill_with_Solar_Only = max(sum(Monthly_Costs_Matrix_with_Solar_Only, 2))
-    Minimum_Monthly_Bill_with_Solar_Only = min(sum(Monthly_Costs_Matrix_with_Solar_Only, 2))
+    Maximum_Monthly_Bill_with_Solar_Only = np.max(np.sum(Monthly_Costs_Matrix_with_Solar_Only, axis = 1))
+    Minimum_Monthly_Bill_with_Solar_Only = np.min(np.sum(Monthly_Costs_Matrix_with_Solar_Only, axis = 1))
 
-    Maximum_Monthly_Bill_with_Solar_and_Storage = max(sum(Monthly_Costs_Matrix_with_Solar_and_Storage, 2))
-    Minimum_Monthly_Bill_with_Solar_and_Storage = min(sum(Monthly_Costs_Matrix_with_Solar_and_Storage, 2))
+    Maximum_Monthly_Bill_with_Solar_and_Storage = np.max(np.sum(Monthly_Costs_Matrix_with_Solar_and_Storage, axis = 1))
+    Minimum_Monthly_Bill_with_Solar_and_Storage = np.min(np.sum(Monthly_Costs_Matrix_with_Solar_and_Storage, axis = 1))
 
-    Maximum_Monthly_Bill = max([Maximum_Monthly_Bill_Baseline, \
+    Maximum_Monthly_Bill = np.max((Maximum_Monthly_Bill_Baseline, \
                                 Maximum_Monthly_Bill_with_Solar_Only, \
-                                Maximum_Monthly_Bill_with_Solar_and_Storage])
+                                Maximum_Monthly_Bill_with_Solar_and_Storage))
 
-    Minimum_Monthly_Bill = min([Minimum_Monthly_Bill_Baseline, \
+    Minimum_Monthly_Bill = np.min((Minimum_Monthly_Bill_Baseline, \
                                 Minimum_Monthly_Bill_with_Solar_Only, \
-                                Minimum_Monthly_Bill_with_Solar_and_Storage])
+                                Minimum_Monthly_Bill_with_Solar_and_Storage))
 
     Max_Monthly_Bill_ylim = Maximum_Monthly_Bill * 1.1  # Make upper ylim 10% larger than largest monthly bill.
 
@@ -2177,24 +2172,92 @@ def OSESMO(Modeling_Team_Input=None, Model_Run_Number_Input=None, Model_Type_Inp
     elif Minimum_Monthly_Bill < 0:
         Min_Monthly_Bill_ylim = Minimum_Monthly_Bill * 1.1  # Make lower ylim 10% smaller than the smallest monthly bill if less than zero.
 
+
+    # Define bar-chart-plotting function
+    # Created by StackOverflow user Bill: https://stackoverflow.com/questions/44309507/stacked-bar-plot-using-matplotlib
+
+    def stacked_bar(data, series_labels, category_labels=None,
+                    show_values=False, value_format="{}", y_label=None,
+                    grid=True, reverse=False):
+        """Plots a stacked bar chart with the data and labels provided.
+
+        Keyword arguments:
+        data            -- 2-dimensional numpy array or nested list
+                           containing data for each series in rows
+        series_labels   -- list of series labels (these appear in
+                           the legend)
+        category_labels -- list of category labels (these appear
+                           on the x-axis)
+        show_values     -- If True then numeric value labels will
+                           be shown on each bar
+        value_format    -- Format string for numeric value labels
+                           (default is "{}")
+        y_label         -- Label for y-axis (str)
+        grid            -- If True display grid
+        reverse         -- If True reverse the order that the
+                           series are displayed (left-to-right
+                           or right-to-left)
+        """
+
+        ny = len(data[0])
+        ind = list(range(ny))
+
+        axes = []
+        cum_size = np.zeros(ny)
+
+        data = np.array(data)
+
+        if reverse:
+            data = np.flip(data, axis=1)
+            category_labels = reversed(category_labels)
+
+        for i, row_data in enumerate(data):
+            axes.append(plt.bar(ind, row_data, bottom=cum_size,
+                                label=series_labels[i]))
+            cum_size += row_data
+
+        if category_labels:
+            plt.xticks(ind, category_labels)
+
+        if y_label:
+            plt.ylabel(y_label)
+
+        plt.legend()
+
+        if grid:
+            plt.grid()
+
+        if show_values:
+            for axis in axes:
+                for bar in axis:
+                    w, h = bar.get_width(), bar.get_height()
+                    plt.text(bar.get_x() + w / 2, bar.get_y() + h / 2,
+                             value_format.format(h), ha="center",
+                             va="center")
+
     # Plot Baseline Monthly Costs
 
     if Show_Plots == 1 or Export_Plots == 1:
-        figure('NumberTitle', 'off')
-        bar(Monthly_Costs_Matrix_Baseline, 'stacked')
-        xlim([0.5, 12.5])
-        ylim([Min_Monthly_Bill_ylim, Max_Monthly_Bill_ylim])
-        xlabel('Month', 'FontSize', 15)
-        ylabel('Cost ($/Month)', 'FontSize', 15)
-        title('Monthly Costs, Without Storage', 'FontSize', 15)
-        leg('Fixed Charges', 'Max DC', 'Peak DC', 'Part-Peak DC', 'Energy Charge', \
-            'Location', 'NorthWest')
-        set(gca, 'FontSize', 15)
+
+        series_labels = ['Fixed Charges', 'Max DC', 'Peak DC', 'Part-Peak DC', 'Energy Charge']
+
+        category_labels = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']
+
+        plt.figure()
+
+        stacked_bar(np.transpose(Monthly_Costs_Matrix_Baseline),
+            series_labels,
+            category_labels=category_labels,
+            show_values=False,
+            value_format="{}",
+            y_label="Cost ($/Month)")
+
+        plt.xlabel('Month')
+        plt.title('Monthly Costs, Without Storage')
+        plt.show()
 
     if Export_Plots == 1:
-        saveas(gcf, Output_Directory_Filepath + "Monthly Costs Baseline Plot.png")
-
-        saveas(gcf, Output_Directory_Filepath + "Monthly Costs Baseline Plot")
+        plt.savefig(os.path.join(Output_Directory_Filepath, 'Monthly Costs Baseline Plot.png'))
 
     # Plot Monthly Costs With Solar Only
 
@@ -2309,31 +2372,31 @@ def OSESMO(Modeling_Team_Input=None, Model_Run_Number_Input=None, Model_Type_Inp
         Solar_Installed_Cost = Solar_Size_Input * Solar_Installed_Cost_per_kW
         Solar_Simple_Payback = Solar_Installed_Cost / Annual_Customer_Bill_Savings_from_Solar
 
-        sprintf('Annual cost savings from solar is $%0.0f, representing %0.2f%% of the original $%0.0f bill.', \
+        print('Annual cost savings from solar is $%0.0f, representing %0.2f%% of the original $%0.0f bill.', \
                 Annual_Customer_Bill_Savings_from_Solar, Annual_Customer_Bill_Savings_from_Solar_Percent * 100,
                 Annual_Customer_Bill_Baseline)
 
-        sprintf('The solar PV system has a simple payback of %0.0f years, not including incentives.', \
+        print('The solar PV system has a simple payback of %0.0f years, not including incentives.', \
                 Solar_Simple_Payback)
 
         Storage_Installed_Cost = Total_Storage_Capacity * Storage_Installed_Cost_per_kWh
 
         Storage_Simple_Payback = Storage_Installed_Cost / Annual_Customer_Bill_Savings_from_Storage
 
-        sprintf('Annual cost savings from storage is $%0.0f, representing %0.2f%% of the original $%0.0f bill.', \
+        print('Annual cost savings from storage is $%0.0f, representing %0.2f%% of the original $%0.0f bill.', \
                 Annual_Customer_Bill_Savings_from_Storage, Annual_Customer_Bill_Savings_from_Storage_Percent * 100,
                 Annual_Customer_Bill_Baseline)
 
-        sprintf('The storage system has a simple payback of %0.0f years, not including incentives.', \
+        print('The storage system has a simple payback of %0.0f years, not including incentives.', \
                 Storage_Simple_Payback)
 
 
     ## Report Cycling/Degradation Penalty
 
-    Annual_Equivalent_Storage_Cycles = sum(Cycles_Vector)
+    Annual_Equivalent_Storage_Cycles = np.sum(Cycles_Vector)
     Annual_Cycling_Penalty = sum(Cycling_Penalty_Vector)
     Annual_Capacity_Fade = Usable_Storage_Capacity_Input - Usable_Storage_Capacity
-    sprintf(
+    print(
         'The battery cycles %0.0f times annually, with a degradation cost of $%0.0f, and experiences capacity fade of %0.1f kWh.', \
         Annual_Equivalent_Storage_Cycles, Annual_Cycling_Penalty, Annual_Capacity_Fade)
 
@@ -2342,7 +2405,7 @@ def OSESMO(Modeling_Team_Input=None, Model_Run_Number_Input=None, Model_Type_Inp
 
     Annual_RTE = (sum(P_ES_out) * delta_t) / (sum(P_ES_in) * delta_t)
 
-    sprintf('The battery has an Annual Operational/SGIP Round-Trip Efficiency of %0.2f%%.', \
+    print('The battery has an Annual Operational/SGIP Round-Trip Efficiency of %0.2f%%.', \
             Annual_RTE * 100)
 
 
@@ -2363,7 +2426,7 @@ def OSESMO(Modeling_Team_Input=None, Model_Run_Number_Input=None, Model_Type_Inp
     Operational_Capacity_Factor = ((sum(P_ES_out) * delta_t) / (
             (len(Load_Profile_Data) * delta_t) * Storage_Power_Rating_Input * 0.6))
 
-    sprintf('The battery has an Operational/SGIP Capacity Factor of %0.2f%%.', \
+    print('The battery has an Operational/SGIP Capacity Factor of %0.2f%%.', \
             Operational_Capacity_Factor * 100)
 
 
@@ -2436,7 +2499,7 @@ def OSESMO(Modeling_Team_Input=None, Model_Run_Number_Input=None, Model_Type_Inp
     # Report Grid Cost Savings from Solar
 
     if Model_Type_Input == "Solar Plus Storage":
-        sprintf(
+        print(
             'Installing solar DECREASES estimated utility grid costs (not including transmission costs, \n and using representative distribution costs) by $%0.2f per year.', \
             Annual_Grid_Cost_Baseline - Annual_Grid_Cost_with_Solar_Only)
 
@@ -2444,22 +2507,22 @@ def OSESMO(Modeling_Team_Input=None, Model_Run_Number_Input=None, Model_Type_Inp
 
     if Model_Type_Input == "Storage Only":
         if Annual_Grid_Cost_Baseline - Annual_Grid_Cost_with_Solar_and_Storage < 0:
-            sprintf(
+            print(
                 'Installing energy storage INCREASES estimated utility grid costs (not including transmission costs, \n and using representative distribution costs) by $%0.2f per year.', \
                 -(Annual_Grid_Cost_Baseline - Annual_Grid_Cost_with_Solar_and_Storage))
         else:
-            sprintf(
+            print(
                 'Installing energy storage DECREASES estimated utility grid costs (not including transmission costs, \n and using representative distribution costs) by $%0.2f per year.', \
                 Annual_Grid_Cost_Baseline - Annual_Grid_Cost_with_Solar_and_Storage)
 
     elif Model_Type_Input == "Solar Plus Storage":
 
         if Annual_Grid_Cost_with_Solar_Only - Annual_Grid_Cost_with_Solar_and_Storage < 0:
-            sprintf(
+            print(
                 'Installing energy storage INCREASES estimated utility grid costs (not including transmission costs, \n and using representative distribution costs) by $%0.2f per year.', \
                 -(Annual_Grid_Cost_with_Solar_Only - Annual_Grid_Cost_with_Solar_and_Storage))
         else:
-            sprintf(
+            print(
                 'Installing energy storage DECREASES estimated utility grid costs (not including transmission costs, \n and using representative distribution costs) by $%0.2f per year.', \
                 Annual_Grid_Cost_with_Solar_Only - Annual_Grid_Cost_with_Solar_and_Storage)
 
@@ -2511,22 +2574,22 @@ def OSESMO(Modeling_Team_Input=None, Model_Run_Number_Input=None, Model_Type_Inp
         (Annual_GHG_Emissions_Reduction_from_Storage / Annual_GHG_Emissions_Baseline)
 
     if Model_Type_Input == "Solar Plus Storage":
-        sprintf('Installing solar DECREASES marginal carbon emissions \n by %0.2f metric tons per year.', \
+        print('Installing solar DECREASES marginal carbon emissions \n by %0.2f metric tons per year.', \
                 Annual_GHG_Emissions_Reduction_from_Solar)
-    sprintf(
+    print(
         'This is equivalent to %0.2f%% of baseline emissions, and brings total emissions to %0.2f metric tons per year.', \
         Annual_GHG_Emissions_Reduction_from_Solar_Percent * 100, Annual_GHG_Emissions_with_Solar_Only)
 
     if Annual_GHG_Emissions_Reduction_from_Storage < 0:
-        sprintf('Installing energy storage INCREASES marginal carbon emissions \n by %0.2f metric tons per year.', \
+        print('Installing energy storage INCREASES marginal carbon emissions \n by %0.2f metric tons per year.', \
                 -Annual_GHG_Emissions_Reduction_from_Storage)
-        sprintf(
+        print(
             'This is equivalent to %0.2f%% of baseline emissions, and brings total emissions to %0.2f metric tons per year.', \
             -Annual_GHG_Emissions_Reduction_from_Storage_Percent * 100, Annual_GHG_Emissions_with_Solar_and_Storage)
     else:
-        sprintf('Installing energy storage DECREASES marginal carbon emissions \n by %0.2f metric tons per year.', \
+        print('Installing energy storage DECREASES marginal carbon emissions \n by %0.2f metric tons per year.', \
                 Annual_GHG_Emissions_Reduction_from_Storage)
-        sprintf(
+        print(
             'This is equivalent to %0.2f%% of baseline emissions, and brings total emissions to %0.2f metric tons per year.', \
             Annual_GHG_Emissions_Reduction_from_Storage_Percent * 100, Annual_GHG_Emissions_with_Solar_and_Storage)
 
@@ -2556,7 +2619,7 @@ def OSESMO(Modeling_Team_Input=None, Model_Run_Number_Input=None, Model_Type_Inp
 
     # Calculate Maximum and Minimum Monthly Grid Costs - to set y-axis for all plots
 
-    Maximum_Monthly_Grid_Cost_Baseline = max(sum(Grid_Cost_Month_Baseline, 2))
+    Maximum_Monthly_Grid_Cost_Baseline = np.max(sum(Grid_Cost_Month_Baseline, 2))
     Minimum_Monthly_Grid_Cost_Baseline = min(sum(Grid_Cost_Month_Baseline, 2))
 
     Grid_Cost_Month_with_Solar_Only_Neg = Grid_Cost_Month_with_Solar_Only
