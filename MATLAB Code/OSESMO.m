@@ -2672,7 +2672,7 @@ if Show_Plots == 1 || Export_Plots ==1
     ylim([-max([Generation_Cost_Data; Representative_Distribution_Cost_Data]) * (1/1000) * 0.1, ...
         max([Generation_Cost_Data; Representative_Distribution_Cost_Data]) * (1/1000) * 1.1]) % Make ylim 10% larger than grid cost range.
     ylabel('Grid Costs ($/kWh)','FontSize',15);
-    title('Original and Net Load Profiles','FontSize',15)
+    title('Grid Costs (Generation & Distribution)','FontSize',15)
     legend('Grid Generation Cost', 'Representative Distribution Cost', 'Location','NorthOutside')
     set(gca,'FontSize',15);
     
