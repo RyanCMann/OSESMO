@@ -11,6 +11,7 @@ import math as math
 import time as time
 import datetime as datetime
 import numpy as np
+import pandas as pd
 from cvxopt import matrix, sparse, solvers
 import matplotlib
 matplotlib.use('TkAgg')
@@ -2803,53 +2804,55 @@ def OSESMO(Modeling_Team_Input=None, Model_Run_Number_Input=None, Model_Type_Inp
     ## Close All Figures
 
     if Show_Plots == 0:
-        close all
+        plt.close('all')
 
 
     ## Write Outputs to CSV
 
-    Model_Inputs_and_Outputs = np.array([Modeling_Team_Input, Model_Run_Number_Input, Model_Run_Date_Time,
-                                     Model_Type_Input, \
-                                     Model_Timestep_Resolution, Customer_Class_Input, Load_Profile_Master_Index, \
-                                     Load_Profile_Name_Input, Retail_Rate_Master_Index, Retail_Rate_Utility, \
-                                     Retail_Rate_Name_Output, Retail_Rate_Effective_Date, \
-                                     Solar_Profile_Master_Index, Solar_Profile_Name_Output,
-                                     Solar_Profile_Description, \
-                                     Solar_Size_Input, Storage_Type_Input, Storage_Power_Rating_Input, \
-                                     Usable_Storage_Capacity_Input, Single_Cycle_RTE_Input,
-                                     Parasitic_Storage_Load_Input, \
-                                     Storage_Control_Algorithm_Name, Storage_Control_Algorithm_Description, \
-                                     Storage_Control_Algorithms_Parameters_Filename, \
-                                     GHG_Reduction_Solution_Input, Equivalent_Cycling_Constraint_Input, \
-                                     Annual_RTE_Constraint_Input, ITC_Constraint_Input, \
-                                     Carbon_Adder_Incentive_Value_Input, Other_Incentives_or_Penalities, \
-                                     Emissions_Forecast_Signal_Input, \
-                                     Annual_GHG_Emissions_Baseline, Annual_GHG_Emissions_with_Solar_Only, \
-                                     Annual_GHG_Emissions_with_Solar_and_Storage, \
-                                     Annual_Customer_Bill_Baseline, Annual_Customer_Bill_with_Solar_Only, \
-                                     Annual_Customer_Bill_with_Solar_and_Storage, \
-                                     Annual_Grid_Cost_Baseline, Annual_Grid_Cost_with_Solar_Only, \
-                                     Annual_Grid_Cost_with_Solar_and_Storage, \
-                                     Annual_Equivalent_Storage_Cycles, Annual_RTE, Operational_Capacity_Factor, \
-                                     Annual_Demand_Charge_Cost_Baseline, Annual_Demand_Charge_Cost_with_Solar_Only, \
-                                     Annual_Demand_Charge_Cost_with_Solar_and_Storage, \
-                                     Annual_Energy_Charge_Cost_Baseline, Annual_Energy_Charge_Cost_with_Solar_Only, \
-                                     Annual_Energy_Charge_Cost_with_Solar_and_Storage, \
-                                     Annual_Peak_Demand_Baseline, Annual_Peak_Demand_with_Solar_Only, \
-                                     Annual_Peak_Demand_with_Solar_and_Storage, \
-                                     Annual_Total_Energy_Consumption_Baseline,
-                                     Annual_Total_Energy_Consumption_with_Solar_Only, \
-                                     Annual_Total_Energy_Consumption_with_Solar_and_Storage, \
-                                     Output_Summary_Filename, Output_Description_Filename,
-                                     Output_Visualizations_Filename, \
-                                     EV_Use, EV_Charge, EV_Gas_Savings, EV_GHG_Savings])
+    Model_Inputs_and_Outputs = np.array([Modeling_Team_Input, Model_Run_Number_Input, Model_Run_Date_Time, Model_Type_Input, Model_Timestep_Resolution, \
+                                         Customer_Class_Input, Load_Profile_Master_Index, Load_Profile_Name_Input, \
+                                         "Retail_Rate_Master_Index", Retail_Rate_Utility, Retail_Rate_Name_Output, "Retail_Rate_Effective_Date", \
+                                         Solar_Profile_Master_Index, Solar_Profile_Name_Output, Solar_Profile_Description, Solar_Size_Input, \
+                                         Storage_Type_Input, Storage_Power_Rating_Input, Usable_Storage_Capacity_Input, Single_Cycle_RTE_Input, Parasitic_Storage_Load_Input, \
+                                         Storage_Control_Algorithm_Name, Storage_Control_Algorithm_Description, Storage_Control_Algorithms_Parameters_Filename, \
+                                         GHG_Reduction_Solution_Input, Equivalent_Cycling_Constraint_Input, Annual_RTE_Constraint_Input, ITC_Constraint_Input, \
+                                         Carbon_Adder_Incentive_Value_Input, Other_Incentives_or_Penalities, Emissions_Forecast_Signal_Input, \
+                                         Annual_GHG_Emissions_Baseline, Annual_GHG_Emissions_with_Solar_Only, Annual_GHG_Emissions_with_Solar_and_Storage, \
+                                         Annual_Customer_Bill_Baseline, Annual_Customer_Bill_with_Solar_Only, Annual_Customer_Bill_with_Solar_and_Storage, \
+                                         Annual_Grid_Cost_Baseline, Annual_Grid_Cost_with_Solar_Only, Annual_Grid_Cost_with_Solar_and_Storage, \
+                                         Annual_Equivalent_Storage_Cycles, Annual_RTE, Operational_Capacity_Factor, \
+                                         Annual_Demand_Charge_Cost_Baseline, Annual_Demand_Charge_Cost_with_Solar_Only, Annual_Demand_Charge_Cost_with_Solar_and_Storage, \
+                                         Annual_Energy_Charge_Cost_Baseline, Annual_Energy_Charge_Cost_with_Solar_Only, Annual_Energy_Charge_Cost_with_Solar_and_Storage, \
+                                         Annual_Peak_Demand_Baseline, Annual_Peak_Demand_with_Solar_Only, Annual_Peak_Demand_with_Solar_and_Storage, \
+                                         Annual_Total_Energy_Consumption_Baseline, Annual_Total_Energy_Consumption_with_Solar_Only, Annual_Total_Energy_Consumption_with_Solar_and_Storage, \
+                                         Output_Summary_Filename, Output_Description_Filename, Output_Visualizations_Filename, \
+                                         EV_Use, EV_Charge, EV_Gas_Savings, EV_GHG_Savings]).reshape((1, 62))
 
-    Storage_Dispatch_Outputs = np.array(t, P_ES)
-    Storage_Dispatch_Outputs.Properties.VariableNames = {'Date_Time_Pacific_No_DST', 'Storage_Output_kW'}
+    Model_Inputs_and_Outputs = pd.DataFrame(Model_Inputs_and_Outputs, columns = ["Modeling_Team_Input", "Model_Run_Number_Input", "Model_Run_Date_Time", "Model_Type_Input", "Model_Timestep_Resolution", \
+                                         "Customer_Class_Input", "Load_Profile_Master_Index", "Load_Profile_Name_Input", \
+                                         "Retail_Rate_Master_Index", "Retail_Rate_Utility", "Retail_Rate_Name_Output", "Retail_Rate_Effective_Date", \
+                                         "Solar_Profile_Master_Index", "Solar_Profile_Name_Output", "Solar_Profile_Description", "Solar_Size_Input", \
+                                         "Storage_Type_Input", "Storage_Power_Rating_Input", "Usable_Storage_Capacity_Input", "Single_Cycle_RTE_Input", "Parasitic_Storage_Load_Input", \
+                                         "Storage_Control_Algorithm_Name", "Storage_Control_Algorithm_Description", "Storage_Control_Algorithms_Parameters_Filename", \
+                                         "GHG_Reduction_Solution_Input", "Equivalent_Cycling_Constraint_Input", "Annual_RTE_Constraint_Input", "ITC_Constraint_Input", \
+                                         "Carbon_Adder_Incentive_Value_Input", "Other_Incentives_or_Penalities", "Emissions_Forecast_Signal_Input", \
+                                         "Annual_GHG_Emissions_Baseline", "Annual_GHG_Emissions_with_Solar_Only", "Annual_GHG_Emissions_with_Solar_and_Storage", \
+                                         "Annual_Customer_Bill_Baseline", "Annual_Customer_Bill_with_Solar_Only", "Annual_Customer_Bill_with_Solar_and_Storage", \
+                                         "Annual_Grid_Cost_Baseline", "Annual_Grid_Cost_with_Solar_Only", "Annual_Grid_Cost_with_Solar_and_Storage", \
+                                         "Annual_Equivalent_Storage_Cycles", "Annual_RTE", "Operational_Capacity_Factor", \
+                                         "Annual_Demand_Charge_Cost_Baseline", "Annual_Demand_Charge_Cost_with_Solar_Only", "Annual_Demand_Charge_Cost_with_Solar_and_Storage", \
+                                         "Annual_Energy_Charge_Cost_Baseline", "Annual_Energy_Charge_Cost_with_Solar_Only", "Annual_Energy_Charge_Cost_with_Solar_and_Storage", \
+                                         "Annual_Peak_Demand_Baseline", "Annual_Peak_Demand_with_Solar_Only", "Annual_Peak_Demand_with_Solar_and_Storage", \
+                                         "Annual_Total_Energy_Consumption_Baseline", "Annual_Total_Energy_Consumption_with_Solar_Only", "Annual_Total_Energy_Consumption_with_Solar_and_Storage", \
+                                         "Output_Summary_Filename", "Output_Description_Filename", "Output_Visualizations_Filename", \
+                                         "EV_Use", "EV_Charge", "EV_Gas_Savings", "EV_GHG_Savings"])
+
+    Storage_Dispatch_Outputs = np.array([t, P_ES]).transpose()
+    Storage_Dispatch_Outputs = pd.DataFrame(Storage_Dispatch_Outputs, columns = ["Date_Time_Pacific_No_DST", "Storage_Output_kW"])
 
     if Export_Data == 1:
-        writetable(Model_Inputs_and_Outputs, Output_Directory_Filepath + Output_Summary_Filename)
-        writetable(Storage_Dispatch_Outputs, Output_Directory_Filepath + "Storage Dispatch Profile Output.csv")
+        Model_Inputs_and_Outputs.to_csv(Output_Directory_Filepath + Output_Summary_Filename, index = False)
+        Storage_Dispatch_Outputs.to_csv(Output_Directory_Filepath + "Storage Dispatch Profile Output.csv", index = False)
 
 
     ## Return to OSESMO Git Repository Directory
