@@ -108,7 +108,7 @@ switch Retail_Rate_Name_Input
      
     case "PG&E E-6 (NEW) Tier 2"
         
-        Retail_Rate_Master_Index = "R6";
+        Retail_Rate_Master_Index = "R5";
         Retail_Rate_Effective_Date = "Proposed - 2017 GRC Phase II";
         
         if delta_t == (5/60)

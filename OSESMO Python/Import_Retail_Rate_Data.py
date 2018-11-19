@@ -9,7 +9,138 @@ def Import_Retail_Rate_Data(Input_Output_Data_Directory_Location, OSESMO_Git_Rep
  
  
     # Import Volumetric (per kWh) Rate Data
-    if Retail_Rate_Name_Input == "PG&E A-1-STORAGE (NEW)":
+
+    if Retail_Rate_Name_Input == "PG&E E-1 Tier 1":
+
+        Retail_Rate_Master_Index = "R1"
+        Retail_Rate_Effective_Date = "2017-01-01"
+
+        if delta_t == (5 / 60):
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/PG&E E-1 Tier 1/2017/5-Minute Data/Vector Format/2017_PGE_E1_Tier1_Energy_Rates_Vector.csv',
+                delimiter=',')
+
+        elif delta_t == (15 / 60):
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/PG&E E-1 Tier 1/2017/15-Minute Data/Vector Format/2017_PGE_E1_Tier1_Energy_Rates_Vector.csv',
+                delimiter=',')
+
+
+    elif Retail_Rate_Name_Input == "PG&E E-1 Tier 3":
+
+        Retail_Rate_Master_Index = "R1"
+        Retail_Rate_Effective_Date = "2017-01-01"
+
+        if delta_t == (5 / 60):
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/PG&E E-1 Tier 3/2017/5-Minute Data/Vector Format/2017_PGE_E1_Tier3_Energy_Rates_Vector.csv',
+                delimiter=',')
+        elif delta_t == (15 / 60):
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/PG&E E-1 Tier 3/2017/15-Minute Data/Vector Format/2017_PGE_E1_Tier3_Energy_Rates_Vector.csv',
+                delimiter=',')
+
+
+    elif Retail_Rate_Name_Input == "PG&E E-1 Tier 1 SmartRate":
+
+        Retail_Rate_Master_Index = "R2"
+        Retail_Rate_Effective_Date = "2017-01-01"
+
+        if delta_t == (5 / 60):
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/PG&E E-1 Tier 1 SmartRate/2017/5-Minute Data/Vector Format/2017_PGE_E1_Tier1_SmartRate_Energy_Rates_Vector.csv',
+                delimiter=',')
+
+        elif delta_t == (15 / 60):
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/PG&E E-1 Tier 1 SmartRate/2017/15-Minute Data/Vector Format/2017_PGE_E1_Tier1_SmartRate_Energy_Rates_Vector.csv',
+                delimiter=',')
+
+
+    elif Retail_Rate_Name_Input == "PG&E E-1 Tier 3 SmartRate":
+
+        Retail_Rate_Master_Index = "R2"
+        Retail_Rate_Effective_Date = "2017-01-01"
+
+        if delta_t == (5 / 60):
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/PG&E E-1 Tier 3 SmartRate/2017/5-Minute Data/Vector Format/2017_PGE_E1_Tier3_SmartRate_Energy_Rates_Vector.csv',
+                delimiter=',')
+
+        elif delta_t == (15 / 60):
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/PG&E E-1 Tier 3 SmartRate/2017/15-Minute Data/Vector Format/2017_PGE_E1_Tier3_SmartRate_Energy_Rates_Vector.csv',
+                delimiter=',')
+
+
+    elif Retail_Rate_Name_Input == "PG&E EV-A (NEW)":
+
+        Retail_Rate_Master_Index = "R3"
+        Retail_Rate_Effective_Date = "Proposed - 2017 GRC Phase II"
+
+        if delta_t == (5 / 60):
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/PG&E EV-A (NEW)/2017/5-Minute Data/Vector Format/2017_PGE_EVA_Energy_Rates_Vector.csv',
+                delimiter=',')
+
+        elif delta_t == (15 / 60):
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/PG&E EV-A (NEW)/2017/15-Minute Data/Vector Format/2017_PGE_EVA_Energy_Rates_Vector.csv',
+                delimiter=',')
+
+
+    elif Retail_Rate_Name_Input == "SDG&E DR-SES":
+
+        Retail_Rate_Master_Index = "R4"
+        Retail_Rate_Effective_Date = "2017-01-01"
+
+        if delta_t == (5 / 60):
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/SDG&E DR-SES/2017/5-Minute Data/Vector Format/2017_SDGE_DR_SES_Energy_Rates_Vector.csv',
+                delimiter=',')
+
+        elif delta_t == (15 / 60):
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/SDG&E DR-SES/2017/15-Minute Data/Vector Format/2017_SDGE_DR_SES_Energy_Rates_Vector.csv',
+                delimiter=',')
+
+
+    elif Retail_Rate_Name_Input == "PG&E E-6 (NEW) Tier 1":
+
+        Retail_Rate_Master_Index = "R5"
+        Retail_Rate_Effective_Date = "Proposed - 2017 GRC Phase II"
+
+        if delta_t == (5 / 60):
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/PG&E E-6 (NEW) Tier 1/2017/5-Minute Data/Vector Format/2017_PGE_E6_NEW_Tier1_Energy_Rates_Vector.csv',
+                delimiter=',')
+
+        elif delta_t == (15 / 60):
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/PG&E E-6 (NEW) Tier 1/2017/15-Minute Data/Vector Format/2017_PGE_E6_NEW_Tier1_Energy_Rates_Vector.csv',
+                    delimiter=',')
+
+
+    elif Retail_Rate_Name_Input == "PG&E E-6 (NEW) Tier 2":
+
+        Retail_Rate_Master_Index = "R5";
+        Retail_Rate_Effective_Date = "Proposed - 2017 GRC Phase II";
+
+        if delta_t == (5 / 60):
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/PG&E E-6 (NEW) Tier 2/2017/5-Minute Data/Vector Format/2017_PGE_E6_NEW_Tier2_Energy_Rates_Vector.csv',
+                delimiter=',')
+
+        elif delta_t == (15 / 60):
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/PG&E E-6 (NEW) Tier 2/2017/15-Minute Data/Vector Format/2017_PGE_E6_NEW_Tier2_Energy_Rates_Vector.csv',
+                delimiter=',')
+
+
+    elif Retail_Rate_Name_Input == "PG&E A-1-STORAGE (NEW)":
+
+        Retail_Rate_Master_Index = "C1"
+        Retail_Rate_Effective_Date = "Proposed - 2017 GRC Phase II"
 
         if delta_t == (5/60):
             Volumetric_Rate_Data = np.genfromtxt(
@@ -21,7 +152,10 @@ def Import_Retail_Rate_Data(Input_Output_Data_Directory_Location, OSESMO_Git_Rep
         
         
     elif Retail_Rate_Name_Input == "PG&E A-6 (OLD)":
-        
+
+        Retail_Rate_Master_Index = "C2"
+        Retail_Rate_Effective_Date = "2017-03-01"
+
         if delta_t == (5/60):
             Volumetric_Rate_Data = np.genfromtxt(
                 'Rates/PG&E A-6 (OLD)/2017/5-Minute Data/Vector Format/2017_PGE_A6_OLD_Energy_Rates_Vector.csv', delimiter=',')
@@ -32,61 +166,23 @@ def Import_Retail_Rate_Data(Input_Output_Data_Directory_Location, OSESMO_Git_Rep
         
         
     elif Retail_Rate_Name_Input == "PG&E A-6 PDP (OLD)":
-        
+
+        Retail_Rate_Master_Index = "C3"
+        Retail_Rate_Effective_Date = "2017-03-01"
+
         if delta_t == (5/60):
             Volumetric_Rate_Data = np.genfromtxt(
                 'Rates/PG&E A-6 PDP (OLD)/2017/5-Minute Data/Vector Format/2017_PGE_A6_PDP_OLD_Energy_Rates_Vector.csv', delimiter=',')
         elif delta_t == (15/60):
             Volumetric_Rate_Data = np.genfromtxt(
                 'Rates/PG&E A-6 PDP (OLD)/2017/15-Minute Data/Vector Format/2017_PGE_A6_PDP_OLD_Energy_Rates_Vector.csv', delimiter=',')
-        
-        
-    elif Retail_Rate_Name_Input == "PG&E E-1 Tier 1":
-        
-        if delta_t == (5/60):
-            Volumetric_Rate_Data = np.genfromtxt(
-                'Rates/PG&E E-1 Tier 1/2017/5-Minute Data/Vector Format/2017_PGE_E1_Tier1_Energy_Rates_Vector.csv', delimiter=',')
 
-        elif delta_t == (15/60):
-            Volumetric_Rate_Data = np.genfromtxt(
-                'Rates/PG&E E-1 Tier 1/2017/15-Minute Data/Vector Format/2017_PGE_E1_Tier1_Energy_Rates_Vector.csv', delimiter=',')
-        
-        
-    elif Retail_Rate_Name_Input == "PG&E E-1 Tier 1 SmartRate":
-        
-        if delta_t == (5/60):
-            Volumetric_Rate_Data = np.genfromtxt(
-                'Rates/PG&E E-1 Tier 1 SmartRate/2017/5-Minute Data/Vector Format/2017_PGE_E1_Tier1_SmartRate_Energy_Rates_Vector.csv', delimiter=',')
-
-        elif delta_t == (15/60):
-            Volumetric_Rate_Data = np.genfromtxt(
-                'Rates/PG&E E-1 Tier 1 SmartRate/2017/15-Minute Data/Vector Format/2017_PGE_E1_Tier1_SmartRate_Energy_Rates_Vector.csv', delimiter=',')
-        
-        
-    elif Retail_Rate_Name_Input == "PG&E E-1 Tier 3":
-        
-        if delta_t == (5/60):
-            Volumetric_Rate_Data = np.genfromtxt(
-                'Rates/PG&E E-1 Tier 3/2017/5-Minute Data/Vector Format/2017_PGE_E1_Tier3_Energy_Rates_Vector.csv', delimiter=',')
-
-        elif delta_t == (15/60):
-            Volumetric_Rate_Data = np.genfromtxt(
-                'Rates/PG&E E-1 Tier 3/2017/15-Minute Data/Vector Format/2017_PGE_E1_Tier3_Energy_Rates_Vector.csv', delimiter=',')
-        
-        
-    elif Retail_Rate_Name_Input == "PG&E E-1 Tier 3 SmartRate":
-        
-        if delta_t == (5/60):
-            Volumetric_Rate_Data = np.genfromtxt(
-                'Rates/PG&E E-1 Tier 3 SmartRate/2017/5-Minute Data/Vector Format/2017_PGE_E1_Tier3_SmartRate_Energy_Rates_Vector.csv', delimiter=',')
-
-        elif delta_t == (15/60):
-            Volumetric_Rate_Data = np.genfromtxt(
-                'Rates/PG&E E-1 Tier 3 SmartRate/2017/15-Minute Data/Vector Format/2017_PGE_E1_Tier3_SmartRate_Energy_Rates_Vector.csv', delimiter=',')
-        
         
     elif Retail_Rate_Name_Input == "PG&E E-19S (OLD)":
-        
+
+        Retail_Rate_Master_Index = "C4"
+        Retail_Rate_Effective_Date = "2017-03-01"
+
         if delta_t == (5/60):
             Volumetric_Rate_Data = np.genfromtxt(
                 'Rates/PG&E E-19S (OLD)/2017/5-Minute Data/Vector Format/2017_PGE_E19S_OLD_Energy_Rates_Vector.csv', delimiter=',')
@@ -94,10 +190,29 @@ def Import_Retail_Rate_Data(Input_Output_Data_Directory_Location, OSESMO_Git_Rep
         elif delta_t == (15/60):
             Volumetric_Rate_Data = np.genfromtxt(
                 'Rates/PG&E E-19S (OLD)/2017/15-Minute Data/Vector Format/2017_PGE_E19S_OLD_Energy_Rates_Vector.csv', delimiter=',')
-        
-        
+
+
+    elif Retail_Rate_Name_Input == "PG&E E-19S (NEW)":
+
+        Retail_Rate_Master_Index = "C5"
+        Retail_Rate_Effective_Date = "Proposed - 2017 GRC Phase II"
+
+        if delta_t == (5 / 60):
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/PG&E E-19S (NEW)/2017/5-Minute Data/Vector Format/2017_PGE_E19S_NEW_Energy_Rates_Vector.csv',
+                delimiter=',')
+
+        elif delta_t == (15 / 60):
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/PG&E E-19S (NEW)/2017/15-Minute Data/Vector Format/2017_PGE_E19S_NEW_Energy_Rates_Vector.csv',
+                delimiter=',')
+
+
     elif Retail_Rate_Name_Input == "PG&E E-19S PDP (OLD)":
-        
+
+        Retail_Rate_Master_Index = "C6"
+        Retail_Rate_Effective_Date = "2017-03-01"
+
         if delta_t == (5/60):
             Volumetric_Rate_Data = np.genfromtxt(
                 'Rates/PG&E E-19S PDP (OLD)/2017/5-Minute Data/Vector Format/2017_PGE_E19S_PDP_OLD_Energy_Rates_Vector.csv', delimiter=',')
@@ -105,10 +220,29 @@ def Import_Retail_Rate_Data(Input_Output_Data_Directory_Location, OSESMO_Git_Rep
         elif delta_t == (15/60):
             Volumetric_Rate_Data = np.genfromtxt(
                 'Rates/PG&E E-19S PDP (OLD)/2017/15-Minute Data/Vector Format/2017_PGE_E19S_PDP_OLD_Energy_Rates_Vector.csv', delimiter=',')
-        
-        
+
+
+    elif Retail_Rate_Name_Input == "PG&E E-19S PDP (NEW)":
+
+        Retail_Rate_Master_Index = "C7"
+        Retail_Rate_Effective_Date = "Proposed - 2017 GRC Phase II"
+
+        if delta_t == (5 / 60):
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/PG&E E-19S PDP (NEW)/2017/5-Minute Data/Vector Format/2017_PGE_E19S_PDP_NEW_Energy_Rates_Vector.csv',
+                delimiter=',')
+
+        elif delta_t == (15 / 60):
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/PG&E E-19S PDP (NEW)/2017/15-Minute Data/Vector Format/2017_PGE_E19S_PDP_NEW_Energy_Rates_Vector.csv',
+                delimiter=',')
+
+
     elif Retail_Rate_Name_Input == "PG&E E-19S-R (OLD)":
-        
+
+        Retail_Rate_Master_Index = "C8"
+        Retail_Rate_Effective_Date = "2017-03-01"
+
         if delta_t == (5/60):
             Volumetric_Rate_Data = np.genfromtxt(
                 'Rates/PG&E E-19S-R (OLD)/2017/5-Minute Data/Vector Format/2017_PGE_E19SR_OLD_Energy_Rates_Vector.csv', delimiter=',')
@@ -116,32 +250,13 @@ def Import_Retail_Rate_Data(Input_Output_Data_Directory_Location, OSESMO_Git_Rep
         elif delta_t == (15/60):
             Volumetric_Rate_Data = np.genfromtxt(
                 'Rates/PG&E E-19S-R (OLD)/2017/15-Minute Data/Vector Format/2017_PGE_E19SR_OLD_Energy_Rates_Vector.csv', delimiter=',')
-        
-        
-    elif Retail_Rate_Name_Input == "PG&E E-19S (NEW)":
-        
-        if delta_t == (5/60):
-            Volumetric_Rate_Data = np.genfromtxt(
-                'Rates/PG&E E-19S (NEW)/2017/5-Minute Data/Vector Format/2017_PGE_E19S_NEW_Energy_Rates_Vector.csv', delimiter=',')
 
-        elif delta_t == (15/60):
-            Volumetric_Rate_Data = np.genfromtxt(
-                'Rates/PG&E E-19S (NEW)/2017/15-Minute Data/Vector Format/2017_PGE_E19S_NEW_Energy_Rates_Vector.csv', delimiter=',')
-        
-        
-    elif Retail_Rate_Name_Input == "PG&E E-19S PDP (NEW)":
-        
-        if delta_t == (5/60):
-            Volumetric_Rate_Data = np.genfromtxt(
-                'Rates/PG&E E-19S PDP (NEW)/2017/5-Minute Data/Vector Format/2017_PGE_E19S_PDP_NEW_Energy_Rates_Vector.csv', delimiter=',')
-
-        elif delta_t == (15/60):
-            Volumetric_Rate_Data = np.genfromtxt(
-                'Rates/PG&E E-19S PDP (NEW)/2017/15-Minute Data/Vector Format/2017_PGE_E19S_PDP_NEW_Energy_Rates_Vector.csv', delimiter=',')
-        
         
     elif Retail_Rate_Name_Input == "PG&E E-19S-R (NEW)":
-        
+
+        Retail_Rate_Master_Index = "C9"
+        Retail_Rate_Effective_Date = "Proposed - 2017 GRC Phase II"
+
         if delta_t == (5/60):
             Volumetric_Rate_Data = np.genfromtxt(
                 'Rates/PG&E E-19S-R (NEW)/2017/5-Minute Data/Vector Format/2017_PGE_E19SR_NEW_Energy_Rates_Vector.csv', delimiter=',')
@@ -149,21 +264,13 @@ def Import_Retail_Rate_Data(Input_Output_Data_Directory_Location, OSESMO_Git_Rep
         elif delta_t == (15/60):
             Volumetric_Rate_Data = np.genfromtxt(
                 'Rates/PG&E E-19S-R (NEW)/2017/15-Minute Data/Vector Format/2017_PGE_E19SR_NEW_Energy_Rates_Vector.csv', delimiter=',')
-        
-        
-    elif Retail_Rate_Name_Input == "PG&E EV-A (NEW)":
-        
-        if delta_t == (5/60):
-            Volumetric_Rate_Data = np.genfromtxt(
-                'Rates/PG&E EV-A (NEW)/2017/5-Minute Data/Vector Format/2017_PGE_EVA_Energy_Rates_Vector.csv', delimiter=',')
 
-        elif delta_t == (15/60):
-            Volumetric_Rate_Data = np.genfromtxt(
-                'Rates/PG&E EV-A (NEW)/2017/15-Minute Data/Vector Format/2017_PGE_EVA_Energy_Rates_Vector.csv', delimiter=',')
-        
         
     elif Retail_Rate_Name_Input == "SCE TOU-8-B":
-        
+
+        Retail_Rate_Master_Index = "C10"
+        Retail_Rate_Effective_Date = "2018-01-01"
+
         if delta_t == (5/60):
             Volumetric_Rate_Data = np.genfromtxt(
                 'Rates/SCE TOU-8-B/2017/5-Minute Data/Vector Format/2017_SCE_TOU8B_Energy_Rates_Vector.csv', delimiter=',')
@@ -174,7 +281,10 @@ def Import_Retail_Rate_Data(Input_Output_Data_Directory_Location, OSESMO_Git_Rep
         
         
     elif Retail_Rate_Name_Input == "SCE TOU-8-CPP":
-        
+
+        Retail_Rate_Master_Index = "C11"
+        Retail_Rate_Effective_Date = "2018-01-01"
+
         if delta_t == (5/60):
             Volumetric_Rate_Data = np.genfromtxt(
                 'Rates/SCE TOU-8-CPP/2017/5-Minute Data/Vector Format/2017_SCE_TOU8_CPP_Energy_Rates_Vector.csv', delimiter=',')
@@ -185,7 +295,10 @@ def Import_Retail_Rate_Data(Input_Output_Data_Directory_Location, OSESMO_Git_Rep
         
         
     elif Retail_Rate_Name_Input == "SCE TOU-8-R":
-        
+
+        Retail_Rate_Master_Index = "C12"
+        Retail_Rate_Effective_Date = "2018-01-01"
+
         if delta_t == (5/60):
             Volumetric_Rate_Data = np.genfromtxt(
                 'Rates/SCE TOU-8-R/2017/5-Minute Data/Vector Format/2017_SCE_TOU8R_Energy_Rates_Vector.csv', delimiter=',')
@@ -196,7 +309,10 @@ def Import_Retail_Rate_Data(Input_Output_Data_Directory_Location, OSESMO_Git_Rep
         
         
     elif Retail_Rate_Name_Input == "SCE TOU-8-RTP":
-        
+
+        Retail_Rate_Master_Index = "C13"
+        Retail_Rate_Effective_Date = "2018-01-01"
+
         if delta_t == (5/60):
             Volumetric_Rate_Data = np.genfromtxt(
                 'Rates/SCE TOU-8-RTP/2017/5-Minute Data/Vector Format/2017_SCE_TOU8_RTP_Energy_Rates_Vector.csv', delimiter=',')
@@ -207,7 +323,10 @@ def Import_Retail_Rate_Data(Input_Output_Data_Directory_Location, OSESMO_Git_Rep
         
         
     elif Retail_Rate_Name_Input == "SDG&E AL-TOU (OLD)":
-        
+
+        Retail_Rate_Master_Index = "C14"
+        Retail_Rate_Effective_Date = "2016-08-01"
+
         if delta_t == (5/60):
             Volumetric_Rate_Data = np.genfromtxt(
                 'Rates/SDG&E AL-TOU (OLD)/2017/5-Minute Data/Vector Format/2017_SDGE_AL_TOU_OLD_Energy_Rates_Vector.csv', delimiter=',')
@@ -215,10 +334,29 @@ def Import_Retail_Rate_Data(Input_Output_Data_Directory_Location, OSESMO_Git_Rep
         elif delta_t == (15/60):
             Volumetric_Rate_Data = np.genfromtxt(
                 'Rates/SDG&E AL-TOU (OLD)/2017/15-Minute Data/Vector Format/2017_SDGE_AL_TOU_OLD_Energy_Rates_Vector.csv', delimiter=',')
-        
+
+
+    elif Retail_Rate_Name_Input == "SDG&E AL-TOU (NEW)":
+
+        Retail_Rate_Master_Index = "C15"
+        Retail_Rate_Effective_Date = "2018-01-01"
+
+        if delta_t == (5 / 60):
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/SDG&E AL-TOU (NEW)/2017/5-Minute Data/Vector Format/2017_SDGE_AL_TOU_NEW_Energy_Rates_Vector.csv',
+                delimiter=',')
+
+        elif delta_t == (15 / 60):
+            Volumetric_Rate_Data = np.genfromtxt(
+                'Rates/SDG&E AL-TOU (NEW)/2017/15-Minute Data/Vector Format/2017_SDGE_AL_TOU_NEW_Energy_Rates_Vector.csv',
+                delimiter=',')
+
         
     elif Retail_Rate_Name_Input == "SDG&E AL-TOU-CP2 (OLD)":
-        
+
+        Retail_Rate_Master_Index = "C16"
+        Retail_Rate_Effective_Date = "2016-08-01"
+
         if delta_t == (5/60):
             Volumetric_Rate_Data = np.genfromtxt(
                 'Rates/SDG&E AL-TOU-CP2 (OLD)/2017/5-Minute Data/Vector Format/2017_SDGE_AL_TOU_CP2_OLD_Energy_Rates_Vector.csv', delimiter=',')
@@ -226,21 +364,13 @@ def Import_Retail_Rate_Data(Input_Output_Data_Directory_Location, OSESMO_Git_Rep
         elif delta_t == (15/60):
             Volumetric_Rate_Data = np.genfromtxt(
                 'Rates/SDG&E AL-TOU-CP2 (OLD)/2017/15-Minute Data/Vector Format/2017_SDGE_AL_TOU_CP2_OLD_Energy_Rates_Vector.csv', delimiter=',')
-        
-        
-    elif Retail_Rate_Name_Input == "SDG&E AL-TOU (NEW)":
-        
-        if delta_t == (5/60):
-            Volumetric_Rate_Data = np.genfromtxt(
-                'Rates/SDG&E AL-TOU (NEW)/2017/5-Minute Data/Vector Format/2017_SDGE_AL_TOU_NEW_Energy_Rates_Vector.csv', delimiter=',')
 
-        elif delta_t == (15/60):
-            Volumetric_Rate_Data = np.genfromtxt(
-                'Rates/SDG&E AL-TOU (NEW)/2017/15-Minute Data/Vector Format/2017_SDGE_AL_TOU_NEW_Energy_Rates_Vector.csv', delimiter=',')
-        
         
     elif Retail_Rate_Name_Input == "SDG&E AL-TOU-CP2 (NEW)":
-        
+
+        Retail_Rate_Master_Index = "C17"
+        Retail_Rate_Effective_Date = "2018-01-01"
+
         if delta_t == (5/60):
             Volumetric_Rate_Data = np.genfromtxt(
                 'Rates/SDG&E AL-TOU-CP2 (NEW)/2017/5-Minute Data/Vector Format/2017_SDGE_AL_TOU_CP2_NEW_Energy_Rates_Vector.csv', delimiter=',')
@@ -251,7 +381,10 @@ def Import_Retail_Rate_Data(Input_Output_Data_Directory_Location, OSESMO_Git_Rep
         
         
     elif Retail_Rate_Name_Input == "SDG&E AL-TOU (NEW) with DA CAISO":
-        
+
+        Retail_Rate_Master_Index = "C18"
+        Retail_Rate_Effective_Date = "Hypothetical Rate"
+
         if delta_t == (5/60):
             Volumetric_Rate_Data = np.genfromtxt(
                 'Rates/SDG&E AL-TOU (NEW) with DA CAISO/2017/5-Minute Data/Vector Format/2017_SDGE_AL_TOU_NEW_with_DA_CAISO_Energy_Rates_Vector.csv', delimiter=',')
@@ -262,7 +395,10 @@ def Import_Retail_Rate_Data(Input_Output_Data_Directory_Location, OSESMO_Git_Rep
         
         
     elif Retail_Rate_Name_Input == "SDG&E DG-R":
-        
+
+        Retail_Rate_Master_Index = "C19"
+        Retail_Rate_Effective_Date = "2018-01-01"
+
         if delta_t == (5/60):
             Volumetric_Rate_Data = np.genfromtxt(
                 'Rates/SDG&E DG-R/2017/5-Minute Data/Vector Format/2017_SDGE_DGR_Energy_Rates_Vector.csv', delimiter=',')
@@ -270,21 +406,8 @@ def Import_Retail_Rate_Data(Input_Output_Data_Directory_Location, OSESMO_Git_Rep
         elif delta_t == (15/60):
             Volumetric_Rate_Data = np.genfromtxt(
                 'Rates/SDG&E DG-R/2017/15-Minute Data/Vector Format/2017_SDGE_DGR_Energy_Rates_Vector.csv', delimiter=',')
-        
-        
-    elif Retail_Rate_Name_Input == "SDG&E DR-SES":
-        
-        if delta_t == (5/60):
-            Volumetric_Rate_Data = np.genfromtxt(
-                'Rates/SDG&E DR-SES/2017/5-Minute Data/Vector Format/2017_SDGE_DR_SES_Energy_Rates_Vector.csv', delimiter=',')
 
-        elif delta_t == (15/60):
-            Volumetric_Rate_Data = np.genfromtxt(
-                'Rates/SDG&E DR-SES/2017/15-Minute Data/Vector Format/2017_SDGE_DR_SES_Energy_Rates_Vector.csv', delimiter=',')
-        
-        
 
- 
  
 # Select Demand Charge and Fixed-Charge Variable Values
  
@@ -1489,7 +1612,7 @@ def Import_Retail_Rate_Data(Input_Output_Data_Directory_Location, OSESMO_Git_Rep
     os.chdir(OSESMO_Git_Repo_Directory)
 
 
-    return Volumetric_Rate_Data, Summer_Peak_DC, Summer_Part_Peak_DC, Summer_Noncoincident_DC, \
+    return Retail_Rate_Master_Index, Retail_Rate_Effective_Date, Volumetric_Rate_Data, Summer_Peak_DC, Summer_Part_Peak_DC, Summer_Noncoincident_DC, \
            Winter_Peak_DC, Winter_Part_Peak_DC, Winter_Noncoincident_DC, Fixed_Per_Meter_Day_Charge, Fixed_Per_Meter_Month_Charge, \
            First_Summer_Month, Last_Summer_Month, Month_Data, \
            Summer_Peak_Binary_Data, Summer_Part_Peak_Binary_Data, Winter_Peak_Binary_Data, Winter_Part_Peak_Binary_Data

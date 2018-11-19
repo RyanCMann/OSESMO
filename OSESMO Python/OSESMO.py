@@ -219,7 +219,8 @@ def OSESMO(Modeling_Team_Input=None, Model_Run_Number_Input=None, Model_Type_Inp
 
     from Import_Retail_Rate_Data import Import_Retail_Rate_Data
 
-    [Volumetric_Rate_Data, Summer_Peak_DC, Summer_Part_Peak_DC, Summer_Noncoincident_DC,
+    [Retail_Rate_Master_Index, Retail_Rate_Effective_Date,
+     Volumetric_Rate_Data, Summer_Peak_DC, Summer_Part_Peak_DC, Summer_Noncoincident_DC,
      Winter_Peak_DC, Winter_Part_Peak_DC, Winter_Noncoincident_DC,
      Fixed_Per_Meter_Day_Charge, Fixed_Per_Meter_Month_Charge,
      First_Summer_Month, Last_Summer_Month, Month_Data,
@@ -1570,7 +1571,7 @@ def OSESMO(Modeling_Team_Input=None, Model_Run_Number_Input=None, Model_Type_Inp
                         Solar_PV_Profile_Data_Month[Winter_Peak_Binary_Data_Month == 1])
 
 
-                    P_max_CPK_Month_with_Solar_and_Storage = x_Month[3 * numtsteps + 1, 0]
+                P_max_CPK_Month_with_Solar_and_Storage = x_Month[3 * numtsteps + 1, 0]
 
             else:
 
@@ -1597,7 +1598,7 @@ def OSESMO(Modeling_Team_Input=None, Model_Run_Number_Input=None, Model_Type_Inp
                         Solar_PV_Profile_Data_Month[Winter_Part_Peak_Binary_Data_Month == 1])
 
 
-                    P_max_CPP_Month_with_Solar_and_Storage = x_Month[3 * numtsteps + 2, 0]
+                P_max_CPP_Month_with_Solar_and_Storage = x_Month[3 * numtsteps + 2, 0]
 
             else:
 
@@ -2614,17 +2615,17 @@ def OSESMO(Modeling_Team_Input=None, Model_Run_Number_Input=None, Model_Type_Inp
     Maximum_Monthly_Grid_Cost_Baseline = np.max(np.sum(Grid_Cost_Month_Baseline, axis = 1))
     Minimum_Monthly_Grid_Cost_Baseline = np.min(np.sum(Grid_Cost_Month_Baseline, axis = 1))
 
-    Grid_Cost_Month_with_Solar_Only_Neg = Grid_Cost_Month_with_Solar_Only
+    Grid_Cost_Month_with_Solar_Only_Neg = Grid_Cost_Month_with_Solar_Only.copy()
     Grid_Cost_Month_with_Solar_Only_Neg[Grid_Cost_Month_with_Solar_Only_Neg > 0] = 0
-    Grid_Cost_Month_with_Solar_Only_Pos = Grid_Cost_Month_with_Solar_Only
+    Grid_Cost_Month_with_Solar_Only_Pos = Grid_Cost_Month_with_Solar_Only.copy()
     Grid_Cost_Month_with_Solar_Only_Pos[Grid_Cost_Month_with_Solar_Only_Pos < 0] = 0
 
     Maximum_Monthly_Grid_Cost_with_Solar_Only = np.max(np.sum(Grid_Cost_Month_with_Solar_Only_Pos, axis = 1))
     Minimum_Monthly_Grid_Cost_with_Solar_Only = np.min(np.sum(Grid_Cost_Month_with_Solar_Only_Neg, axis = 1))
 
-    Grid_Cost_Month_with_Solar_and_Storage_Neg = Grid_Cost_Month_with_Solar_and_Storage
+    Grid_Cost_Month_with_Solar_and_Storage_Neg = Grid_Cost_Month_with_Solar_and_Storage.copy()
     Grid_Cost_Month_with_Solar_and_Storage_Neg[Grid_Cost_Month_with_Solar_and_Storage_Neg > 0] = 0
-    Grid_Cost_Month_with_Solar_and_Storage_Pos = Grid_Cost_Month_with_Solar_and_Storage
+    Grid_Cost_Month_with_Solar_and_Storage_Pos = Grid_Cost_Month_with_Solar_and_Storage.copy()
     Grid_Cost_Month_with_Solar_and_Storage_Pos[Grid_Cost_Month_with_Solar_and_Storage_Pos < 0] = 0
 
     Maximum_Monthly_Grid_Cost_with_Solar_and_Storage = np.max(np.sum(Grid_Cost_Month_with_Solar_and_Storage_Pos, axis = 1))
@@ -2726,10 +2727,10 @@ def OSESMO(Modeling_Team_Input=None, Model_Run_Number_Input=None, Model_Type_Inp
 
     if Show_Plots == 1 or Export_Plots == 1:
         # Separate negative and positive values for stacked bar chart
-        Grid_Cost_Savings_Month_from_Storage_Neg = Grid_Cost_Savings_Month_from_Storage
+        Grid_Cost_Savings_Month_from_Storage_Neg = Grid_Cost_Savings_Month_from_Storage.copy()
         Grid_Cost_Savings_Month_from_Storage_Neg[Grid_Cost_Savings_Month_from_Storage_Neg > 0] = 0
 
-        Grid_Cost_Savings_Month_from_Storage_Pos = Grid_Cost_Savings_Month_from_Storage
+        Grid_Cost_Savings_Month_from_Storage_Pos = Grid_Cost_Savings_Month_from_Storage.copy()
         Grid_Cost_Savings_Month_from_Storage_Pos[Grid_Cost_Savings_Month_from_Storage_Pos < 0] = 0
 
         # Calculate Maximum and Minimum Monthly Grid Savings - to set y-axis for plot
@@ -2770,32 +2771,41 @@ def OSESMO(Modeling_Team_Input=None, Model_Run_Number_Input=None, Model_Type_Inp
     ## Plot Emissions Impact by Month
 
     if Show_Plots == 1 or Export_Plots == 1:
-        Emissions_Impact_Timestep = Marginal_Emissions_Rate_Evaluation_Data. * -P_ES * (1 / 1000) * delta_t
+        Emissions_Impact_Timestep = np.multiply(Marginal_Emissions_Rate_Evaluation_Data, -P_ES) * (1 / 1000) * delta_t
 
-        Emissions_Impact_Month = []
+        Emissions_Impact_Month = np.array([])
 
         for Month_Iter in range(1, 12+1):
-            Emissions_Impact_Single_Month = np.sum(Emissions_Impact_Timestep[Month_Data == Month_Iter,:])
-            Emissions_Impact_Month = [Emissions_Impact_Month, Emissions_Impact_Single_Month]
+            Emissions_Impact_Single_Month = np.sum(Emissions_Impact_Timestep[Month_Data == Month_Iter])
+            Emissions_Impact_Month = np.concatenate((Emissions_Impact_Month, np.asarray(Emissions_Impact_Single_Month).reshape((-1,1))), axis=0) if \
+                Emissions_Impact_Month.size != 0 else np.asarray(Emissions_Impact_Single_Month).reshape((-1,1))
 
-        figure('NumberTitle', 'off')
-        bar(Emissions_Impact_Month)
-        xlim([0.5, 12.5])
-        xlabel('Month', 'FontSize', 15)
-        xticks(linspace(1, 12, 12))
-        ylabel('Emissions Increase (metric tons/month)', 'FontSize', 15)
-        title('Monthly Emissions Impact From Storage', 'FontSize', 15)
-        set(gca, 'FontSize', 15)
-        hold on
 
-        for i in range(0, len(Emissions_Impact_Month)):
-            h = bar(i, Emissions_Impact_Month(i))
-            if Emissions_Impact_Month(i) < 0:
-                set(h, 'FaceColor', [0 0.5 0])
-            elif Emissions_Impact_Month(i) >= 0:
-                set(h, 'FaceColor', 'r')
+        # Separate Emissions-Increasing Months from Emissions-Decreasing Months
+        Emissions_Impact_Month_Positive = Emissions_Impact_Month.copy()
+        Emissions_Impact_Month_Positive[Emissions_Impact_Month_Positive < 0] = 0
 
-        hold off
+        Emissions_Impact_Month_Negative = Emissions_Impact_Month.copy()
+        Emissions_Impact_Month_Negative[Emissions_Impact_Month_Negative > 0] = 0
+        Emissions_Impact_Month_Plot = np.concatenate((Emissions_Impact_Month_Positive, Emissions_Impact_Month_Negative), axis = 1)
+
+
+        series_labels = ['Emissions Increase', 'Emissions Decrease']
+
+        category_labels = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']
+
+        plt.figure()
+
+        stacked_bar(np.transpose(Emissions_Impact_Month_Plot),
+                    series_labels,
+                    category_labels=category_labels,
+                    show_values=False,
+                    value_format="{}",
+                    y_label="Emissions Increase (metric tons/month)")
+
+        plt.xlabel('Month')
+        plt.title('Monthly Emissions Impact From Storage')
+        plt.show()
 
         if Export_Plots == 1:
             plt.savefig(os.path.join(Output_Directory_Filepath, 'Monthly Emissions Impact from Storage Plot.png'))
@@ -2811,7 +2821,7 @@ def OSESMO(Modeling_Team_Input=None, Model_Run_Number_Input=None, Model_Type_Inp
 
     Model_Inputs_and_Outputs = np.array([Modeling_Team_Input, Model_Run_Number_Input, Model_Run_Date_Time, Model_Type_Input, Model_Timestep_Resolution, \
                                          Customer_Class_Input, Load_Profile_Master_Index, Load_Profile_Name_Input, \
-                                         "Retail_Rate_Master_Index", Retail_Rate_Utility, Retail_Rate_Name_Output, "Retail_Rate_Effective_Date", \
+                                         Retail_Rate_Master_Index, Retail_Rate_Utility, Retail_Rate_Name_Output, Retail_Rate_Effective_Date, \
                                          Solar_Profile_Master_Index, Solar_Profile_Name_Output, Solar_Profile_Description, Solar_Size_Input, \
                                          Storage_Type_Input, Storage_Power_Rating_Input, Usable_Storage_Capacity_Input, Single_Cycle_RTE_Input, Parasitic_Storage_Load_Input, \
                                          Storage_Control_Algorithm_Name, Storage_Control_Algorithm_Description, Storage_Control_Algorithms_Parameters_Filename, \
@@ -2851,8 +2861,8 @@ def OSESMO(Modeling_Team_Input=None, Model_Run_Number_Input=None, Model_Type_Inp
     Storage_Dispatch_Outputs = pd.DataFrame(Storage_Dispatch_Outputs, columns = ["Date_Time_Pacific_No_DST", "Storage_Output_kW"])
 
     if Export_Data == 1:
-        Model_Inputs_and_Outputs.to_csv(Output_Directory_Filepath + Output_Summary_Filename, index = False)
-        Storage_Dispatch_Outputs.to_csv(Output_Directory_Filepath + "Storage Dispatch Profile Output.csv", index = False)
+        Model_Inputs_and_Outputs.to_csv(os.path.join(Output_Directory_Filepath, Output_Summary_Filename), index = False)
+        Storage_Dispatch_Outputs.to_csv(os.path.join(Output_Directory_Filepath, "Storage Dispatch Profile Output.csv"), index = False)
 
 
     ## Return to OSESMO Git Repository Directory

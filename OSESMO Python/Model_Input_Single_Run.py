@@ -7,6 +7,9 @@
 
 ## Model Inputs - Setup Parameters and Run Options
 import datetime as dt
+import matplotlib
+matplotlib.use('TkAgg')
+import matplotlib.pyplot as plt
 
 # OSESMO Git Repository Directory Location
 OSESMO_Git_Repo_Directory = '/Users/Ryan/Library/Mobile Documents/com~apple~CloudDocs/Ryan\'s Stuff/2018/OSESMO/MATLAB Code'
