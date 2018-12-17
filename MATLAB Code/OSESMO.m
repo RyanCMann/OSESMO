@@ -1824,6 +1824,8 @@ elseif contains(Retail_Rate_Name_Input, "SCE")
     Retail_Rate_Utility = "SCE";
 elseif contains(Retail_Rate_Name_Input, "SDG&E")
     Retail_Rate_Utility = "SDG&E";
+elseif contains(Retail_Rate_Name_Input, "LADWP")
+    Retail_Rate_Utility = "LADWP";
 end
 
 Retail_Rate_Utility_Plus_Space = join([Retail_Rate_Utility, " "], "");

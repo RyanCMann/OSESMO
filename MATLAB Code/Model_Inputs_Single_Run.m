@@ -43,7 +43,7 @@ Model_Run_Number_Input = 1;
 
 % Model Type
 % Storage Only or Solar Plus Storage
-Model_Type_Input = "Storage Only";
+Model_Type_Input = "Solar Plus Storage";
 
 % Model Timestep Resolution
 % Model timestep resolution, in minutes.
@@ -60,21 +60,25 @@ Customer_Class_Input = "Residential";
 % Load Profile Name
 % Name of the selected customer load profile.
 Load_Profile_Name_Input = "PG&E GreenButton Central Valley Residential CARE";
+% Load_Profile_Name_Input = "EnerNOC GreenButton San Francisco Office";
 
 % Retail Rate Name
 % Name of the selected retail rate.
-Retail_Rate_Name_Input = "PG&E E-6 (NEW) Tier 2";
+Retail_Rate_Name_Input = "LADWP R-1B (OLD)";
+% Retail_Rate_Name_Input = "PG&E E-19S (OLD)";
 
 
 %% Model Input - Solar Data
 
 % Solar Profile Name
 % Name of selected solar production profile.
-Solar_Profile_Name_Input = "CSI PG&E Residential";
+Solar_Profile_Name_Input = "CSI SCE Residential";
+% Solar_Profile_Name_Input = "CSI PG&E Commercial & Industrial";
 
 % Solar Size kW
 % Nameplate power rating of the solar PV system (kW-DC).
-Solar_Size_Input = 10.8;
+Solar_Size_Input = 5;
+% Solar_Size_Input = 256;
 
 
 %% Model Input - Storage Hardware Data
@@ -86,10 +90,12 @@ Storage_Type_Input = "Lithium-Ion Battery";
 % Storage Power Rating
 % Nameplate storage system charge/discharge power rating (kW).
 Storage_Power_Rating_Input = 5;
+% Storage_Power_Rating_Input = 250;
 
 % Usable Storage Capacity
 % Usable storage energy capacity (kWh). Report usable capacity (accounting for depth of discharge), and not nameplate capacity.
 Usable_Storage_Capacity_Input = 13.5;
+% Usable_Storage_Capacity_Input = 500;
 
 % Single-Cycle RTE
 % Single-cycle (or nameplate) storage round-trip efficiency (50%, 70%, or 85%).
@@ -186,7 +192,8 @@ Carbon_Adder_Incentive_Value_Input = 15; % Value of carbon adder, in $ per metri
 %  * WattTime Open Source Model Midnight-Before Forecasted Emissions Signal "DA WattTime"
 %  * Day Ahead Market Forecasted Emissions Signal "DAM"
 
-Emissions_Forecast_Signal_Input = "NP15 RT5M";
+% Emissions_Forecast_Signal_Input = "NP15 RT5M";
+Emissions_Forecast_Signal_Input = "SP15 RT5M";
 
 
 %% Non-Reported Model Inputs

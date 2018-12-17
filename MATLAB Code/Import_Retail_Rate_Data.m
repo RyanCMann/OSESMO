@@ -119,6 +119,19 @@ switch Retail_Rate_Name_Input
                 'Vector Format/2017_PGE_E6_NEW_Tier2_Energy_Rates_Vector.csv']);
         end
         
+    case "LADWP R-1B (OLD)"
+        
+        Retail_Rate_Master_Index = "R6";
+        Retail_Rate_Effective_Date = "2018-01-01";
+        
+        if delta_t == (5/60)
+            Volumetric_Rate_Data = csvread(['Rates/LADWP R-1B (OLD)/2017/5-Minute Data/'...
+                'Vector Format/2017_LADWP_R1B_OLD_Energy_Rates_Vector.csv']);
+        elseif delta_t == (15/60)
+            Volumetric_Rate_Data = csvread(['Rates/LADWP R-1B (OLD)/2017/15-Minute Data/'...
+                'Vector Format/2017_LADWP_R1B_OLD_Energy_Rates_Vector.csv']);
+        end        
+        
     case "PG&E A-1-STORAGE (NEW)"
         
         Retail_Rate_Master_Index = "C1";
@@ -525,6 +538,24 @@ switch Retail_Rate_Name_Input
         % Fixed Per-Meter-Day Charge - PG&E E-6 NEW Tier 2
         Fixed_Per_Meter_Day_Charge = 0.32854;  % $ per meter per day
         Fixed_Per_Meter_Month_Charge = 0; % $ per meter per month
+        
+        % Summer Months
+        First_Summer_Month = 6; % June is the first summer month for this rate.
+        Last_Summer_Month = 9; % September is the last summer month for this rate.
+        
+    case "LADWP R-1B (OLD)"
+        
+        % Demand Charges - LADWP R-1B OLD
+        Summer_Peak_DC = 0;
+        Summer_Part_Peak_DC = 0;
+        Summer_Noncoincident_DC = 0;
+        Winter_Peak_DC = 0;
+        Winter_Part_Peak_DC = 0;
+        Winter_Noncoincident_DC = 0;
+        
+        % Fixed Per-Meter-Day Charge - LADWP R-1B OLD
+        Fixed_Per_Meter_Day_Charge = 0;  % $ per meter per day
+        Fixed_Per_Meter_Month_Charge = 12; % $ per meter per month
         
         % Summer Months
         First_Summer_Month = 6; % June is the first summer month for this rate.
@@ -1018,6 +1049,17 @@ switch Retail_Rate_Name_Input
                 '2017_PGE_E6_NEW_Tier2_Month_Vector.csv']);
         end
         
+    case "LADWP R-1B (OLD)"
+        
+        if delta_t == (5/60)
+            Month_Data = csvread(['Rates/LADWP R-1B (OLD)/2017/5-Minute Data/Vector Format/'...
+                '2017_LADWP_R1B_OLD_Month_Vector.csv']);
+        elseif delta_t == (15/60)
+            Month_Data = csvread(['Rates/LADWP R-1B (OLD)/2017/15-Minute Data/Vector Format/'...
+                '2017_LADWP_R1B_OLD_Month_Vector.csv']);
+        end
+        
+        
     case "PG&E E-19S (OLD)"
         
         if delta_t == (5/60)
@@ -1285,6 +1327,16 @@ switch Retail_Rate_Name_Input
         Summer_Part_Peak_Binary_Data = zeros(size(Month_Data));
         Winter_Peak_Binary_Data = zeros(size(Month_Data));
         Winter_Part_Peak_Binary_Data = zeros(size(Month_Data));
+        
+    case "LADWP R-1B (OLD)"
+        
+        % LADWP R-1B (OLD) does not have any coincident peak or part-peak demand charges.
+        
+        Summer_Peak_Binary_Data = zeros(size(Month_Data));
+        Summer_Part_Peak_Binary_Data = zeros(size(Month_Data));
+        Winter_Peak_Binary_Data = zeros(size(Month_Data));
+        Winter_Part_Peak_Binary_Data = zeros(size(Month_Data));
+        
         
     case "PG&E E-19S (OLD)"
         if delta_t == (5/60)
