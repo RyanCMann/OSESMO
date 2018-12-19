@@ -80,6 +80,14 @@ switch Emissions_Forecast_Signal_Input
                 '15-Minute Data/Vector Format/2017_DA_WattTime_SP15_Marginal_Emissions_Rate_Vector.csv']);
         end
         
+    case "LADWP RT5M"
+        
+        if delta_t == (15/60)
+            Marginal_Emissions_Rate_Forecast_Data = csvread(['Emissions Data/WattTime LADWP/' ...
+                '2017/Clean Emissions Data/Real Time 5 Minute Emissions Signal/' ...
+                '15-Minute Data/2017_RT5M_LADWP_Marginal_Emissions_Rate_Vector.csv']);
+        end
+        
 end
 
 % Return to OSESMO Git Repository Directory

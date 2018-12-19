@@ -193,7 +193,8 @@ Carbon_Adder_Incentive_Value_Input = 15; % Value of carbon adder, in $ per metri
 %  * Day Ahead Market Forecasted Emissions Signal "DAM"
 
 % Emissions_Forecast_Signal_Input = "NP15 RT5M";
-Emissions_Forecast_Signal_Input = "SP15 RT5M";
+% Emissions_Forecast_Signal_Input = "SP15 RT5M";
+Emissions_Forecast_Signal_Input = "LADWP RT5M";
 
 
 %% Non-Reported Model Inputs

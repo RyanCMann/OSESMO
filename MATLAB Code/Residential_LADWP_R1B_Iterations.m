@@ -352,13 +352,8 @@ for Model_Type_Input = Model_Type_Input_Iter
                                         
                                         Carbon_Adder_Incentive_Value_Input_Iter = [1, 15, 65];
                                         
-                                        if Load_Profile_Name_Input == "WattTime GreenButton Residential Long Beach" % This is the only Southern California residential load profile.
-                                            Emissions_Forecast_Signal_Input_Iter = ["SP15 RT5M", "SP15 DA WattTime"];
-                                            
-                                        elseif Load_Profile_Name_Input ~= "WattTime GreenButton Residential Long Beach"
-                                            Emissions_Forecast_Signal_Input_Iter = ["NP15 RT5M", "NP15 DA WattTime"];
-                                            
-                                        end
+                                        % Emissions_Forecast_Signal_Input_Iter = ["SP15 RT5M", "SP15 DA WattTime"];
+                                        Emissions_Forecast_Signal_Input_Iter = ["LADWP RT5M"];
                                         
                                     end
                                     
