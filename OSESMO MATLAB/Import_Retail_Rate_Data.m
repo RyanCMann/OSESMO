@@ -132,6 +132,58 @@ switch Retail_Rate_Name_Input
                 'Vector Format/2017_LADWP_R1B_OLD_Energy_Rates_Vector.csv']);
         end        
         
+    case "PG&E E-TOU-C (NEW) Tier 1"
+        
+        Retail_Rate_Master_Index = "R7";
+        Retail_Rate_Effective_Date = "Proposed - 2017 GRC Phase II";
+        
+        if delta_t == (5/60)
+            Volumetric_Rate_Data = csvread(['Rates/PG&E E-TOU-C (NEW) Tier 1/2017/5-Minute Data/'...
+                'Vector Format/2017_PGE_ETOUC_NEW_Tier_1_Energy_Rates_Vector.csv']);
+        elseif delta_t == (15/60)
+            Volumetric_Rate_Data = csvread(['Rates/PG&E E-TOU-C (NEW) Tier 1/2017/15-Minute Data/'...
+                'Vector Format/2017_PGE_ETOUC_NEW_Tier_1_Energy_Rates_Vector.csv']);
+        end
+        
+    case "PG&E E-TOU-C (NEW) Tier 2"
+        
+        Retail_Rate_Master_Index = "R7";
+        Retail_Rate_Effective_Date = "Proposed - 2017 GRC Phase II";
+        
+        if delta_t == (5/60)
+            Volumetric_Rate_Data = csvread(['Rates/PG&E E-TOU-C (NEW) Tier 2/2017/5-Minute Data/'...
+                'Vector Format/2017_PGE_ETOUC_NEW_Tier_2_Energy_Rates_Vector.csv']);
+        elseif delta_t == (15/60)
+            Volumetric_Rate_Data = csvread(['Rates/PG&E E-TOU-C (NEW) Tier 2/2017/15-Minute Data/'...
+                'Vector Format/2017_PGE_ETOUC_NEW_Tier_2_Energy_Rates_Vector.csv']);
+        end
+        
+    case "SCE TOU-D-4-9PM (NEW) Tier 1"
+        
+        Retail_Rate_Master_Index = "R8";
+        Retail_Rate_Effective_Date = "2019-03-01";
+        
+        if delta_t == (5/60)
+            Volumetric_Rate_Data = csvread(['Rates/SCE TOU-D-4-9PM (NEW) Tier 1/2017/5-Minute Data/'...
+                'Vector Format/2017_SCE_TOUD_4_9PM_NEW_Tier_1_Energy_Rates_Vector.csv']);
+        elseif delta_t == (15/60)
+            Volumetric_Rate_Data = csvread(['Rates/SCE TOU-D-4-9PM (NEW) Tier 1/2017/15-Minute Data/'...
+                'Vector Format/2017_SCE_TOUD_4_9PM_NEW_Tier_1_Energy_Rates_Vector.csv']);
+        end
+        
+    case "SCE TOU-D-4-9PM (NEW) Tier 2"
+        
+        Retail_Rate_Master_Index = "R8";
+        Retail_Rate_Effective_Date = "2019-03-01";
+        
+        if delta_t == (5/60)
+            Volumetric_Rate_Data = csvread(['Rates/SCE TOU-D-4-9PM (NEW) Tier 2/2017/5-Minute Data/'...
+                'Vector Format/2017_SCE_TOUD_4_9PM_NEW_Tier_2_Energy_Rates_Vector.csv']);
+        elseif delta_t == (15/60)
+            Volumetric_Rate_Data = csvread(['Rates/SCE TOU-D-4-9PM (NEW) Tier 2/2017/15-Minute Data/'...
+                'Vector Format/2017_SCE_TOUD_4_9PM_NEW_Tier_2_Energy_Rates_Vector.csv']);
+        end
+        
     case "PG&E A-1-STORAGE (NEW)"
         
         Retail_Rate_Master_Index = "C1";
@@ -561,6 +613,77 @@ switch Retail_Rate_Name_Input
         First_Summer_Month = 6; % June is the first summer month for this rate.
         Last_Summer_Month = 9; % September is the last summer month for this rate.
         
+    case "PG&E E-TOU-C (NEW) Tier 1"
+        
+        % Demand Charges - PG&E E-TOU-C (NEW) Tier 1
+        Summer_Peak_DC = 0;
+        Summer_Part_Peak_DC = 0;
+        Summer_Noncoincident_DC = 0;
+        Winter_Peak_DC = 0;
+        Winter_Part_Peak_DC = 0;
+        Winter_Noncoincident_DC = 0;
+        
+        % Fixed Per-Meter-Day Charge - PG&E E-TOU-C (NEW) Tier 1
+        Fixed_Per_Meter_Day_Charge = 0;  % $ per meter per day
+        Fixed_Per_Meter_Month_Charge = 0; % $ per meter per month
+        
+        % Summer Months
+        First_Summer_Month = 6; % June is the first summer month for this rate.
+        Last_Summer_Month = 9; % September is the last summer month for this rate.
+        
+    case "PG&E E-TOU-C (NEW) Tier 2"
+        
+        % Demand Charges - PG&E E-TOU-C (NEW) Tier 2
+        Summer_Peak_DC = 0;
+        Summer_Part_Peak_DC = 0;
+        Summer_Noncoincident_DC = 0;
+        Winter_Peak_DC = 0;
+        Winter_Part_Peak_DC = 0;
+        Winter_Noncoincident_DC = 0;
+        
+        % Fixed Per-Meter-Day Charge - PG&E E-TOU-C (NEW) Tier 2
+        Fixed_Per_Meter_Day_Charge = 0;  % $ per meter per day
+        Fixed_Per_Meter_Month_Charge = 0; % $ per meter per month
+        
+        % Summer Months
+        First_Summer_Month = 6; % June is the first summer month for this rate.
+        Last_Summer_Month = 9; % September is the last summer month for this rate.
+        
+    case "SCE TOU-D-4-9PM (NEW) Tier 1"
+        
+        % Demand Charges - SCE TOU-D-4-9PM (NEW) Tier 1
+        Summer_Peak_DC = 0;
+        Summer_Part_Peak_DC = 0;
+        Summer_Noncoincident_DC = 0;
+        Winter_Peak_DC = 0;
+        Winter_Part_Peak_DC = 0;
+        Winter_Noncoincident_DC = 0;
+        
+        % Fixed Per-Meter-Day Charge - SCE TOU-D-4-9PM (NEW) Tier 1
+        Fixed_Per_Meter_Day_Charge = 0.031;  % $ per meter per day
+        Fixed_Per_Meter_Month_Charge = 0; % $ per meter per month
+        
+        % Summer Months
+        First_Summer_Month = 6; % June is the first summer month for this rate.
+        Last_Summer_Month = 9; % September is the last summer month for this rate.
+        
+    case "SCE TOU-D-4-9PM (NEW) Tier 2"
+        
+        % Demand Charges - SCE TOU-D-4-9PM (NEW) Tier 2
+        Summer_Peak_DC = 0;
+        Summer_Part_Peak_DC = 0;
+        Summer_Noncoincident_DC = 0;
+        Winter_Peak_DC = 0;
+        Winter_Part_Peak_DC = 0;
+        Winter_Noncoincident_DC = 0;
+        
+        % Fixed Per-Meter-Day Charge - SCE TOU-D-4-9PM (NEW) Tier 2
+        Fixed_Per_Meter_Day_Charge = 0.031;  % $ per meter per day
+        Fixed_Per_Meter_Month_Charge = 0; % $ per meter per month
+        
+        % Summer Months
+        First_Summer_Month = 6; % June is the first summer month for this rate.
+        Last_Summer_Month = 9; % September is the last summer month for this rate.
         
     case "PG&E A-1-STORAGE (NEW)"
         
@@ -1059,6 +1182,45 @@ switch Retail_Rate_Name_Input
                 '2017_LADWP_R1B_OLD_Month_Vector.csv']);
         end
         
+    case "PG&E E-TOU-C (NEW) Tier 1"
+        
+        if delta_t == (5/60)
+            Month_Data = csvread(['Rates/PG&E E-TOU-C (NEW) Tier 1/2017/5-Minute Data/Vector Format/'...
+                '2017_PGE_ETOUC_NEW_Tier_1_Month_Vector.csv']);
+        elseif delta_t == (15/60)
+            Month_Data = csvread(['Rates/PG&E E-TOU-C (NEW) Tier 1/2017/15-Minute Data/Vector Format/'...
+                '2017_PGE_ETOUC_NEW_Tier_1_Month_Vector.csv']);
+        end
+        
+    case "PG&E E-TOU-C (NEW) Tier 2"
+        
+        if delta_t == (5/60)
+            Month_Data = csvread(['Rates/PG&E E-TOU-C (NEW) Tier 2/2017/5-Minute Data/Vector Format/'...
+                '2017_PGE_ETOUC_NEW_Tier_2_Month_Vector.csv']);
+        elseif delta_t == (15/60)
+            Month_Data = csvread(['Rates/PG&E E-TOU-C (NEW) Tier 2/2017/15-Minute Data/Vector Format/'...
+                '2017_PGE_ETOUC_NEW_Tier_2_Month_Vector.csv']);
+        end
+        
+    case "SCE TOU-D-4-9PM (NEW) Tier 1"
+        
+        if delta_t == (5/60)
+            Month_Data = csvread(['Rates/SCE TOU-D-4-9PM (NEW) Tier 1/2017/5-Minute Data/Vector Format/'...
+                '2017_SCE_TOUD_4_9PM_NEW_Tier_1_Month_Vector.csv']);
+        elseif delta_t == (15/60)
+            Month_Data = csvread(['Rates/SCE TOU-D-4-9PM (NEW) Tier 1/2017/15-Minute Data/Vector Format/'...
+                '2017_SCE_TOUD_4_9PM_NEW_Tier_1_Month_Vector.csv']);
+        end
+        
+    case "SCE TOU-D-4-9PM (NEW) Tier 2"
+        
+        if delta_t == (5/60)
+            Month_Data = csvread(['Rates/SCE TOU-D-4-9PM (NEW) Tier 2/2017/5-Minute Data/Vector Format/'...
+                '2017_SCE_TOUD_4_9PM_NEW_Tier_2_Month_Vector.csv']);
+        elseif delta_t == (15/60)
+            Month_Data = csvread(['Rates/SCE TOU-D-4-9PM (NEW) Tier 2/2017/15-Minute Data/Vector Format/'...
+                '2017_SCE_TOUD_4_9PM_NEW_Tier_2_Month_Vector.csv']);
+        end
         
     case "PG&E E-19S (OLD)"
         
@@ -1337,6 +1499,41 @@ switch Retail_Rate_Name_Input
         Winter_Peak_Binary_Data = zeros(size(Month_Data));
         Winter_Part_Peak_Binary_Data = zeros(size(Month_Data));
         
+    case "PG&E E-TOU-C (NEW) Tier 1"
+        
+        % PG&E E-TOU-C (NEW) Tier 1 does not have any coincident peak or part-peak demand charges.
+        
+        Summer_Peak_Binary_Data = zeros(size(Month_Data));
+        Summer_Part_Peak_Binary_Data = zeros(size(Month_Data));
+        Winter_Peak_Binary_Data = zeros(size(Month_Data));
+        Winter_Part_Peak_Binary_Data = zeros(size(Month_Data));
+        
+    case "PG&E E-TOU-C (NEW) Tier 2"
+        
+        % PG&E E-TOU-C (NEW) Tier 2 does not have any coincident peak or part-peak demand charges.
+        
+        Summer_Peak_Binary_Data = zeros(size(Month_Data));
+        Summer_Part_Peak_Binary_Data = zeros(size(Month_Data));
+        Winter_Peak_Binary_Data = zeros(size(Month_Data));
+        Winter_Part_Peak_Binary_Data = zeros(size(Month_Data));
+        
+    case "SCE TOU-D-4-9PM (NEW) Tier 1"
+        
+        % SCE TOU-D-4-9PM (NEW) Tier 1 does not have any coincident peak or part-peak demand charges.
+        
+        Summer_Peak_Binary_Data = zeros(size(Month_Data));
+        Summer_Part_Peak_Binary_Data = zeros(size(Month_Data));
+        Winter_Peak_Binary_Data = zeros(size(Month_Data));
+        Winter_Part_Peak_Binary_Data = zeros(size(Month_Data));
+        
+    case "SCE TOU-D-4-9PM (NEW) Tier 2"
+        
+        % SCE TOU-D-4-9PM (NEW) Tier 2 does not have any coincident peak or part-peak demand charges.
+        
+        Summer_Peak_Binary_Data = zeros(size(Month_Data));
+        Summer_Part_Peak_Binary_Data = zeros(size(Month_Data));
+        Winter_Peak_Binary_Data = zeros(size(Month_Data));
+        Winter_Part_Peak_Binary_Data = zeros(size(Month_Data));
         
     case "PG&E E-19S (OLD)"
         if delta_t == (5/60)

@@ -13,7 +13,7 @@ clc;
 
 % OSESMO Git Repository Directory Location
 % OSESMO_Git_Repo_Directory = '/Users/Ryan/Library/Mobile Documents/com~apple~CloudDocs/Ryan''s Stuff/2018/OSESMO/MATLAB Code';
-OSESMO_Git_Repo_Directory = '/Users/ryanden/Desktop/OSESMO Git Repository/OSESMO/MATLAB Code';
+OSESMO_Git_Repo_Directory = '/Users/ryanden/Desktop/OSESMO Git Repository/OSESMO MATLAB';
 
 % Import/Output Data Directory Location
 Input_Output_Data_Directory_Location = '/Users/ryanden/Box Sync/GHG Signal Working Group';
@@ -64,7 +64,7 @@ Load_Profile_Name_Input = "PG&E GreenButton Central Valley Residential CARE";
 
 % Retail Rate Name
 % Name of the selected retail rate.
-Retail_Rate_Name_Input = "LADWP R-1B (OLD)";
+Retail_Rate_Name_Input = "SCE TOU-D-4-9PM (NEW) Tier 2";
 % Retail_Rate_Name_Input = "PG&E E-19S (OLD)";
 
 
@@ -192,9 +192,9 @@ Carbon_Adder_Incentive_Value_Input = 15; % Value of carbon adder, in $ per metri
 %  * WattTime Open Source Model Midnight-Before Forecasted Emissions Signal "DA WattTime"
 %  * Day Ahead Market Forecasted Emissions Signal "DAM"
 
-% Emissions_Forecast_Signal_Input = "NP15 RT5M";
+Emissions_Forecast_Signal_Input = "NP15 RT5M";
 % Emissions_Forecast_Signal_Input = "SP15 RT5M";
-Emissions_Forecast_Signal_Input = "LADWP RT5M";
+% Emissions_Forecast_Signal_Input = "LADWP RT5M";
 
 
 %% Non-Reported Model Inputs
