@@ -12,7 +12,7 @@ matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 
 # OSESMO Git Repository Directory Location
-OSESMO_Git_Repo_Directory = '/Users/Ryan/Library/Mobile Documents/com~apple~CloudDocs/Ryan\'s Stuff/2018/OSESMO/MATLAB Code'
+OSESMO_Git_Repo_Directory = '/Users/Ryan/Library/Mobile Documents/com~apple~CloudDocs/Ryan\'s Stuff/2018/OSESMO/OSESMO Python'
 
 # Import/Output Data Directory Location
 Input_Output_Data_Directory_Location = '/Users/Ryan/Box Sync/GHG Signal Working Group'

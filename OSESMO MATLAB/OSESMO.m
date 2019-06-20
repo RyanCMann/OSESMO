@@ -114,7 +114,8 @@ elseif contains(Retail_Rate_Name_Input, "SCE") || contains(Retail_Rate_Name_Inpu
     
 elseif contains(Retail_Rate_Name_Input, "LADWP")
     
-    Emissions_Evaluation_Signal_Input = "LADWP RT5M";
+    % Emissions_Evaluation_Signal_Input = "LADWP RT5M";
+    Emissions_Evaluation_Signal_Input = "SP15 RT5M";
     
 end
 

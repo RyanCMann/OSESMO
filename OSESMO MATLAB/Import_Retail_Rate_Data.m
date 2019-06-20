@@ -431,6 +431,20 @@ switch Retail_Rate_Name_Input
                 'Vector Format/2017_SDGE_DGR_Energy_Rates_Vector.csv']);
         end
         
+    case "LADWP A-2B (OLD)"
+        
+        Retail_Rate_Master_Index = "C20";
+        Retail_Rate_Effective_Date = "2019-07-01";
+        
+        if delta_t == (5/60)
+            Volumetric_Rate_Data = csvread(['Rates/LADWP A-2B (OLD)/2017/5-Minute Data/'...
+                'Vector Format/2017_LADWP_A2B_OLD_Energy_Rates_Vector.csv']);
+        elseif delta_t == (15/60)
+            Volumetric_Rate_Data = csvread(['Rates/LADWP A-2B (OLD)/2017/15-Minute Data/'...
+                'Vector Format/2017_LADWP_A2B_OLD_Energy_Rates_Vector.csv']);
+        end
+        
+        
 end
 
 
@@ -1074,6 +1088,25 @@ switch Retail_Rate_Name_Input
         First_Summer_Month = 6; % June is the first summer month for this rate.
         Last_Summer_Month = 10; % October is the last summer month for this rate.
         
+    case "LADWP A-2B (OLD)"
+        
+        % Demand Charges - LADWP A-2B OLD
+        % For this modeling effort, noncoincident facility charge is applied to customers? maximum monthly demand. Customers? facility charge is actually based on maximum annual demand.
+        Summer_Peak_DC = 10.00;
+        Summer_Part_Peak_DC = 3.75;
+        Summer_Noncoincident_DC = 5.36;
+        Winter_Peak_DC = 4.75;
+        Winter_Part_Peak_DC = 0;
+        Winter_Noncoincident_DC = 5.36;
+        
+        % Fixed Per-Meter-Day Charge - LADWP  A-2B OLD
+        Fixed_Per_Meter_Day_Charge = 0;  % $ per meter per day
+        Fixed_Per_Meter_Month_Charge = 28; % $ per meter per month
+        
+        % Summer Months
+        First_Summer_Month = 6; % June is the first summer month for this rate.
+        Last_Summer_Month = 9; % September is the last summer month for this rate.
+        
 end
 
 
@@ -1400,6 +1433,16 @@ switch Retail_Rate_Name_Input
         elseif delta_t == (15/60)
             Month_Data = csvread(['Rates/SDG&E DR-SES/2017/15-Minute Data/Vector Format/'...
                 '2017_SDGE_DR_SES_Month_Vector.csv']);
+        end
+        
+    case "LADWP A-2B (OLD)"
+        
+        if delta_t == (5/60)
+            Month_Data = csvread(['Rates/LADWP A-2B (OLD)/2017/5-Minute Data/Vector Format/'...
+                '2017_LADWP_A2B_OLD_Month_Vector.csv']);
+        elseif delta_t == (15/60)
+            Month_Data = csvread(['Rates/LADWP A-2B (OLD)/2017/15-Minute Data/Vector Format/'...
+                '2017_LADWP_A2B_OLD_Month_Vector.csv']);
         end
         
 end
@@ -1880,6 +1923,33 @@ switch Retail_Rate_Name_Input
         Summer_Part_Peak_Binary_Data = zeros(size(Month_Data));
         Winter_Peak_Binary_Data = zeros(size(Month_Data));
         Winter_Part_Peak_Binary_Data = zeros(size(Month_Data));
+        
+    case "LADWP A-2B (OLD)"
+        if delta_t == (5/60)
+            Summer_Peak_Binary_Data = csvread(['Rates/LADWP A-2B (OLD)/2017/5-Minute Data/'...
+                'Vector Format/2017_LADWP_A2B_OLD_Summer_High_Peak_Binary_Vector.csv']);
+            
+            Summer_Part_Peak_Binary_Data = csvread(['Rates/LADWP A-2B (OLD)/2017/5-Minute Data/'...
+                'Vector Format/2017_LADWP_A2B_OLD_Summer_Low_Peak_Binary_Vector.csv']);
+            
+            Winter_Peak_Binary_Data = csvread(['Rates/LADWP A-2B (OLD)/2017/5-Minute Data/' ...
+                'Vector Format/2017_LADWP_A2B_OLD_Winter_High_Peak_Binary_Vector.csv']);
+            
+            Winter_Part_Peak_Binary_Data = csvread(['Rates/LADWP A-2B (OLD)/2017/5-Minute Data/' ...
+                'Vector Format/2017_LADWP_A2B_OLD_Winter_Low_Peak_Binary_Vector.csv']);
+        elseif delta_t == (15/60)
+            Summer_Peak_Binary_Data = csvread(['Rates/LADWP A-2B (OLD)/2017/15-Minute Data/'...
+                'Vector Format/2017_LADWP_A2B_OLD_Summer_High_Peak_Binary_Vector.csv']);
+            
+            Summer_Part_Peak_Binary_Data = csvread(['Rates/LADWP A-2B (OLD)/2017/15-Minute Data/'...
+                'Vector Format/2017_LADWP_A2B_OLD_Summer_Low_Peak_Binary_Vector.csv']);
+            
+            Winter_Peak_Binary_Data = csvread(['Rates/LADWP A-2B (OLD)/2017/15-Minute Data/' ...
+                'Vector Format/2017_LADWP_A2B_OLD_Winter_High_Peak_Binary_Vector.csv']);
+            
+            Winter_Part_Peak_Binary_Data = csvread(['Rates/LADWP A-2B (OLD)/2017/15-Minute Data/' ...
+                'Vector Format/2017_LADWP_A2B_OLD_Winter_Low_Peak_Binary_Vector.csv']);
+        end
         
 end
 
