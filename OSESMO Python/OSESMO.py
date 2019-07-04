@@ -513,6 +513,7 @@ def OSESMO(Modeling_Team_Input=None, Model_Run_Number_Input=None, Model_Type_Inp
         # nts = numtsteps = number of timesteps
         numtsteps = len(Load_Profile_Data_Month_Padded)
         all_tsteps = np.array(list(range(0, numtsteps)))
+	numtsteps_unpadded = len(Load_Profile_Data_Month)
 
 
         # x = np.concatenate((P_ES_in_grid(size nts), P_ES_out(size nts), Ene_Lvl(size nts)
@@ -1170,11 +1171,12 @@ def OSESMO(Modeling_Team_Input=None, Model_Run_Number_Input=None, Model_Type_Inp
 
         # Note: due to the OSESMO model structure, the annual cycling requirement
         # must be converted to an equivalent monthly cycling requirement.
+	# All cycling must occur outside of the "padding" days at the end, which are removed after optimization.
 
         if Equivalent_Cycling_Constraint_Input > 0:
 
             SGIP_Monthly_Cycling_Requirement = Equivalent_Cycling_Constraint_Input * \
-                                               (len(Load_Profile_Data_Month_Padded) / len(Load_Profile_Data))
+                                               (numtsteps_unpadded / len(Load_Profile_Data))
 
             # Formula for equivalent cycles is identical to the one used to calculate Cycles_Month:
             # Equivalent Cycles = sum((P_ES_in(t) * (((Eff_c)/(2 * Size_ES)) * delta_t)) + \
@@ -1187,10 +1189,10 @@ def OSESMO(Modeling_Team_Input=None, Model_Run_Number_Input=None, Model_Type_Inp
             A_Equivalent_Cycles = sparse(matrix(0., (1, length_x), tc = 'd'), tc = 'd')
 
             # sum of all P_ES_in(t) * (((Eff_c)/(2 * Size_ES)) * delta_t)
-            A_Equivalent_Cycles[0, range(0, numtsteps)] = -(((Eff_c) / (2 * Total_Storage_Capacity)) * delta_t)
+            A_Equivalent_Cycles[0, range(0, numtsteps_unpadded)] = -(((Eff_c) / (2 * Total_Storage_Capacity)) * delta_t)
 
             # sum of all P_ES_out(t) * ((1/(Eff_d * 2 * Size_ES)) * delta_t)
-            A_Equivalent_Cycles[0, range(numtsteps, 2 * numtsteps)] = -((1 / (Eff_d * 2 * Total_Storage_Capacity)) * delta_t)
+            A_Equivalent_Cycles[0, range(numtsteps, numtsteps+numtsteps_unpadded)] = -((1 / (Eff_d * 2 * Total_Storage_Capacity)) * delta_t)
 
             b_Equivalent_Cycles = matrix(-SGIP_Monthly_Cycling_Requirement, tc = 'd')
 

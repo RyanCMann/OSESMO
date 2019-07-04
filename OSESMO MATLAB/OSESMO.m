@@ -496,6 +496,7 @@ for Month_Iter = 1:12 % Iterate through all months
     % nts = numtsteps = number of timesteps
     numtsteps = length(Load_Profile_Data_Month_Padded);
     all_tsteps = linspace(1,numtsteps, numtsteps)';
+    numtsteps_unpadded = length(Load_Profile_Data_Month);
     
     % x = [P_ES_in_grid(size nts); P_ES_out(size nts); Ene_Lvl(size nts);...
     % P_max_NC (size 1); P_max_peak (size 1); P_max_part_peak (size 1)];
@@ -1116,11 +1117,11 @@ for Month_Iter = 1:12 % Iterate through all months
     
     % Note: due to the OSESMO model structure, the annual cycling requirement 
     % must be converted to an equivalent monthly cycling requirement.
+    % All cycling must occur outside of the "padding" days at the end, which are removed after optimization.
     
     if Equivalent_Cycling_Constraint_Input > 0
            
-        SGIP_Monthly_Cycling_Requirement = Equivalent_Cycling_Constraint_Input * ...
-            (length(Load_Profile_Data_Month_Padded)/length(Load_Profile_Data));
+        SGIP_Monthly_Cycling_Requirement = Equivalent_Cycling_Constraint_Input * (numtsteps_unpadded/length(Load_Profile_Data));
         
         % Formula for equivalent cycles is identical to the one used to calculate Cycles_Month:
         % Equivalent Cycles = sum((P_ES_in(t) * (((Eff_c)/(2 * Size_ES)) * delta_t)) + ...
@@ -1133,10 +1134,10 @@ for Month_Iter = 1:12 % Iterate through all months
         A_Equivalent_Cycles = sparse(1, length_x);
         
         % sum of all P_ES_in(t) * (((Eff_c)/(2 * Size_ES)) * delta_t)
-        A_Equivalent_Cycles(1, 1:numtsteps) = -(((Eff_c)/(2 * Total_Storage_Capacity)) * delta_t);
+        A_Equivalent_Cycles(1, 1:numtsteps_unpadded) = -(((Eff_c)/(2 * Total_Storage_Capacity)) * delta_t);
         
         % sum of all P_ES_out(t) * ((1/(Eff_d * 2 * Size_ES)) * delta_t)
-        A_Equivalent_Cycles(1, numtsteps+1:2*numtsteps) = -((1/(Eff_d * 2 * Total_Storage_Capacity)) * delta_t);
+        A_Equivalent_Cycles(1, numtsteps+1:numtsteps+numtsteps_unpadded) = -((1/(Eff_d * 2 * Total_Storage_Capacity)) * delta_t);
         
         b_Equivalent_Cycles = -SGIP_Monthly_Cycling_Requirement;
         
