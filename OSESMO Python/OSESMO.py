@@ -513,7 +513,7 @@ def OSESMO(Modeling_Team_Input=None, Model_Run_Number_Input=None, Model_Type_Inp
         # nts = numtsteps = number of timesteps
         numtsteps = len(Load_Profile_Data_Month_Padded)
         all_tsteps = np.array(list(range(0, numtsteps)))
-	numtsteps_unpadded = len(Load_Profile_Data_Month)
+        numtsteps_unpadded = len(Load_Profile_Data_Month)
 
 
         # x = np.concatenate((P_ES_in_grid(size nts), P_ES_out(size nts), Ene_Lvl(size nts)
