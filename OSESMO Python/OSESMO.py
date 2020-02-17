@@ -1884,7 +1884,7 @@ def OSESMO(Modeling_Team_Input=None, Model_Run_Number_Input=None, Model_Type_Inp
     # Create folder if one does not exist already
 
     if os.path.isdir(Output_Directory_Filepath) == False:
-        os.mkdir(Output_Directory_Filepath)
+        os.makedirs(Output_Directory_Filepath, exist_ok=True)
 
 
     ## Plot Energy Storage Dispatch Schedule
