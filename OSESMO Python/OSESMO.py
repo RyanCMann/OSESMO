@@ -270,6 +270,8 @@ def OSESMO(Modeling_Team_Input=None, Model_Run_Number_Input=None, Model_Type_Inp
 
     elif Model_Type_Input == "Storage Only" or Solar_Profile_Name_Input == "No Solar":
 
+        Solar_Profile_Master_Index = ""
+        Solar_Profile_Description = ""
         Solar_PV_Profile_Data = np.zeros(shape=Load_Profile_Data.shape)
 
 
@@ -2052,9 +2054,9 @@ def OSESMO(Modeling_Team_Input=None, Model_Run_Number_Input=None, Model_Type_Inp
 
         Annual_Total_Energy_Consumption_with_Solar_Only = np.sum(Load_Profile_Data - Solar_PV_Profile_Data) * delta_t
 
-        Annual_Peak_Demand_with_Solar_and_Storage = np.max(Load_Profile_Data - (Solar_PV_Profile_Data + P_ES))
+    Annual_Peak_Demand_with_Solar_and_Storage = np.max(Load_Profile_Data - (Solar_PV_Profile_Data + P_ES))
 
-        Annual_Total_Energy_Consumption_with_Solar_and_Storage = np.sum(Load_Profile_Data - (Solar_PV_Profile_Data + P_ES)) * delta_t
+    Annual_Total_Energy_Consumption_with_Solar_and_Storage = np.sum(Load_Profile_Data - (Solar_PV_Profile_Data + P_ES)) * delta_t
 
     if Model_Type_Input == "Storage Only":
         Solar_Only_Peak_Demand_Reduction_Percentage = ""
@@ -2062,7 +2064,7 @@ def OSESMO(Modeling_Team_Input=None, Model_Run_Number_Input=None, Model_Type_Inp
     elif Model_Type_Input == "Solar Plus Storage":
         Solar_Only_Peak_Demand_Reduction_Percentage = ((Annual_Peak_Demand_Baseline - Annual_Peak_Demand_with_Solar_Only) / Annual_Peak_Demand_Baseline) * 100
 
-        Solar_Storage_Peak_Demand_Reduction_Percentage = ((Annual_Peak_Demand_Baseline - Annual_Peak_Demand_with_Solar_and_Storage) / Annual_Peak_Demand_Baseline) * 100
+    Solar_Storage_Peak_Demand_Reduction_Percentage = ((Annual_Peak_Demand_Baseline - Annual_Peak_Demand_with_Solar_and_Storage) / Annual_Peak_Demand_Baseline) * 100
 
     if Model_Type_Input == "Storage Only":
         Solar_Only_Energy_Consumption_Decrease_Percentage = ""
@@ -2070,7 +2072,7 @@ def OSESMO(Modeling_Team_Input=None, Model_Run_Number_Input=None, Model_Type_Inp
     elif Model_Type_Input == "Solar Plus Storage":
         Solar_Only_Energy_Consumption_Decrease_Percentage = ((Annual_Total_Energy_Consumption_Baseline - Annual_Total_Energy_Consumption_with_Solar_Only) / Annual_Total_Energy_Consumption_Baseline) * 100
 
-        Solar_Storage_Energy_Consumption_Decrease_Percentage = ((Annual_Total_Energy_Consumption_Baseline - Annual_Total_Energy_Consumption_with_Solar_and_Storage) / Annual_Total_Energy_Consumption_Baseline) * 100
+    Solar_Storage_Energy_Consumption_Decrease_Percentage = ((Annual_Total_Energy_Consumption_Baseline - Annual_Total_Energy_Consumption_with_Solar_and_Storage) / Annual_Total_Energy_Consumption_Baseline) * 100
 
 
     print('Baseline annual peak noncoincident demand is {0} kW.'.format(round(Annual_Peak_Demand_Baseline, 2)))
@@ -2093,19 +2095,19 @@ def OSESMO(Modeling_Team_Input=None, Model_Run_Number_Input=None, Model_Type_Inp
 
         print('Peak demand with solar only is {0} kW, representing a DECREASE OF {1}%.'.format(round(Annual_Peak_Demand_with_Solar_Only, 2), round(Solar_Only_Peak_Demand_Reduction_Percentage, 2)))
 
-    if Solar_Storage_Peak_Demand_Reduction_Percentage >= 0:
-        print('Peak demand with solar and storage is {0} kW, representing a DECREASE OF {1}%.'.format(round(Annual_Peak_Demand_with_Solar_and_Storage, 2), round(Solar_Storage_Peak_Demand_Reduction_Percentage, 2)))
+        if Solar_Storage_Peak_Demand_Reduction_Percentage >= 0:
+            print('Peak demand with solar and storage is {0} kW, representing a DECREASE OF {1}%.'.format(round(Annual_Peak_Demand_with_Solar_and_Storage, 2), round(Solar_Storage_Peak_Demand_Reduction_Percentage, 2)))
 
-    elif Solar_Storage_Peak_Demand_Reduction_Percentage < 0:
-        print('Peak demand with solar and storage is {0} kW, representing an INCREASE OF {1}%.'.format(round(Annual_Peak_Demand_with_Solar_and_Storage, 2), round(-Solar_Storage_Peak_Demand_Reduction_Percentage, 2)))
+        elif Solar_Storage_Peak_Demand_Reduction_Percentage < 0:
+            print('Peak demand with solar and storage is {0} kW, representing an INCREASE OF {1}%.'.format(round(Annual_Peak_Demand_with_Solar_and_Storage, 2), round(-Solar_Storage_Peak_Demand_Reduction_Percentage, 2)))
 
-    print('Baseline annual total electricity consumption is {0} kWh.'.format(round(Annual_Total_Energy_Consumption_Baseline, 2)))
+        print('Baseline annual total electricity consumption is {0} kWh.'.format(round(Annual_Total_Energy_Consumption_Baseline, 2)))
 
-    print('Electricity consumption with solar only is {0} kWh, representing a DECREASE OF {1}%.'.format(round(Annual_Total_Energy_Consumption_with_Solar_Only, 2),
-                                                                                                        round(Solar_Only_Energy_Consumption_Decrease_Percentage, 2)))
+        print('Electricity consumption with solar only is {0} kWh, representing a DECREASE OF {1}%.'.format(round(Annual_Total_Energy_Consumption_with_Solar_Only, 2),
+                                                                                                            round(Solar_Only_Energy_Consumption_Decrease_Percentage, 2)))
 
-    print('Electricity consumption with solar and storage is {0} kWh, representing a DECREASE OF {1}%.'.format(round(Annual_Total_Energy_Consumption_with_Solar_and_Storage, 2),
-                                                                                                               round(Solar_Storage_Energy_Consumption_Decrease_Percentage, 2)))
+        print('Electricity consumption with solar and storage is {0} kWh, representing a DECREASE OF {1}%.'.format(round(Annual_Total_Energy_Consumption_with_Solar_and_Storage, 2),
+                                                                                                                   round(Solar_Storage_Energy_Consumption_Decrease_Percentage, 2)))
 
 
     ## Plot Monthly Costs as Bar Plot
@@ -2366,7 +2368,7 @@ def OSESMO(Modeling_Team_Input=None, Model_Run_Number_Input=None, Model_Type_Inp
     elif Model_Type_Input == "Solar Plus Storage":
         Annual_Customer_Bill_with_Solar_Only = np.sum(Annual_Costs_Vector_with_Solar_Only)
 
-        Annual_Customer_Bill_with_Solar_and_Storage = np.sum(Annual_Costs_Vector_with_Solar_and_Storage)  # Doesn't include degradation cost.
+    Annual_Customer_Bill_with_Solar_and_Storage = np.sum(Annual_Costs_Vector_with_Solar_and_Storage)  # Doesn't include degradation cost.
 
     if Model_Type_Input == "Storage Only":
 
@@ -2393,16 +2395,16 @@ def OSESMO(Modeling_Team_Input=None, Model_Run_Number_Input=None, Model_Type_Inp
         print('The solar PV system has a simple payback of {0} years, not including incentives.'.format(
                 round(Solar_Simple_Payback, 1)))
 
-        Storage_Installed_Cost = Total_Storage_Capacity * Storage_Installed_Cost_per_kWh
+    Storage_Installed_Cost = Total_Storage_Capacity * Storage_Installed_Cost_per_kWh
 
-        Storage_Simple_Payback = Storage_Installed_Cost / Annual_Customer_Bill_Savings_from_Storage
+    Storage_Simple_Payback = Storage_Installed_Cost / Annual_Customer_Bill_Savings_from_Storage
 
-        print('Annual cost savings from storage is ${0}, representing {1}% of the original ${2} bill.'.format(
-                int(Annual_Customer_Bill_Savings_from_Storage), round(Annual_Customer_Bill_Savings_from_Storage_Percent * 100, 2),
-                int(Annual_Customer_Bill_Baseline)))
+    print('Annual cost savings from storage is ${0}, representing {1}% of the original ${2} bill.'.format(
+            int(Annual_Customer_Bill_Savings_from_Storage), round(Annual_Customer_Bill_Savings_from_Storage_Percent * 100, 2),
+            int(Annual_Customer_Bill_Baseline)))
 
-        print('The storage system has a simple payback of {0} years, not including incentives.'.format(
-                round(Storage_Simple_Payback, 1)))
+    print('The storage system has a simple payback of {0} years, not including incentives.'.format(
+            round(Storage_Simple_Payback, 1)))
 
 
     ## Report Cycling/Degradation Penalty
