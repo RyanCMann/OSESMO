@@ -155,19 +155,18 @@ OSESMO <- function(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input
   }else if(Model_Type_Input == "Storage Only" || Solar_Profile_Name_Input == "No Solar"){
     Solar_Profile_Master_Index = "";
     Solar_Profile_Description = "";
-    Solar_PV_Profile_Data = zeros(size(Load_Profile_Data));   
+    Solar_PV_Profile_Data = rep(0, length(Load_Profile_Data))
   }
   
   
   # Import Utility Marginal Cost Data
-  # Marginal Costs are mapped to load profile location
   source("Import_Utility_Avoided_Cost_Data.R")
   Utility_Marginal_Cost_Data_List <- Import_Utility_Marginal_Cost_Data(Input_Output_Data_Directory_Location,
-                                                                       OSESMO_Git_Repo_Directory, delta_t, Load_Profile_Name_Input)
-  Generation_Cost_Data <- Utility_Marginal_Cost_Data_List[[1]]/1000 # Convert from $/MWh to $/kWh
-  Representative_Distribution_Cost_Data <- Utility_Marginal_Cost_Data_List[[2]]/1000 # Convert from $/MWh to $/kWh
+                                                                       OSESMO_Git_Repo_Directory, delta_t)
+  Marginal_Energy_Cost_Data <- Utility_Marginal_Cost_Data_List[[1]]
+  Marginal_Generation_Capacity_Cost_Data <- Utility_Marginal_Cost_Data_List[[2]]
   rm(Utility_Marginal_Cost_Data_List)
-  
+
   # Set Directory to Box Sync Folder
   setwd(Input_Output_Data_Directory_Location)
   
@@ -462,7 +461,7 @@ OSESMO <- function(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input
     # cGridExportBinary represents costs inherent associated with whether the site is exporting (and not the amount of export), which are nonexistent in this model.
     mGridExportBinary <- if(nrec) sum(Export_Compensation_Rate_Data_Month_Padded > Volumetric_Rate_Data_Month_Padded) else 0
     
-    if(nrec && length(mGridExportBinary) > 1){
+    if(nrec && mGridExportBinary > 1){
       cGridExportBinary <- rep(0, mGridExportBinary)
     } else{
       cGridExportBinary <- NULL
@@ -1486,7 +1485,8 @@ OSESMO <- function(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input
   
   telapsed = Sys.time() - tstart
   
-  print(paste("Model Run", Model_Run_Number_Input, "complete. Elapsed time to run the optimization model is", round(as.numeric(telapsed)), "seconds."))
+  print(paste("Model Run", Model_Run_Number_Input, "complete. Elapsed time to run the optimization model is", 
+              round(as.numeric(telapsed)), attr(telapsed, "units")))
   
   
   ## Calculation of Additional Reported Model Inputs/Outputs
@@ -1605,7 +1605,7 @@ OSESMO <- function(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input
 
     if(Export_Plots == 1){
       
-      ggsave(filename = file.path(Output_Directory_Filepath, "Energy Price and Carbon Plot.png"), width = 11, height = 8.5, units = "in")
+      ggsave(filename = file.path(Output_Directory_Filepath, "Energy Price Plot.png"), width = 11, height = 8.5, units = "in")
       
     }
     
@@ -1901,7 +1901,7 @@ OSESMO <- function(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input
     ggplot(data = Monthly_Costs_Matrix_Baseline.df, aes(x = Month, y = Charge_Value, fill = Charge_Name)) +
       geom_bar(stat = "identity") +
       scale_y_continuous(labels=scales::dollar_format()) +
-      labs(title = 'Monthly Costs, Without Storage',
+      labs(title = 'Monthly Costs, Base Case',
            x = 'Month',
            y = 'Cost ($/Month)',
            fill = "Legend") +
@@ -1912,7 +1912,7 @@ OSESMO <- function(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input
 
     if(Export_Plots == 1){
       
-      ggsave(filename = file.path(Output_Directory_Filepath, "Monthly Costs Baseline Plot.png"), width = 11, height = 8.5, units = "in")
+      ggsave(filename = file.path(Output_Directory_Filepath, "Monthly Costs Base Case Plot.png"), width = 11, height = 8.5, units = "in")
 
     }
     
@@ -1982,10 +1982,16 @@ OSESMO <- function(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input
       mutate(Charge_Name = gsub("CPP", "Part-Peak", Charge_Name)) %>%
       mutate(Charge_Name = factor(Charge_Name, levels = c("Max DC", "Midday-Exempt Max DC", "Peak DC", "Part-Peak DC", "Energy Charge", "Fixed Charge")))
     
+    if(Model_Type_Input == "Storage Only"){
+      monthlyCostsPlotTitle <- 'Monthly Costs, With Storage'
+    }else{
+      monthlyCostsPlotTitle <- 'Monthly Costs, With Solar and Storage'
+    } 
+    
     ggplot(data = Monthly_Costs_Matrix_with_Solar_and_Storage.df, aes(x = Month, y = Charge_Value, fill = Charge_Name)) +
       geom_bar(stat = "identity") +
       scale_y_continuous(labels=scales::dollar_format()) +
-      labs(title = 'Monthly Costs, With Storage',
+      labs(title = monthlyCostsPlotTitle,
            x = 'Month',
            y = 'Cost ($/Month)',
            fill = "Legend") +
@@ -2136,24 +2142,24 @@ OSESMO <- function(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input
   
   # Calculate Total Annual Grid Costs
   
-  Annual_Grid_Cost_Baseline = sum((Generation_Cost_Data + Representative_Distribution_Cost_Data) * 
+  Annual_Grid_Cost_Baseline = sum((Marginal_Energy_Cost_Data + Marginal_Generation_Capacity_Cost_Data) * 
                                     (Load_Profile_Data * delta_t))
   
   if(Model_Type_Input == "Solar Plus Storage"){
-    Annual_Grid_Cost_with_Solar_Only = sum((Generation_Cost_Data + Representative_Distribution_Cost_Data) * 
+    Annual_Grid_Cost_with_Solar_Only = sum((Marginal_Energy_Cost_Data + Marginal_Generation_Capacity_Cost_Data) * 
                                              ((Load_Profile_Data - Solar_PV_Profile_Data) * delta_t))
   }else{
     Annual_Grid_Cost_with_Solar_Only = "";
   }
   
-  Annual_Grid_Cost_with_Solar_and_Storage = sum((Generation_Cost_Data + Representative_Distribution_Cost_Data) * 
+  Annual_Grid_Cost_with_Solar_and_Storage = sum((Marginal_Energy_Cost_Data + Marginal_Generation_Capacity_Cost_Data) * 
                                                   ((Load_Profile_Data - Solar_PV_Profile_Data - P_ES_out + P_ES_in) * delta_t))
   
   
   # Calculate Monthly Grid Costs
   
-  Grid_Cost_Timestep_Baseline = cbind(Generation_Cost_Data * Load_Profile_Data * delta_t,
-                                      Representative_Distribution_Cost_Data * Load_Profile_Data * delta_t)
+  Grid_Cost_Timestep_Baseline = cbind(Marginal_Energy_Cost_Data * Load_Profile_Data * delta_t,
+                                      Marginal_Generation_Capacity_Cost_Data * Load_Profile_Data * delta_t)
   
   Grid_Cost_Month_Baseline = c()
   
@@ -2163,8 +2169,8 @@ OSESMO <- function(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input
   }
   rownames(Grid_Cost_Month_Baseline) = NULL
   
-  Grid_Cost_Timestep_with_Solar_Only = cbind(Generation_Cost_Data * (Load_Profile_Data - Solar_PV_Profile_Data) * delta_t,
-                                             Representative_Distribution_Cost_Data * (Load_Profile_Data - Solar_PV_Profile_Data) * delta_t)
+  Grid_Cost_Timestep_with_Solar_Only = cbind(Marginal_Energy_Cost_Data * (Load_Profile_Data - Solar_PV_Profile_Data) * delta_t,
+                                             Marginal_Generation_Capacity_Cost_Data * (Load_Profile_Data - Solar_PV_Profile_Data) * delta_t)
   
   Grid_Cost_Month_with_Solar_Only = c()
   
@@ -2174,8 +2180,8 @@ OSESMO <- function(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input
   }
   rownames(Grid_Cost_Month_with_Solar_Only) = NULL
   
-  Grid_Cost_Timestep_with_Solar_and_Storage = cbind(Generation_Cost_Data * (Load_Profile_Data - Solar_PV_Profile_Data - P_ES_out + P_ES_in) * delta_t,
-                                                    Representative_Distribution_Cost_Data * (Load_Profile_Data - Solar_PV_Profile_Data - P_ES_out + P_ES_in) * delta_t)
+  Grid_Cost_Timestep_with_Solar_and_Storage = cbind(Marginal_Energy_Cost_Data * (Load_Profile_Data - Solar_PV_Profile_Data - P_ES_out + P_ES_in) * delta_t,
+                                                    Marginal_Generation_Capacity_Cost_Data * (Load_Profile_Data - Solar_PV_Profile_Data - P_ES_out + P_ES_in) * delta_t)
   
   Grid_Cost_Month_with_Solar_and_Storage = c()
   
@@ -2202,7 +2208,7 @@ OSESMO <- function(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input
   
   if(Model_Type_Input == "Solar Plus Storage"){
     
-    print(paste0('Installing solar DECREASES estimated utility grid costs (not including transmission costs, and using representative distribution costs) by $',
+    print(paste0('Installing solar DECREASES estimated utility marginal generation costs (energy and generation capacity) by $',
            round(Annual_Grid_Cost_Baseline - Annual_Grid_Cost_with_Solar_Only, 2), ' per year.'))
     
   }
@@ -2213,20 +2219,20 @@ OSESMO <- function(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input
   if(Model_Type_Input == "Storage Only"){
     
     if(Annual_Grid_Cost_Baseline - Annual_Grid_Cost_with_Solar_and_Storage < 0){
-      print(paste0('Installing energy storage INCREASES estimated utility grid costs (not including transmission costs, and using representative distribution costs) by $',
+      print(paste0('Installing energy storage INCREASES estimated utility marginal generation costs (energy and generation capacity) by $',
              -round(Annual_Grid_Cost_Baseline - Annual_Grid_Cost_with_Solar_and_Storage, 2), ' per year.'))
     }else{
-      print(paste0('Installing energy storage DECREASES estimated utility grid costs (not including transmission costs, and using representative distribution costs) by $',
+      print(paste0('Installing energy storage DECREASES estimated utility marginal generation costs (energy and generation capacity) by $',
              round(Annual_Grid_Cost_Baseline - Annual_Grid_Cost_with_Solar_and_Storage, 2), ' per year.'))
     }
     
   }else if(Model_Type_Input == "Solar Plus Storage"){
     
     if(Annual_Grid_Cost_with_Solar_Only - Annual_Grid_Cost_with_Solar_and_Storage < 0){
-      print(paste0('Installing energy storage INCREASES estimated utility grid costs (not including transmission costs, and using representative distribution costs) by $',
+      print(paste0('Installing energy storage INCREASES estimated utility marginal generation costs (energy and generation capacity) by $',
              -round(Annual_Grid_Cost_with_Solar_Only - Annual_Grid_Cost_with_Solar_and_Storage, 2), ' per year.'))
     }else{
-      print(paste0('Installing energy storage DECREASES estimated utility grid costs (not including transmission costs, and using representative distribution costs) by $',
+      print(paste0('Installing energy storage DECREASES estimated utility marginal generation costs (energy and generation capacity) by $',
              round(Annual_Grid_Cost_with_Solar_Only - Annual_Grid_Cost_with_Solar_and_Storage, 2), ' per year.'))
     }
     
@@ -2252,7 +2258,7 @@ OSESMO <- function(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input
     Annual_GHG_Emissions_with_Solar_Only = sum(Marginal_Emissions_Rate_Data * (Load_Profile_Data - Solar_PV_Profile_Data) * (1/1000) * delta_t)
   }
   
-  Annual_GHG_Emissions_with_Solar_and_Storage = sum(Marginal_Emissions_Rate_Data * (Load_Profile_Data - Solar_PV_Profile_Data + P_ES_out - P_ES_in) * (1/1000) * delta_t)
+  Annual_GHG_Emissions_with_Solar_and_Storage = sum(Marginal_Emissions_Rate_Data * (Load_Profile_Data - Solar_PV_Profile_Data - P_ES_out + P_ES_in) * (1/1000) * delta_t)
   
   if(Model_Type_Input == "Storage Only"){
     Annual_GHG_Emissions_Reduction_from_Solar = "";
@@ -2308,14 +2314,14 @@ OSESMO <- function(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input
   if(Show_Plots == 1 || Export_Plots ==1){
     
     ggplot() +
-      geom_line(aes(x = t, y = Generation_Cost_Data, color = "Grid Generation Cost")) +
-      geom_line(aes(x = t, y = Representative_Distribution_Cost_Data, color = "Representative Distribution Cost")) +
-      labs(title = 'Grid Costs (Generation & Distribution)',
+      geom_line(aes(x = t, y = Marginal_Energy_Cost_Data, color = "Marginal Energy Cost")) +
+      geom_line(aes(x = t, y = Marginal_Generation_Capacity_Cost_Data, color = "Marginal Generation Capacity Cost")) +
+      labs(title = 'Grid Costs (MEC & MGCC)',
            x = 'Date & Time',
            y = 'Grid Costs ($/kWh)',
            color = "Legend") +
-      coord_cartesian(ylim = c(-max(Generation_Cost_Data, Representative_Distribution_Cost_Data) * 0.1,
-                               max(Generation_Cost_Data, Representative_Distribution_Cost_Data) * 1.1)) + # Make ylim 10% larger than grid cost range.
+      coord_cartesian(ylim = c(-max(Marginal_Energy_Cost_Data, Marginal_Generation_Capacity_Cost_Data) * 0.1,
+                               max(Marginal_Energy_Cost_Data, Marginal_Generation_Capacity_Cost_Data) * 1.1)) + # Make ylim 10% larger than grid cost range.
       theme(text = element_text(size = 15), plot.title = element_text(hjust = 0.5))
 
     if(Export_Plots == 1){
@@ -2369,22 +2375,22 @@ OSESMO <- function(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input
   
   if(Show_Plots == 1 || Export_Plots ==1){
     
-    colnames(Grid_Cost_Month_Baseline) <- c("Generation_Cost", "Representative_Distribution_Cost")
+    colnames(Grid_Cost_Month_Baseline) <- c("Marginal_Energy_Cost", "Marginal_Generation_Capacity_Cost")
     
     Grid_Cost_Month_Baseline.df <- data.frame(Grid_Cost_Month_Baseline) %>%
       mutate(Month = row_number()) %>%
       group_by(Month) %>%
-      gather(key = "Charge_Name", value = "Charge_Value", Generation_Cost:Representative_Distribution_Cost) %>%
+      gather(key = "Charge_Name", value = "Charge_Value", Marginal_Energy_Cost:Marginal_Generation_Capacity_Cost) %>%
       ungroup() %>%
       mutate(Month = factor(month.abb[Month], levels = c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"))) %>%
       mutate(Charge_Name = gsub("_", " ", Charge_Name)) %>%
-      mutate(Charge_Name = factor(Charge_Name, levels = c("Generation Cost", "Representative Distribution Cost")))
+      mutate(Charge_Name = factor(Charge_Name, levels = c("Marginal Energy Cost", "Marginal Generation Capacity Cost")))
     
     ggplot(data = Grid_Cost_Month_Baseline.df, aes(x = Month, y = Charge_Value, fill = Charge_Name)) +
       geom_bar(stat = "identity") +
       scale_y_continuous(labels=scales::dollar_format()) +
       coord_cartesian(ylim = c(Min_Monthly_Grid_Cost_ylim, Max_Monthly_Grid_Cost_ylim)) + # Make ylim 10% larger than grid cost range.
-      labs(title = 'Monthly Baseline Grid Costs',
+      labs(title = 'Monthly Base Case Grid Costs',
            x = 'Month',
            y = 'Grid Cost ($/month)',
            fill = "Legend") +
@@ -2393,7 +2399,7 @@ OSESMO <- function(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input
     rm(Grid_Cost_Month_Baseline.df)
 
     if(Export_Plots == 1){
-      ggsave(filename = file.path(Output_Directory_Filepath, "Monthly Grid Costs Baseline Plot.png"), width = 11, height = 8.5, units = "in")
+      ggsave(filename = file.path(Output_Directory_Filepath, "Monthly Grid Costs Base Case Plot.png"), width = 11, height = 8.5, units = "in")
       
     }
     
@@ -2406,16 +2412,16 @@ OSESMO <- function(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input
     
     if(Show_Plots == 1 || Export_Plots ==1){
       
-      colnames(Grid_Cost_Month_with_Solar_Only) <- c("Generation_Cost", "Representative_Distribution_Cost")
+      colnames(Grid_Cost_Month_with_Solar_Only) <- c("Marginal_Energy_Cost", "Marginal_Generation_Capacity_Cost")
       
       Grid_Cost_Month_with_Solar_Only.df <- data.frame(Grid_Cost_Month_with_Solar_Only) %>%
         mutate(Month = row_number()) %>%
         group_by(Month) %>%
-        gather(key = "Charge_Name", value = "Charge_Value", Generation_Cost:Representative_Distribution_Cost) %>%
+        gather(key = "Charge_Name", value = "Charge_Value", Marginal_Energy_Cost:Marginal_Generation_Capacity_Cost) %>%
         ungroup() %>%
         mutate(Month = factor(month.abb[Month], levels = c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"))) %>%
         mutate(Charge_Name = gsub("_", " ", Charge_Name)) %>%
-        mutate(Charge_Name = factor(Charge_Name, levels = c("Generation Cost", "Representative Distribution Cost")))
+        mutate(Charge_Name = factor(Charge_Name, levels = c("Marginal Energy Cost", "Marginal Generation Capacity Cost")))
       
       ggplot(data = Grid_Cost_Month_with_Solar_Only.df, aes(x = Month, y = Charge_Value, fill = Charge_Name)) +
         geom_bar(stat = "identity") +
@@ -2443,22 +2449,28 @@ OSESMO <- function(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input
   
   if(Show_Plots == 1 || Export_Plots ==1){
     
-    colnames(Grid_Cost_Month_with_Solar_and_Storage) <- c("Generation_Cost", "Representative_Distribution_Cost")
+    colnames(Grid_Cost_Month_with_Solar_and_Storage) <- c("Marginal_Energy_Cost", "Marginal_Generation_Capacity_Cost")
     
     Grid_Cost_Month_with_Solar_and_Storage.df <- data.frame(Grid_Cost_Month_with_Solar_and_Storage) %>%
       mutate(Month = row_number()) %>%
       group_by(Month) %>%
-      gather(key = "Charge_Name", value = "Charge_Value", Generation_Cost:Representative_Distribution_Cost) %>%
+      gather(key = "Charge_Name", value = "Charge_Value", Marginal_Energy_Cost:Marginal_Generation_Capacity_Cost) %>%
       ungroup() %>%
       mutate(Month = factor(month.abb[Month], levels = c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"))) %>%
       mutate(Charge_Name = gsub("_", " ", Charge_Name)) %>%
-      mutate(Charge_Name = factor(Charge_Name, levels = c("Generation Cost", "Representative Distribution Cost")))
+      mutate(Charge_Name = factor(Charge_Name, levels = c("Marginal Energy Cost", "Marginal Generation Capacity Cost")))
+    
+    if(Model_Type_Input == "Solar Plus Storage"){
+      gridCostsMonthlyPlotName <- 'Monthly Grid Costs with Solar and Storage'
+    }else{
+      gridCostsMonthlyPlotName <- 'Monthly Grid Costs with Storage'
+    }
     
     ggplot(data = Grid_Cost_Month_with_Solar_and_Storage.df, aes(x = Month, y = Charge_Value, fill = Charge_Name)) +
       geom_bar(stat = "identity") +
       scale_y_continuous(labels=scales::dollar_format()) +
       coord_cartesian(ylim = c(Min_Monthly_Grid_Cost_ylim, Max_Monthly_Grid_Cost_ylim)) + # Make ylim 10% larger than grid cost range.
-      labs(title = 'Monthly Grid Costs with Storage',
+      labs(title = gridCostsMonthlyPlotName,
            x = 'Month',
            y = 'Grid Cost ($/month)',
            fill = "Legend") +
@@ -2507,16 +2519,16 @@ OSESMO <- function(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input
     }
     
     
-    colnames(Grid_Cost_Savings_Month_from_Storage) <- c("Generation_Cost", "Representative_Distribution_Cost")
+    colnames(Grid_Cost_Savings_Month_from_Storage) <- c("Marginal_Energy_Cost", "Marginal_Generation_Capacity_Cost")
     
     Grid_Cost_Savings_Month_from_Storage.df <- data.frame(Grid_Cost_Savings_Month_from_Storage) %>%
       mutate(Month = row_number()) %>%
       group_by(Month) %>%
-      gather(key = "Charge_Name", value = "Charge_Value", Generation_Cost:Representative_Distribution_Cost) %>%
+      gather(key = "Charge_Name", value = "Charge_Value", Marginal_Energy_Cost:Marginal_Generation_Capacity_Cost) %>%
       ungroup() %>%
       mutate(Month = factor(month.abb[Month], levels = c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"))) %>%
       mutate(Charge_Name = gsub("_", " ", Charge_Name)) %>%
-      mutate(Charge_Name = factor(Charge_Name, levels = c("Generation Cost", "Representative Distribution Cost")))
+      mutate(Charge_Name = factor(Charge_Name, levels = c("Marginal Energy Cost", "Marginal Generation Capacity Cost")))
     
     ggplot(data = Grid_Cost_Savings_Month_from_Storage.df, aes(x = Month, y = Charge_Value, fill = Charge_Name)) +
       geom_bar(stat = "identity") +
@@ -2553,16 +2565,17 @@ OSESMO <- function(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input
     
     Emissions_Impact_Month.df <- data.frame(Emissions_Impact = Emissions_Impact_Month) %>%
       mutate(Month = row_number()) %>%
-      mutate(Month = factor(month.abb[Month], levels = c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")))
+      mutate(Month = factor(month.abb[Month], levels = c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"))) %>%
+      mutate(Emissions_Increase = factor(ifelse(Emissions_Impact >= 0, "Emissions Increase", "Emissions Decrease"), levels = c("Emissions Increase", "Emissions Decrease")))
     
-    ggplot(data = Emissions_Impact_Month.df, aes(x = Month, y = Emissions_Impact, fill = as.factor(Emissions_Impact >= 0))) +
+    ggplot(data = Emissions_Impact_Month.df, aes(x = Month, y = Emissions_Impact, fill = Emissions_Increase)) +
       geom_bar(stat = "identity") +
       labs(title = 'Monthly Emissions Impact From Storage',
            x = 'Month',
            y = 'Emissions Increase (metric tons/month)',
            fill = "Legend") +
       theme(text = element_text(size = 15), plot.title = element_text(hjust = 0.5), legend.position = "none") +
-      scale_fill_manual(values = c("red", "forestgreen"))
+      scale_fill_manual(values = c("Emissions Increase" = "red", "Emissions Decrease" = "forestgreen"))
     
     rm(Emissions_Impact_Month.df)
     
