@@ -1543,7 +1543,7 @@ OSESMO <- function(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input
   }
   
   Output_Directory_Filepath = file.path("Model Outputs", Model_Type_Input, paste0(Model_Timestep_Resolution, "-Minute"),
-                                        Customer_Class_Input, Load_Profile_Name_Input, Retail_Rate_Name_Input,
+                                        Customer_Class_Input, Load_Profile_Name_Input, Retail_Rate_Name_Input, Export_Compensation_Rate_Name_Input,
                                         paste(Storage_Power_Rating_Input, "kW", Storage_Energy_Capacity_Input, "kWh Storage"), ITC_Constraint_Folder_Name)
   
   # Create folder if one does not exist already
