@@ -162,11 +162,12 @@ OSESMO <- function(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input
   # Import Utility Marginal Cost Data
   source("Import_Utility_Avoided_Cost_Data.R")
   Utility_Marginal_Cost_Data_List <- Import_Utility_Marginal_Cost_Data(Input_Output_Data_Directory_Location,
-                                                                       OSESMO_Git_Repo_Directory, delta_t)
+                                                                       OSESMO_Git_Repo_Directory, delta_t,
+                                                                       Load_Profile_Name_Input)
   Marginal_Energy_Cost_Data <- Utility_Marginal_Cost_Data_List[[1]]
   Marginal_Generation_Capacity_Cost_Data <- Utility_Marginal_Cost_Data_List[[2]]
   rm(Utility_Marginal_Cost_Data_List)
-
+  
   # Set Directory to Box Sync Folder
   setwd(Input_Output_Data_Directory_Location)
   
@@ -1413,15 +1414,30 @@ OSESMO <- function(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input
     
     
     # Monthly Cost from Volumetric Energy Rates - Baseline
-    Energy_Charge_Month_Baseline = sum(Load_Profile_Data_Month * Volumetric_Rate_Data_Month * delta_t)
+    if(nrec){
+      Energy_Charge_Month_Baseline = sum(pmax(Load_Profile_Data_Month,0) * Volumetric_Rate_Data_Month * delta_t) +
+        sum(pmin(Load_Profile_Data_Month,0) * Export_Compensation_Rate_Data_Month * delta_t)
+    }else{
+      Energy_Charge_Month_Baseline = sum(Load_Profile_Data_Month * Volumetric_Rate_Data_Month * delta_t)
+    }
     
     # Monthly Cost from Volumetric Energy Rates - With Solar Only
-    Solar_Only_Net_Load_Profile_Month = Load_Profile_Data_Month - Solar_PV_Profile_Data_Month;
-    Energy_Charge_Month_with_Solar_Only = sum(Solar_Only_Net_Load_Profile_Month * Volumetric_Rate_Data_Month * delta_t)
+    Solar_Only_Net_Load_Profile_Month = Load_Profile_Data_Month - Solar_PV_Profile_Data_Month
+    if(nrec){
+      Energy_Charge_Month_with_Solar_Only = sum(pmax(Solar_Only_Net_Load_Profile_Month,0) * Volumetric_Rate_Data_Month * delta_t) +
+        sum(pmin(Solar_Only_Net_Load_Profile_Month,0) * Export_Compensation_Rate_Data_Month * delta_t)
+    }else{
+      Energy_Charge_Month_with_Solar_Only = sum(Solar_Only_Net_Load_Profile_Month * Volumetric_Rate_Data_Month * delta_t)
+    }
     
     # Monthly Cost from Volumetric Energy Rates - With Solar and Storage
-    Solar_Storage_Net_Load_Profile_Month = Load_Profile_Data_Month - Solar_PV_Profile_Data_Month + P_ES_in_Month_Unpadded - P_ES_out_Month_Unpadded;
-    Energy_Charge_Month_with_Solar_and_Storage = sum(Solar_Storage_Net_Load_Profile_Month * Volumetric_Rate_Data_Month * delta_t)
+    Solar_Storage_Net_Load_Profile_Month = Load_Profile_Data_Month - Solar_PV_Profile_Data_Month + P_ES_in_Month_Unpadded - P_ES_out_Month_Unpadded
+    if(nrec){
+      Energy_Charge_Month_with_Solar_and_Storage = sum(pmax(Solar_Storage_Net_Load_Profile_Month,0) * Volumetric_Rate_Data_Month * delta_t) +
+        sum(pmin(Solar_Storage_Net_Load_Profile_Month,0) * Export_Compensation_Rate_Data_Month * delta_t)
+    }else{
+      Energy_Charge_Month_with_Solar_and_Storage = sum(Solar_Storage_Net_Load_Profile_Month * Volumetric_Rate_Data_Month * delta_t)
+    }
     
     
     # Monthly Cycling Penalty
@@ -1561,7 +1577,7 @@ OSESMO <- function(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input
     if(Export_Plots == 1){
       
       ggsave(filename = file.path(Output_Directory_Filepath, "Storage Dispatch Plot.png"), width = 11, height = 8.5, units = "in")
-
+      
     }
     
   }
@@ -1602,7 +1618,7 @@ OSESMO <- function(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input
       ylim(-max(Volumetric_Rate_Data) * 0.1, max(Volumetric_Rate_Data) * 1.1) + # Make ylim 10% larger than volumetric rate range.
       theme(text = element_text(size = 15), plot.title = element_text(hjust = 0.5),
             legend.position = "none")
-
+    
     if(Export_Plots == 1){
       
       ggsave(filename = file.path(Output_Directory_Filepath, "Energy Price Plot.png"), width = 11, height = 8.5, units = "in")
@@ -1661,7 +1677,7 @@ OSESMO <- function(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input
       ylim(-1, max(Total_DC) + 1) +
       theme(text = element_text(size = 15), plot.title = element_text(hjust = 0.5),
             legend.position = "none")
-
+    
     if(Export_Plots == 1){
       
       ggsave(filename = file.path(Output_Directory_Filepath, "Demand Charge Plot.png"), width = 11, height = 8.5, units = "in")
@@ -1796,10 +1812,10 @@ OSESMO <- function(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input
     print(paste('Baseline annual total electricity consumption is', round(Annual_Total_Energy_Consumption_Baseline, 3), 'kWh.'))
     
     print(paste0('Electricity consumption with solar only is ',  round(Annual_Total_Energy_Consumption_with_Solar_Only,3),
-           ' kW, representing a DECREASE OF ', round(Solar_Only_Energy_Consumption_Decrease_Percentage,2), '%.'))
+                 ' kW, representing a DECREASE OF ', round(Solar_Only_Energy_Consumption_Decrease_Percentage,2), '%.'))
     
     print(paste0('Electricity consumption with solar and storage is ',  round(Annual_Total_Energy_Consumption_with_Solar_and_Storage,3),
-           ' kW, representing a DECREASE OF ', round(Solar_Storage_Energy_Consumption_Decrease_Percentage,2), '%.'))
+                 ' kW, representing a DECREASE OF ', round(Solar_Storage_Energy_Consumption_Decrease_Percentage,2), '%.'))
     
   }
   
@@ -1909,11 +1925,11 @@ OSESMO <- function(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input
       theme(text = element_text(size = 15), plot.title = element_text(hjust = 0.5))
     
     rm(Monthly_Costs_Matrix_Baseline.df)
-
+    
     if(Export_Plots == 1){
       
       ggsave(filename = file.path(Output_Directory_Filepath, "Monthly Costs Base Case Plot.png"), width = 11, height = 8.5, units = "in")
-
+      
     }
     
   }
@@ -2032,7 +2048,7 @@ OSESMO <- function(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input
   }
   
   colnames(Monthly_Savings_Matrix_From_Storage) <- c("Fixed_Charge_Storage_Savings", "NC_DC_Storage_Savings", "SM_DC_Storage_Savings",
-                                                  "CPK_DC_Storage_Savings", "CPP_DC_Storage_Savings", "Energy_Charge_Storage_Savings")
+                                                     "CPK_DC_Storage_Savings", "CPP_DC_Storage_Savings", "Energy_Charge_Storage_Savings")
   
   # Remove fixed charges, battery cycling costs.
   Monthly_Savings_Matrix_Plot = Monthly_Savings_Matrix_From_Storage[, 2:6]
@@ -2108,8 +2124,8 @@ OSESMO <- function(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input
     Solar_Simple_Payback = Solar_Installed_Cost/Annual_Customer_Bill_Savings_from_Solar;
     
     print(paste0('Annual cost savings from solar is $', round(Annual_Customer_Bill_Savings_from_Solar, 2),
-           ', representing ', round(Annual_Customer_Bill_Savings_from_Solar_Percent * 100, 2),
-           '% of the original $', round(Annual_Customer_Bill_Baseline, 2), ' bill.'))
+                 ', representing ', round(Annual_Customer_Bill_Savings_from_Solar_Percent * 100, 2),
+                 '% of the original $', round(Annual_Customer_Bill_Baseline, 2), ' bill.'))
     
     print(paste('The solar PV system has a simple payback of', round(Solar_Simple_Payback, 2), 'years, not including incentives.'))
   }
@@ -2119,8 +2135,8 @@ OSESMO <- function(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input
   Storage_Simple_Payback = Storage_Installed_Cost/Annual_Customer_Bill_Savings_from_Storage;
   
   print(paste0('Annual cost savings from storage is $', round(Annual_Customer_Bill_Savings_from_Storage, 2),
-         ', representing ', round(Annual_Customer_Bill_Savings_from_Storage_Percent * 100, 2),
-         '% of the original $', round(Annual_Customer_Bill_Baseline, 2), ' bill.'))
+               ', representing ', round(Annual_Customer_Bill_Savings_from_Storage_Percent * 100, 2),
+               '% of the original $', round(Annual_Customer_Bill_Baseline, 2), ' bill.'))
   
   print(paste('The storage system has a simple payback of', round(Storage_Simple_Payback, 2), 'years, not including incentives.'))
   
@@ -2131,7 +2147,7 @@ OSESMO <- function(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input
   Annual_Cycling_Penalty = sum(Cycling_Penalty_Vector);
   
   print(paste0('The battery cycles ', round(Annual_Equivalent_Storage_Cycles, 2),
-         ' times annually, with a degradation cost of $', round(Annual_Cycling_Penalty, 2), '.'))
+               ' times annually, with a degradation cost of $', round(Annual_Cycling_Penalty, 2), '.'))
   
   ## Report Operational/"SGIP" Round-Trip Efficiency
   Annual_RTE = (sum(P_ES_out) * delta_t)/(sum(P_ES_in) * delta_t)
@@ -2209,7 +2225,7 @@ OSESMO <- function(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input
   if(Model_Type_Input == "Solar Plus Storage"){
     
     print(paste0('Installing solar DECREASES estimated utility marginal generation costs (energy and generation capacity) by $',
-           round(Annual_Grid_Cost_Baseline - Annual_Grid_Cost_with_Solar_Only, 2), ' per year.'))
+                 round(Annual_Grid_Cost_Baseline - Annual_Grid_Cost_with_Solar_Only, 2), ' per year.'))
     
   }
   
@@ -2220,20 +2236,20 @@ OSESMO <- function(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input
     
     if(Annual_Grid_Cost_Baseline - Annual_Grid_Cost_with_Solar_and_Storage < 0){
       print(paste0('Installing energy storage INCREASES estimated utility marginal generation costs (energy and generation capacity) by $',
-             -round(Annual_Grid_Cost_Baseline - Annual_Grid_Cost_with_Solar_and_Storage, 2), ' per year.'))
+                   -round(Annual_Grid_Cost_Baseline - Annual_Grid_Cost_with_Solar_and_Storage, 2), ' per year.'))
     }else{
       print(paste0('Installing energy storage DECREASES estimated utility marginal generation costs (energy and generation capacity) by $',
-             round(Annual_Grid_Cost_Baseline - Annual_Grid_Cost_with_Solar_and_Storage, 2), ' per year.'))
+                   round(Annual_Grid_Cost_Baseline - Annual_Grid_Cost_with_Solar_and_Storage, 2), ' per year.'))
     }
     
   }else if(Model_Type_Input == "Solar Plus Storage"){
     
     if(Annual_Grid_Cost_with_Solar_Only - Annual_Grid_Cost_with_Solar_and_Storage < 0){
       print(paste0('Installing energy storage INCREASES estimated utility marginal generation costs (energy and generation capacity) by $',
-             -round(Annual_Grid_Cost_with_Solar_Only - Annual_Grid_Cost_with_Solar_and_Storage, 2), ' per year.'))
+                   -round(Annual_Grid_Cost_with_Solar_Only - Annual_Grid_Cost_with_Solar_and_Storage, 2), ' per year.'))
     }else{
       print(paste0('Installing energy storage DECREASES estimated utility marginal generation costs (energy and generation capacity) by $',
-             round(Annual_Grid_Cost_with_Solar_Only - Annual_Grid_Cost_with_Solar_and_Storage, 2), ' per year.'))
+                   round(Annual_Grid_Cost_with_Solar_Only - Annual_Grid_Cost_with_Solar_and_Storage, 2), ' per year.'))
     }
     
   }
@@ -2286,24 +2302,24 @@ OSESMO <- function(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input
   if(Model_Type_Input == "Solar Plus Storage"){
     
     print(paste0('Installing solar DECREASES marginal carbon emissions by ',
-           round(Annual_GHG_Emissions_Reduction_from_Solar, 2), ' metric tons per year.'))
+                 round(Annual_GHG_Emissions_Reduction_from_Solar, 2), ' metric tons per year.'))
     print(paste0('This is equivalent to ', round(Annual_GHG_Emissions_Reduction_from_Solar_Percent * 100, 2),
-           '% of baseline emissions, and brings total emissions to ', round(Annual_GHG_Emissions_with_Solar_Only, 2), ' metric tons per year.'))
+                 '% of baseline emissions, and brings total emissions to ', round(Annual_GHG_Emissions_with_Solar_Only, 2), ' metric tons per year.'))
     
   }
   
   
   if(Annual_GHG_Emissions_Reduction_from_Storage < 0){
     print(paste0('Installing energy storage INCREASES marginal carbon emissions by ',
-           -round(Annual_GHG_Emissions_Reduction_from_Storage, 2), ' metric tons per year.'))
+                 -round(Annual_GHG_Emissions_Reduction_from_Storage, 2), ' metric tons per year.'))
     print(paste0('This is equivalent to ', -round(Annual_GHG_Emissions_Reduction_from_Storage_Percent * 100, 2),
-           '% of baseline emissions, and brings total emissions to ', round(Annual_GHG_Emissions_with_Solar_and_Storage, 2), ' metric tons per year.'))
+                 '% of baseline emissions, and brings total emissions to ', round(Annual_GHG_Emissions_with_Solar_and_Storage, 2), ' metric tons per year.'))
     
   }else{
     print(paste0('Installing energy storage DECREASES marginal carbon emissions by ',
-           round(Annual_GHG_Emissions_Reduction_from_Storage, 2), ' metric tons per year.'))
+                 round(Annual_GHG_Emissions_Reduction_from_Storage, 2), ' metric tons per year.'))
     print(paste0('This is equivalent to ', round(Annual_GHG_Emissions_Reduction_from_Storage_Percent * 100, 2),
-           '% of baseline emissions, and brings total emissions to ', round(Annual_GHG_Emissions_with_Solar_and_Storage, 2), ' metric tons per year.'))
+                 '% of baseline emissions, and brings total emissions to ', round(Annual_GHG_Emissions_with_Solar_and_Storage, 2), ' metric tons per year.'))
   }
   
   
@@ -2323,7 +2339,7 @@ OSESMO <- function(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input
       coord_cartesian(ylim = c(-max(Marginal_Energy_Cost_Data, Marginal_Generation_Capacity_Cost_Data) * 0.1,
                                max(Marginal_Energy_Cost_Data, Marginal_Generation_Capacity_Cost_Data) * 1.1)) + # Make ylim 10% larger than grid cost range.
       theme(text = element_text(size = 15), plot.title = element_text(hjust = 0.5))
-
+    
     if(Export_Plots == 1){
       
       ggsave(filename = file.path(Output_Directory_Filepath, "Grid Costs Time Series Plot.png"), width = 11, height = 8.5, units = "in")
@@ -2397,7 +2413,7 @@ OSESMO <- function(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input
       theme(text = element_text(size = 15), plot.title = element_text(hjust = 0.5))
     
     rm(Grid_Cost_Month_Baseline.df)
-
+    
     if(Export_Plots == 1){
       ggsave(filename = file.path(Output_Directory_Filepath, "Monthly Grid Costs Base Case Plot.png"), width = 11, height = 8.5, units = "in")
       
@@ -2477,7 +2493,7 @@ OSESMO <- function(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input
       theme(text = element_text(size = 15), plot.title = element_text(hjust = 0.5))
     
     rm(Grid_Cost_Month_with_Solar_and_Storage.df)
-
+    
     if(Export_Plots == 1){
       
       if(Model_Type_Input == "Storage Only"){
