@@ -445,7 +445,7 @@ OSESMO <- function(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input
     # cGridConsumption includes volumetric [$/kWh-AC] energy rates, and costs associated with carbon emissions converted to [$/kWh-AC] .
     if(nrec){
       cGridConsumptionImport <- (Volumetric_Rate_Data_Month_Padded * delta_t) + (Carbon_Adder_Data_Month_Padded * delta_t)
-      cGridConsumptionExport <- (Export_Compensation_Rate_Data_Month_Padded * delta_t) + (Carbon_Adder_Data_Month_Padded * delta_t)
+      cGridConsumptionExport <- -(Export_Compensation_Rate_Data_Month_Padded * delta_t) - (Carbon_Adder_Data_Month_Padded * delta_t)
       cGridConsumption <- c(cGridConsumptionImport, cGridConsumptionExport)
     } else{
       cGridConsumption <- (Volumetric_Rate_Data_Month_Padded * delta_t) + (Carbon_Adder_Data_Month_Padded * delta_t)
