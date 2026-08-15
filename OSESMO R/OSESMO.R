@@ -236,6 +236,12 @@ OSESMO <- function(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input
   Cycles_Vector = c()
   Cycling_Penalty_Vector = c()
   
+  # Initiation of Solar Profiles
+  # The first profile is the curtailed solar profile for the Solar Only case.
+  # The second profile (initialized as blank) will be the optimally-curtailed solar profile for the Solar Plus Storage case.
+  Solar_PV_Profile_Data_Solar_Only <- pmin(Solar_PV_Profile_Data, Load_Profile_Data + Site_Export)
+  P_PV_Solar_Plus_Storage <- c()
+  
   
   for(Month_Iter in 1:12){ # Iterate through all months
     
@@ -244,6 +250,7 @@ OSESMO <- function(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input
     
     # Filter PV Production Profile Data to Selected Month
     Solar_PV_Profile_Data_Month = Solar_PV_Profile_Data[which(Month_Data == Month_Iter)]
+    Solar_PV_Profile_Data_Solar_Only_Month = Solar_PV_Profile_Data_Solar_Only[which(Month_Data == Month_Iter)]
     
     # Filter Volumetric Rate Data to Selected Month
     Volumetric_Rate_Data_Month = Volumetric_Rate_Data[which(Month_Data == Month_Iter)]
@@ -789,7 +796,7 @@ OSESMO <- function(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input
         }else{
           A_CPP_DC[cbind(i, xGridConsumptionIndices[j])] <- 1 # xGridConsumption(t)
         }
-        A_CPP_DC[cbind(i, P_max_peak_Indices)] <- -1 # xGridDemand corresponding to the selected demand charge.
+        A_CPP_DC[cbind(i, P_max_part_peak_Indices)] <- -1 # xGridDemand corresponding to the selected demand charge.
       }else if(Part_Peak_DC_Period == "Daily"){
         if(nrec){
           A_CPP_DC[cbind(i, xGridConsumptionImportIndices[j])] <- 1 # xGridConsumptionImport(t)
@@ -797,7 +804,7 @@ OSESMO <- function(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input
         }else{
           A_CPP_DC[cbind(i, xGridConsumptionIndices[j])] <- 1 # xGridConsumption(t)
         }
-        A_CPP_DC[cbind(i, P_max_peak_Indices[Day_Data_Month_Padded[j]])] <- -1 # xGridDemand corresponding to the selected demand charge.
+        A_CPP_DC[cbind(i, P_max_part_peak_Indices[Day_Data_Month_Padded[j]])] <- -1 # xGridDemand corresponding to the selected demand charge.
       }
       dir_CPP_DC <- rep("<=", k)
       b_CPP_DC <- rep(0, k)
@@ -1098,6 +1105,8 @@ OSESMO <- function(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input
       
       Ene_Lvl_Month_Unpadded = Ene_Lvl_Month_Padded[1:n_unpadded]
       
+      P_PV_Month_Unpadded = if(pvCurt) P_PV_Month_Padded[1:n_unpadded] else Solar_PV_Profile_Data_Month
+      
       if(Noncoincident_DC_Period == "Monthly"){
         P_max_NC_Month_Unpadded = P_max_NC_Month_Padded;
       }else if(Noncoincident_DC_Period == "Daily"){
@@ -1131,6 +1140,8 @@ OSESMO <- function(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input
       
       Ene_Lvl_Month_Unpadded = Ene_Lvl_Month_Padded
       
+      P_PV_Month_Unpadded = if(pvCurt) P_PV_Month_Padded else Solar_PV_Profile_Data_Month
+      
       P_max_NC_Month_Unpadded = P_max_NC_Month_Padded
       P_special_max_Month_Unpadded = P_special_max_Month_Padded
       P_max_peak_Month_Unpadded = P_max_peak_Month_Padded
@@ -1147,12 +1158,16 @@ OSESMO <- function(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input
          ((1/Eff_d) * P_ES_out_Month_Unpadded[length(P_ES_out_Month_Unpadded)])) * delta_t
     
     
+    # Replace Original PV Profile with Curtailed PV Profile
+    Solar_PV_Profile_Data_Month = if(pvCurt) P_PV_Month_Unpadded else Solar_PV_Profile_Data_Month
+    
+    
     ## Calculate Peak Demand
     
     # Noncoincident Maximum Demand With and Without Storage
     # Note: this logic only works for monthly demand charges.
     P_max_NC_Month_Baseline = max(Load_Profile_Data_Month)
-    P_max_NC_Month_with_Solar_Only = max(Load_Profile_Data_Month - Solar_PV_Profile_Data_Month)
+    P_max_NC_Month_with_Solar_Only = max(Load_Profile_Data_Month - Solar_PV_Profile_Data_Solar_Only_Month)
     P_max_NC_Month_with_Solar_and_Storage = P_max_NC_Month_Unpadded
     
     
@@ -1162,7 +1177,7 @@ OSESMO <- function(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input
       P_special_max_Month_Baseline = max(Load_Profile_Data_Month[which(Special_Maximum_Demand_Binary_Data_Month == 1)])
       
       P_special_max_Month_with_Solar_Only = max(Load_Profile_Data_Month[which(Special_Maximum_Demand_Binary_Data_Month == 1)] -
-                                                  Solar_PV_Profile_Data_Month[which(Special_Maximum_Demand_Binary_Data_Month == 1)])
+                                                  Solar_PV_Profile_Data_Solar_Only_Month[which(Special_Maximum_Demand_Binary_Data_Month == 1)])
       
       P_special_max_Month_with_Solar_and_Storage = P_special_max_Month_Unpadded     
     }else{
@@ -1184,7 +1199,7 @@ OSESMO <- function(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input
           P_max_CPK_Month_Baseline = max(Load_Profile_Data_Month[which(Summer_Peak_Binary_Data_Month == 1)])
           
           P_max_CPK_Month_with_Solar_Only = max(Load_Profile_Data_Month[which(Summer_Peak_Binary_Data_Month == 1)] -
-                                                  Solar_PV_Profile_Data_Month[which(Summer_Peak_Binary_Data_Month == 1)])
+                                                  Solar_PV_Profile_Data_Solar_Only_Month[which(Summer_Peak_Binary_Data_Month == 1)])
           
         }else if(Peak_DC_Period == "Daily"){
           P_max_CPK_Month_Baseline = c()
@@ -1192,7 +1207,7 @@ OSESMO <- function(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input
           
           for(n in 1:unpaddedMonthDays){
             Load_Profile_Data_Day = Load_Profile_Data_Month[which(Day_Data_Month == n)]
-            Solar_PV_Profile_Data_Day = Solar_PV_Profile_Data_Month[which(Day_Data_Month == n)]
+            Solar_PV_Profile_Data_Day = Solar_PV_Profile_Data_Solar_Only_Month[which(Day_Data_Month == n)]
             Summer_Peak_Binary_Data_Day = Summer_Peak_Binary_Data_Month[which(Day_Data_Month == n)]
             P_max_CPK_Month_Baseline = c(P_max_CPK_Month_Baseline, max(Load_Profile_Data_Day[which(Summer_Peak_Binary_Data_Day == 1)]))
             P_max_CPK_Month_with_Solar_Only = c(P_max_CPK_Month_with_Solar_Only, max(Load_Profile_Data_Day[which(Summer_Peak_Binary_Data_Day == 1)] -
@@ -1207,7 +1222,7 @@ OSESMO <- function(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input
           P_max_CPK_Month_Baseline = max(Load_Profile_Data_Month[which(Winter_Peak_Binary_Data_Month == 1)])
           
           P_max_CPK_Month_with_Solar_Only = max(Load_Profile_Data_Month[which(Winter_Peak_Binary_Data_Month == 1)] -
-                                                  Solar_PV_Profile_Data_Month[which(Winter_Peak_Binary_Data_Month == 1)])
+                                                  Solar_PV_Profile_Data_Solar_Only_Month[which(Winter_Peak_Binary_Data_Month == 1)])
           
         }else if(Peak_DC_Period == "Daily"){
           
@@ -1216,7 +1231,7 @@ OSESMO <- function(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input
           
           for(n in 1:unpaddedMonthDays){
             Load_Profile_Data_Day = Load_Profile_Data_Month[which(Day_Data_Month == n)]
-            Solar_PV_Profile_Data_Day = Solar_PV_Profile_Data_Month[which(Day_Data_Month == n)]
+            Solar_PV_Profile_Data_Day = Solar_PV_Profile_Data_Solar_Only_Month[which(Day_Data_Month == n)]
             Winter_Peak_Binary_Data_Day = Winter_Peak_Binary_Data_Month[which(Day_Data_Month == n)]
             P_max_CPK_Month_Baseline = c(P_max_CPK_Month_Baseline, max(Load_Profile_Data_Day[which(Winter_Peak_Binary_Data_Day == 1)]))
             P_max_CPK_Month_with_Solar_Only = c(P_max_CPK_Month_with_Solar_Only, max(Load_Profile_Data_Day[which(Winter_Peak_Binary_Data_Day == 1)] -
@@ -1251,7 +1266,7 @@ OSESMO <- function(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input
           P_max_CPP_Month_Baseline = max(Load_Profile_Data_Month[which(Summer_Part_Peak_Binary_Data_Month == 1)])
           
           P_max_CPP_Month_with_Solar_Only = max(Load_Profile_Data_Month[which(Summer_Part_Peak_Binary_Data_Month == 1)] -
-                                                  Solar_PV_Profile_Data_Month[which(Summer_Part_Peak_Binary_Data_Month == 1)])
+                                                  Solar_PV_Profile_Data_Solar_Only_Month[which(Summer_Part_Peak_Binary_Data_Month == 1)])
           
         }else if(Part_Peak_DC_Period == "Daily"){
           P_max_CPP_Month_Baseline = c()
@@ -1259,7 +1274,7 @@ OSESMO <- function(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input
           
           for(n in 1:unpaddedMonthDays){
             Load_Profile_Data_Day = Load_Profile_Data_Month[which(Day_Data_Month == n)]
-            Solar_PV_Profile_Data_Day = Solar_PV_Profile_Data_Month[which(Day_Data_Month == n)]
+            Solar_PV_Profile_Data_Day = Solar_PV_Profile_Data_Solar_Only_Month[which(Day_Data_Month == n)]
             Summer_Part_Peak_Binary_Data_Day = Summer_Part_Peak_Binary_Data_Month[which(Day_Data_Month == n)]
             P_max_CPP_Month_Baseline = c(P_max_CPP_Month_Baseline, max(Load_Profile_Data_Day[which(Summer_Part_Peak_Binary_Data_Day == 1)]))
             P_max_CPP_Month_with_Solar_Only = c(P_max_CPP_Month_with_Solar_Only, max(Load_Profile_Data_Day[which(Summer_Part_Peak_Binary_Data_Day == 1)] -
@@ -1274,7 +1289,7 @@ OSESMO <- function(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input
           P_max_CPP_Month_Baseline = max(Load_Profile_Data_Month[which(Winter_Part_Peak_Binary_Data_Month == 1)])
           
           P_max_CPP_Month_with_Solar_Only = max(Load_Profile_Data_Month[which(Winter_Part_Peak_Binary_Data_Month == 1)] -
-                                                  Solar_PV_Profile_Data_Month[which(Winter_Part_Peak_Binary_Data_Month == 1)])
+                                                  Solar_PV_Profile_Data_Solar_Only_Month[which(Winter_Part_Peak_Binary_Data_Month == 1)])
           
         }else if(Part_Peak_DC_Period == "Daily"){
           P_max_CPP_Month_Baseline = c()
@@ -1282,7 +1297,7 @@ OSESMO <- function(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input
           
           for(n in 1:unpaddedMonthDays){
             Load_Profile_Data_Day = Load_Profile_Data_Month[which(Day_Data_Month == n)]
-            Solar_PV_Profile_Data_Day = Solar_PV_Profile_Data_Month[which(Day_Data_Month == n)]
+            Solar_PV_Profile_Data_Day = Solar_PV_Profile_Data_Solar_Only_Month[which(Day_Data_Month == n)]
             Winter_Part_Peak_Binary_Data_Day = Winter_Part_Peak_Binary_Data_Month[which(Day_Data_Month == n)]
             P_max_CPP_Month_Baseline = c(P_max_CPP_Month_Baseline, max(Load_Profile_Data_Day[which(Winter_Part_Peak_Binary_Data_Day == 1)]))
             P_max_CPP_Month_with_Solar_Only = c(P_max_CPP_Month_with_Solar_Only, max(Load_Profile_Data_Day[which(Winter_Part_Peak_Binary_Data_Day == 1)] -
@@ -1422,7 +1437,7 @@ OSESMO <- function(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input
     }
     
     # Monthly Cost from Volumetric Energy Rates - With Solar Only
-    Solar_Only_Net_Load_Profile_Month = Load_Profile_Data_Month - Solar_PV_Profile_Data_Month
+    Solar_Only_Net_Load_Profile_Month = Load_Profile_Data_Month - Solar_PV_Profile_Data_Solar_Only_Month
     if(nrec){
       Energy_Charge_Month_with_Solar_Only = sum(pmax(Solar_Only_Net_Load_Profile_Month,0) * Volumetric_Rate_Data_Month * delta_t) +
         sum(pmin(Solar_Only_Net_Load_Profile_Month,0) * Export_Compensation_Rate_Data_Month * delta_t)
@@ -1431,7 +1446,7 @@ OSESMO <- function(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input
     }
     
     # Monthly Cost from Volumetric Energy Rates - With Solar and Storage
-    Solar_Storage_Net_Load_Profile_Month = Load_Profile_Data_Month - Solar_PV_Profile_Data_Month + P_ES_in_Month_Unpadded - P_ES_out_Month_Unpadded
+    Solar_Storage_Net_Load_Profile_Month = Load_Profile_Data_Month - P_PV_Month_Unpadded + P_ES_in_Month_Unpadded - P_ES_out_Month_Unpadded
     if(nrec){
       Energy_Charge_Month_with_Solar_and_Storage = sum(pmax(Solar_Storage_Net_Load_Profile_Month,0) * Volumetric_Rate_Data_Month * delta_t) +
         sum(pmin(Solar_Storage_Net_Load_Profile_Month,0) * Export_Compensation_Rate_Data_Month * delta_t)
@@ -1457,6 +1472,8 @@ OSESMO <- function(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input
     P_ES_out = c(P_ES_out, P_ES_out_Month_Unpadded)
     
     Ene_Lvl = c(Ene_Lvl, Ene_Lvl_Month_Unpadded)
+    
+    P_PV_Solar_Plus_Storage = c(P_PV_Solar_Plus_Storage, P_PV_Month_Unpadded)
     
     P_max_NC = c(P_max_NC, P_max_NC_Month_with_Solar_and_Storage)
     
@@ -1544,7 +1561,8 @@ OSESMO <- function(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input
   
   Output_Directory_Filepath = file.path("Model Outputs", Model_Type_Input, paste0(Model_Timestep_Resolution, "-Minute"),
                                         Customer_Class_Input, Load_Profile_Name_Input, Retail_Rate_Name_Input, Export_Compensation_Rate_Name_Input,
-                                        paste(Storage_Power_Rating_Input, "kW", Storage_Energy_Capacity_Input, "kWh Storage"), ITC_Constraint_Folder_Name)
+                                        paste(Storage_Power_Rating_Input, "kW", Storage_Energy_Capacity_Input, "kWh Storage"), ITC_Constraint_Folder_Name,
+                                        paste(Site_Export, "Export Allowed"))
   
   # Create folder if one does not exist already
   
@@ -1707,8 +1725,8 @@ OSESMO <- function(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input
       
       ggplot() +
         geom_line(aes(x = t, y = Load_Profile_Data, color = "1. Original Load")) +
-        geom_line(aes(x = t, y = Load_Profile_Data - Solar_PV_Profile_Data, color = "2. Net Load with Solar Only")) +
-        geom_line(aes(x = t, y = Load_Profile_Data - (Solar_PV_Profile_Data + P_ES), color = "3. Net Load with Solar + Storage")) +
+        geom_line(aes(x = t, y = Load_Profile_Data - Solar_PV_Profile_Data_Solar_Only, color = "2. Net Load with Solar Only")) +
+        geom_line(aes(x = t, y = Load_Profile_Data - (P_PV_Solar_Plus_Storage + P_ES), color = "3. Net Load with Solar + Storage")) +
         labs(title = 'Original and Net Load Profiles',
              x = 'Date & Time',
              y = 'Load (kW)',
@@ -1735,15 +1753,15 @@ OSESMO <- function(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input
     
   }else if(Model_Type_Input == "Solar Plus Storage"){
     
-    Annual_Peak_Demand_with_Solar_Only = max(Load_Profile_Data - Solar_PV_Profile_Data);
+    Annual_Peak_Demand_with_Solar_Only = max(Load_Profile_Data - Solar_PV_Profile_Data_Solar_Only);
     
-    Annual_Total_Energy_Consumption_with_Solar_Only = sum(Load_Profile_Data - Solar_PV_Profile_Data) * delta_t;
+    Annual_Total_Energy_Consumption_with_Solar_Only = sum(Load_Profile_Data - Solar_PV_Profile_Data_Solar_Only) * delta_t;
     
   }
   
-  Annual_Peak_Demand_with_Solar_and_Storage = max(Load_Profile_Data - (Solar_PV_Profile_Data + P_ES));
+  Annual_Peak_Demand_with_Solar_and_Storage = max(Load_Profile_Data - (P_PV_Solar_Plus_Storage + P_ES));
   
-  Annual_Total_Energy_Consumption_with_Solar_and_Storage = sum(Load_Profile_Data - (Solar_PV_Profile_Data + P_ES)) * delta_t;
+  Annual_Total_Energy_Consumption_with_Solar_and_Storage = sum(Load_Profile_Data - (P_PV_Solar_Plus_Storage + P_ES)) * delta_t;
   
   if(Model_Type_Input == "Storage Only"){
     Solar_Only_Peak_Demand_Reduction_Percentage = "";
@@ -2163,13 +2181,13 @@ OSESMO <- function(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input
   
   if(Model_Type_Input == "Solar Plus Storage"){
     Annual_Grid_Cost_with_Solar_Only = sum((Marginal_Energy_Cost_Data + Marginal_Generation_Capacity_Cost_Data) * 
-                                             ((Load_Profile_Data - Solar_PV_Profile_Data) * delta_t))
+                                             ((Load_Profile_Data - Solar_PV_Profile_Data_Solar_Only) * delta_t))
   }else{
     Annual_Grid_Cost_with_Solar_Only = "";
   }
   
   Annual_Grid_Cost_with_Solar_and_Storage = sum((Marginal_Energy_Cost_Data + Marginal_Generation_Capacity_Cost_Data) * 
-                                                  ((Load_Profile_Data - Solar_PV_Profile_Data - P_ES_out + P_ES_in) * delta_t))
+                                                  ((Load_Profile_Data - P_PV_Solar_Plus_Storage - P_ES_out + P_ES_in) * delta_t))
   
   
   # Calculate Monthly Grid Costs
@@ -2179,14 +2197,15 @@ OSESMO <- function(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input
   
   Grid_Cost_Month_Baseline = c()
   
+  
   for(Month_Iter in 1:12){
     Grid_Cost_Single_Month_Baseline = colSums(Grid_Cost_Timestep_Baseline[which(Month_Data == Month_Iter), ])
     Grid_Cost_Month_Baseline = rbind(Grid_Cost_Month_Baseline, Grid_Cost_Single_Month_Baseline)
   }
   rownames(Grid_Cost_Month_Baseline) = NULL
   
-  Grid_Cost_Timestep_with_Solar_Only = cbind(Marginal_Energy_Cost_Data * (Load_Profile_Data - Solar_PV_Profile_Data) * delta_t,
-                                             Marginal_Generation_Capacity_Cost_Data * (Load_Profile_Data - Solar_PV_Profile_Data) * delta_t)
+  Grid_Cost_Timestep_with_Solar_Only = cbind(Marginal_Energy_Cost_Data * (Load_Profile_Data - Solar_PV_Profile_Data_Solar_Only) * delta_t,
+                                             Marginal_Generation_Capacity_Cost_Data * (Load_Profile_Data - Solar_PV_Profile_Data_Solar_Only) * delta_t)
   
   Grid_Cost_Month_with_Solar_Only = c()
   
@@ -2196,8 +2215,8 @@ OSESMO <- function(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input
   }
   rownames(Grid_Cost_Month_with_Solar_Only) = NULL
   
-  Grid_Cost_Timestep_with_Solar_and_Storage = cbind(Marginal_Energy_Cost_Data * (Load_Profile_Data - Solar_PV_Profile_Data - P_ES_out + P_ES_in) * delta_t,
-                                                    Marginal_Generation_Capacity_Cost_Data * (Load_Profile_Data - Solar_PV_Profile_Data - P_ES_out + P_ES_in) * delta_t)
+  Grid_Cost_Timestep_with_Solar_and_Storage = cbind(Marginal_Energy_Cost_Data * (Load_Profile_Data - P_PV_Solar_Plus_Storage - P_ES_out + P_ES_in) * delta_t,
+                                                    Marginal_Generation_Capacity_Cost_Data * (Load_Profile_Data - P_PV_Solar_Plus_Storage - P_ES_out + P_ES_in) * delta_t)
   
   Grid_Cost_Month_with_Solar_and_Storage = c()
   
@@ -2271,10 +2290,10 @@ OSESMO <- function(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input
     Annual_GHG_Emissions_with_Solar_Only = "";
     
   }else if(Model_Type_Input == "Solar Plus Storage"){
-    Annual_GHG_Emissions_with_Solar_Only = sum(Marginal_Emissions_Rate_Data * (Load_Profile_Data - Solar_PV_Profile_Data) * (1/1000) * delta_t)
+    Annual_GHG_Emissions_with_Solar_Only = sum(Marginal_Emissions_Rate_Data * (Load_Profile_Data - Solar_PV_Profile_Data_Solar_Only) * (1/1000) * delta_t)
   }
   
-  Annual_GHG_Emissions_with_Solar_and_Storage = sum(Marginal_Emissions_Rate_Data * (Load_Profile_Data - Solar_PV_Profile_Data - P_ES_out + P_ES_in) * (1/1000) * delta_t)
+  Annual_GHG_Emissions_with_Solar_and_Storage = sum(Marginal_Emissions_Rate_Data * (Load_Profile_Data - P_PV_Solar_Plus_Storage - P_ES_out + P_ES_in) * (1/1000) * delta_t)
   
   if(Model_Type_Input == "Storage Only"){
     Annual_GHG_Emissions_Reduction_from_Solar = "";
@@ -2636,6 +2655,13 @@ OSESMO <- function(Modeling_Team_Input, Model_Run_Number_Input, Model_Type_Input
   if(Export_Data == 1){
     
     write.csv(Model_Inputs_and_Outputs, file.path(Output_Directory_Filepath, "OSESMO Reporting Inputs and Outputs.csv"), row.names = F)
+    
+    if(pvCurt){
+      Curtailed_Solar_Outputs = data.frame(t, P_PV_Solar_Plus_Storage)
+      names(Curtailed_Solar_Outputs) <- c('Date_Time_America/Los_Angeles', 'Curailed_Solar_Output_kW')
+      write.csv(Curtailed_Solar_Outputs, file.path(Output_Directory_Filepath, "Curtailed Solar Profile Output.csv"), row.names = F)
+    }
+    
     
     write.csv(Storage_Dispatch_Outputs, file.path(Output_Directory_Filepath, "Storage Dispatch Profile Output.csv"), row.names = F)
     
